@@ -1,0 +1,135 @@
+c        **** 1D rarefaction, planar geometry ****
+
+c ------------------------------------------------------------
+c   Aliases
+c ------------------------------------------------------------
+
+alias N     101
+alias DN    20
+
+alias RMAX  1.
+
+alias TE    1.
+alias RHO   0.01
+
+alias TMAX  1.
+
+c ------------------------------------------------------------
+c   Materials
+c ------------------------------------------------------------
+
+region  1 N  TE
+  material RHO 1. 1. 1.
+
+
+c ------------------------------------------------------------
+c   Geometry
+c ------------------------------------------------------------
+
+geometry slab
+
+rlin  1 N  0. RMAX
+
+
+c ------------------------------------------------------------
+c   Sources and Boundary Conditions
+c ------------------------------------------------------------
+
+boundary all mirror 1
+
+
+c ------------------------------------------------------------
+c   Radiation
+c ------------------------------------------------------------
+
+
+c ------------------------------------------------------------
+c   Controls
+c ------------------------------------------------------------
+
+tstart 0.
+tquit  TMAX
+
+restart
+
+
+c ------------------------------------------------------------
+c   Switches and Parameters
+c ------------------------------------------------------------
+
+switch   2  1                 ! do hydro
+switch   3 1000               ! maximum hydro subcycles
+switch  11  1                 ! make .plt file
+switch  30 10                 ! dump every n timesteps
+switch  31  1                 ! use temperature equation
+switch 151  0                 ! no degeneracy
+
+param  41 1.e-10              ! initial timestep
+
+
+c ------------------------------------------------------------
+c   Edits
+c ------------------------------------------------------------
+
+#ifdef DISPLAY
+when cycle 0
+  display 1
+c display 2
+  display 4
+  display 5
+  display 6
+end
+#endif
+
+plot "ZRHO vs R"
+  xvar  xzc
+  yvar  zrho
+
+plot "TEV, TIV vs R"
+  xvar  xzc
+  yvar  tev
+  yvar  tiv
+
+plot "ZE, ZP vs R"
+  xvar  xzc
+  yvar  ze
+  yvar  zp
+
+plot "ZEKIN vs R"
+  xvar  x
+  yvar  zekin
+
+plot "CSPD vs R"
+  xvar  xzc
+  yvar  cspd
+
+plot "ZETOT vs TIME"
+  xvar  time
+  yvar  zetot
+  yvar  zktot
+  yvar  zektot
+
+plot "MASSTOT vs TIME"
+  xvar  time
+  yvar  zmasstot
+  yvar  pmasstot
+
+plot "R vs TIME"
+  xvar  time
+  yvar  r       0  1:N:DN
+
+plot "U vs TIME"
+  xvar  time
+  yvar  vel     0  1:N:DN
+
+plot "ZEKIN vs TIME"
+  xvar  time
+  yvar  zekin   0  1:N:DN
+
+plot "ZRHO, ZE, ZP, ZV, ZMASS vs TIME"
+  xvar  time
+  yvar  zrho    0  1:N-:DN
+  yvar  ze      0  1:N-:DN
+  yvar  zp      0  1:N-:DN
+  yvar  zv      0  1:N-:DN
+  yvar  zmass   0  1:N-:DN

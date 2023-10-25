@@ -1,0 +1,31 @@
+CRETIN : lasfoam4.r00
+  
+ CRETIN - version v_02_19  (ifort)                       
+          created on Fri Feb 22 00:19:16 PST 2019        
+          by hascott                                     
+
+
+  ****   Starting execution -- Sun Feb 24 21:28:11 2019   ****
+
+
+
+Writing restart dump lasfoam4.r01
+
+     cycle #  257     time = 3.0217E-09
+
+
+
+Memory allocated =     2.5  Mbytes
+ cpu =    3.8  seconds       total cpu =    3.9  seconds
+
+ Timing statistics                  cpu       total cpu      %
+ -----------------                  ---       ---------     ---
+     Generation               :   0.00E+00     1.90E-02     0.5
+     Initialization           :   0.00E+00     9.64E-03     0.2
+     Kinetics                 :   3.15E+00     3.16E+00    82.0
+     Radiation transport      :   5.98E-01     5.98E-01    15.5
+     Edits                    :   8.65E-02     8.71E-02     2.3
+
+
+ ****   Finishing execution -- Sun Feb 24 21:28:15 2019   ****
+

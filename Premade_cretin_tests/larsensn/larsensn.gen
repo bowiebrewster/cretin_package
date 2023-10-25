@@ -1,0 +1,199 @@
+c          **** 1-d multigroup SN radiation test ****
+
+c  "A Grey Transport Acceleration Method for Time-Dependent Radiative
+c  Transfer Problems", E. Larsen  JCP 78, 459-480 (1988)
+
+c ------------------------------------------------------------
+c   Aliases
+c ------------------------------------------------------------
+
+alias N     N3
+alias DN    10
+
+alias N0    1
+alias N1    11
+alias N2    61
+alias N3    71
+
+alias R0    0.
+alias R1    1.
+alias R2    2.
+alias R3    4.
+
+alias TE    .001
+alias TR    0.
+alias TB    1.e3
+
+alias KAP1  1.e9
+alias KAP2  1.e12
+alias KAP3  1.e9
+
+alias RHO   0.3
+
+alias EMIN  1.e-1
+alias EMAX  1.e5
+
+alias NBINS 61
+
+
+c ------------------------------------------------------------
+c   Materials
+c ------------------------------------------------------------
+
+region N0 N1  TE TE TR
+  material RHO 1. 1. 1.
+  opacity analytic power-law+ KAP1 0. 0. -3.
+
+region N1+ N2- TE TE TR
+  material RHO 1. 1. 1.
+  opacity analytic power-law+ KAP2 0. 0. -3.
+
+region N2 N3  TE TE TR
+  material RHO 1. 1. 1.
+  opacity analytic power-law+ KAP3 0. 0. -3.
+
+
+c ------------------------------------------------------------
+c   Geometry
+c ------------------------------------------------------------
+
+geometry slab
+
+rlin  N0 N1  R0 R1
+rlin  N1 N2  R1 R2
+rlin  N2 N3  R2 R3
+
+
+c ------------------------------------------------------------
+c   Radiation
+c ------------------------------------------------------------
+
+ebins NBINS EMIN EMAX
+
+angles 6
+
+
+c ------------------------------------------------------------
+c   Sources and Boundary Conditions
+c ------------------------------------------------------------
+
+boundary radiation value N TB
+
+
+c ------------------------------------------------------------
+c   Controls
+c ------------------------------------------------------------
+
+tstart 0.
+tquit  1.0e-9
+
+restart
+
+when time 1.0e-10
+  edits
+end
+
+when time 2.0e-10
+  edits
+end
+
+when time 4.0e-10
+  edits
+end
+
+when time 6.0e-10
+  edits
+end
+
+when time 8.0e-10
+  edits
+end
+
+when time 1.0e-9
+  edits
+end
+
+
+c ------------------------------------------------------------
+c   Switches and Parameters
+c ------------------------------------------------------------
+
+switch 11  1                  ! make .plt file
+switch 29  2                  ! variable timesteps
+
+switch 100 1                  ! do radiation
+switch 151 0                  ! no degeneracy
+
+param  5 0.0                  ! scattering multipler
+param 40 1.0e-6               ! time between edits
+param 41 1.0e-12              ! initial timestep
+param 44 1.0e-12              ! minimum timestep
+param 45 1.0e-7               ! maximum timestep
+param 46 1.0                  ! max change in T
+param 48 0.0                  ! e-i coupling multiplier
+
+
+rswitch 1  -1                 ! do radiation transport
+rswitch 3  50                 ! number of iterations
+rswitch 4   1                 ! direct solution method
+rswitch 5   1                 ! time-dependent
+
+rparam  3 1.e-6               ! convergence criterion
+
+
+c ------------------------------------------------------------
+c   Edits
+c ------------------------------------------------------------
+
+plot "TEMPERATURE vs R"
+  xvar  r
+  yvar  tev
+  yvar  trv
+
+plot "CVE vs R"
+  xvar  r
+  yvar  cve
+
+plot "JNU vs ENERGY"
+  xvar  energy
+  yvar  jnu     0   1:N:DN
+
+plot "KAPPAR vs ENERGY"
+  xvar  energy
+  yvar  kappar  0   1
+
+plot "ENERGY vs R"
+  xvar  r
+  yvar  emat_e
+  yvar  erad
+
+plot "TEV vs TIME"
+  xvar  time
+  yvar  tev     0   1:N:DN
+
+plot "TRV vs TIME"
+  xvar  time
+  yvar  trv     0   1:N:DN
+
+plot "ITERATIONS vs TIME"
+  xvar  time
+  yvar  iter_radd
+
+plot "DTIME vs TIME"
+  xvar  time
+  yvar  dtime
+
+#ifdef DISPLAY
+display "TEMPERATURE vs R"
+  xvar  r
+  yvar  tev
+  yvar  trv
+
+display "JNU vs ENERGY" loglog
+  xvar  energy
+  yvar  jnu     0   1:N:DN
+
+display "ITERATIONS vs TIME"
+  xvar  time
+  yvar  iter_radd
+#endif

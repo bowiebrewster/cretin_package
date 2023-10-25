@@ -1,0 +1,268 @@
+CRETIN : 0dty.gen
+  
+ CRETIN - version v_02_19  (gfortran.openmp.dist)        
+          created on Mon Jul  1 17:47:21 PDT 2019        
+          by hascott                                     
+
+
+  ****   Starting execution -- Tue Jul  9 18:18:28 2019   ****
+
+
+Reading source file x0dty.dat
+
+Writing binary file x0dty.xdf
+   -- constructed on  Tue Jul  9 18:18:28 2019
+
+
+ ------------------------------------------------------------
+
+    alias  Te            evaluated to   1.00000E+03
+    alias  N_fe          evaluated to   1.00000E+20
+    alias  N_c           evaluated to   3.00000E+21
+    alias  Z_FE          evaluated to   2.60000E+01
+    alias  Z_C           evaluated to   6.00000E+00
+
+
+ ------------------------------------------------------------
+
+c        **** 0-d kinetics / temperature evolution ****
+
+c ------------------------------------------------------------
+c   Aliases
+c ------------------------------------------------------------
+
+alias  Te    1000.            ! initial temperature
+
+alias  N_fe  1.e20            ! Fe number density
+alias  N_c   3.e21            ! C  number density
+
+alias  Z_FE  26
+alias  Z_C   6
+
+#ifdef HDF
+switch 147 -1
+switch 153 33
+switch 172 2
+#endif
+
+
+c ------------------------------------------------------------
+c   Materials
+c ------------------------------------------------------------
+
+atoms iz=Z_FE dnl26h1.dat fe
+atoms iz=Z_C  dnl06ha.dat  c
+
+region  1 1  Te
+  element  Z_FE  N_fe
+  element  Z_C   N_c
+
+
+c ------------------------------------------------------------
+c   Radiation
+c ------------------------------------------------------------
+
+ebins 41 1.0 1.e5             ! differs from xfile ebins
+
+
+c ------------------------------------------------------------
+c   Sources
+c ------------------------------------------------------------
+
+xfile x0dty.dat
+
+xmult 1 pbins 0.1             ! multiply intensities from xfile
+
+
+c ------------------------------------------------------------
+c   Controls
+c ------------------------------------------------------------
+
+tstart 0.
+tquit  1.0e-7
+
+restart
+
+
+c ------------------------------------------------------------
+c   Switches and Parameters
+c ------------------------------------------------------------
+
+switch 11  1                  ! make .plt file
+switch 25  1                  ! time-dependent
+switch 28  0                  ! do LTE initialization
+switch 29  1                  ! use fixed timesteps
+switch 30 10                  ! dump every n timesteps
+switch 31  1                  ! do temperature calculation
+switch 44  3                  ! maximum # of iterations
+
+param  41  1.e-10             ! timestep
+param  48  0.1                ! electron-ion coupling multiplier
+param  61  1.e-4              ! iso-sequence population threshold
+
+
+c ------------------------------------------------------------
+c   Edits
+c ------------------------------------------------------------
+
+c plot "Y1FRAC vs ISO (IRON)"
+c  xvar  iso      Z_FE
+c  yvar  y1frac   Z_FE 1
+
+c plot "TEV, TIV vs TIME"
+c  xvar  time
+c  yvar  tev      0 1
+c  yvar  tiv      0 1
+
+plot "NE vs TIME"
+  xvar  time
+  yvar  ne       0 1
+
+c plot "COULOG vs TIME"
+c  xvar  time
+c  yvar  coulog   0 1
+c  yvar  couloge  0 1
+c  yvar  coulogi  0 1
+
+c plot "TAUEI vs TIME"
+c  xvar  time
+c  yvar  tauei    0 1
+c  yvar  tauee    0 1
+c  yvar  tauii    0 1
+
+c plot "Y1FRAC (IRON) vs TIME"
+c  xvar  time
+c  yvar  y1frac  Z_FE 1 10:0:-1
+
+c plot "ISOMIN, ISOMAX (CARBON) vs TIME"
+c  xvar  time
+c  yvar  isomin   Z_C 1
+c  yvar  isomax   Z_C 1
+
+c plot "ISOMIN, ISOMAX (IRON) vs TIME"
+c  xvar  time
+c  yvar  isomin   Z_FE 1
+c  yvar  isomax   Z_FE 1
+
+c plot "HEATC, COOLC vs TIME"
+c  xvar  time
+c  yvar  heatc    Z_FE 1
+c  yvar  coolc    Z_FE 1
+c  yvar  heatct   Z_FE 1
+
+c plot "HEATP, COOLP vs TIME"
+c  xvar  time
+c  yvar  heatp    Z_FE 1
+c  yvar  coolp    Z_FE 1
+c  yvar  heatpt   Z_FE 1
+
+c plot "HEATA, COOLA vs TIME"
+c  xvar  time
+c  yvar  heata    Z_FE 1
+c  yvar  coola    Z_FE 1
+c  yvar  heatat   Z_FE 1
+
+c plot "HEATB, COOLB vs TIME"
+c  xvar  time
+c  yvar  heatb    0 1
+c  yvar  coolb    0 1
+c  yvar  heatbt   0 1
+
+c plot "HEATJ, COOLJ vs TIME"
+c  xvar  time
+c  yvar  heatj    0 1
+c  yvar  coolj    0 1
+c  yvar  heatjt   0 1
+
+c plot "HEATE, COOLE vs TIME"
+c  xvar  time
+c  yvar  heate    Z_FE 1
+c  yvar  coole    Z_FE 1
+c  yvar  heatet   Z_FE 1
+
+c plot "HEATCHK vs TIME"
+c  xvar  time
+c  yvar  heatchk   0 1
+
+c plot "DHEATx vs TIME"
+c  xvar  time
+c  yvar  dhtcdt   Z_FE 1
+c  yvar  dhtpdt   Z_FE 1
+c  yvar  dhtadt   Z_FE 1
+c  yvar  dhtbdt   0 1
+c  yvar  dhtedt   Z_FE 1
+c  yvar  dhtjdt   0 1
+
+c plot "DHTCHKDT vs TIME"
+c  xvar  time
+c  yvar  dhtchkdt  0 1
+
+c plot "EINT vs TIME"
+c  xvar  time
+c  yvar  eint     Z_C  1
+c  yvar  eint     Z_FE 1
+
+c plot "DEINTDT vs TIME"
+c  xvar  time
+c  yvar  deintdt  Z_C  1
+c  yvar  deintdt  Z_FE 1
+
+c plot "EIGENV_R (CARBON) vs TIME"
+c  xvar  time
+c  yvar  eigenv_r   Z_C  1 0 1:5
+
+c plot "EIGENV_R (IRON) vs TIME"
+c  xvar  time
+c  yvar  eigenv_r   Z_FE 1 0 1:5
+
+c plot "NTRY vs TIME"
+c  xvar  time
+c  yvar  ntry
+
+c plot "DIFFT vs TIME"
+c  xvar  time
+c  yvar  diffte    0 1
+c  yvar  diffti    0 1
+
+c plot "DIFFY1 (IRON) vs TIME"
+c  xvar  time
+c  yvar  diffy1    Z_FE 1 10:0:-1
+
+#ifdef DISPLAY
+
+display "TEV, TIV vs TIME"
+  xvar  time
+  yvar  tev      0 1
+  yvar  tiv      0 1
+
+#endif
+
+Reading atomic model dnl26h1.dat
+      27 iso-sequences
+     221 levels    
+   data type phxs     --      826 transitions
+   data type phis     --      334 transitions
+   data type coll_exc --      826 transitions
+   data type coll_ion --      220 transitions
+
+Reading atomic model dnl06ha.dat
+       7 iso-sequences
+      57 levels    
+   data type phxs     --      234 transitions
+   data type phis     --       90 transitions
+   data type coes     --      290 transitions
+   data type augis    --        9 transitions        12 statements
+
+
+ Indexing information
+ --------------------
+
+
+
+ ------------------------------------------------------------
+
+
+Writing restart dump 0dty.r00
+
+     cycle #    0     time = 0.0000E+00
+

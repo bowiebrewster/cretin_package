@@ -1,0 +1,172 @@
+c           **** Cretin generator for example ****
+
+c ------------------------------------------------------------
+c   Materials
+c ------------------------------------------------------------
+
+atoms hydrogenic ne
+  modeltype dca term
+
+atoms hydrogenic xe
+  modeltype dca term
+
+region  1 1  500. 500. 50.
+  element  1  0.9e20
+  element  2  0.1e20
+
+region  2 2  500. 500.  0.
+  element  1  0.9e19
+  element  2  0.1e19
+
+
+c ------------------------------------------------------------
+c   Radiation
+c ------------------------------------------------------------
+
+ebins 161 1.0 1.e4
+
+
+c ------------------------------------------------------------
+c   Sources
+c ------------------------------------------------------------
+
+
+
+c ------------------------------------------------------------
+c   Controls
+c ------------------------------------------------------------
+
+tstart 0.
+tquit  1.e-8
+
+
+c ------------------------------------------------------------
+c   Switches and Parameters
+c ------------------------------------------------------------
+
+switch 11  1                   ! make .plt file
+switch 21  1                   ! account for transition energies
+switch 22  1                   ! do not use stored gammas
+switch 25  1                   ! time-dependent
+switch 28  0                   ! do LTE initialization
+switch 29  2                   ! use variable timesteps
+switch 30 10                   ! dump interval (cycles)
+switch 52 -1                   ! Stark broaden all transitions
+switch 55  1                   ! do continuum lowering
+
+param  41  1.e-11              ! initial timestep
+param  46  0.2                 ! maximum frac. change in temperature
+
+#ifdef RAD                     ! this option matches the example code
+
+switch 100 1
+rswitch  3 0
+rswitch  9 0
+rswitch 20 1
+
+#else                          ! this option matches the example code
+
+switch 31  4                   ! mimic rad eqn
+
+#endif
+
+c non-default settings changed by kparams
+
+switch 52 -1                   ! Stark broaden everything
+switch 55  1                   ! do continuum lowering
+switch 151 1                   ! include electron degeneracy
+param  42  1.                  ! max change in <Z> per timestep
+param  61  1.e-4               ! iso-sequence population threshold
+
+kparams                        ! this should not change anything
+
+switch 20  3                   ! use TR for photons (override kparams)
+
+
+c ------------------------------------------------------------
+c   Edits
+c ------------------------------------------------------------
+
+plot "YISO vs ISO"
+  xvar  iso     1
+  yvar  yiso    1 1
+
+plot "YISO vs ISO"
+  xvar  iso     2
+  yvar  yiso    2 1
+
+plot "ABSN, EMIS vs ENERGY"
+  xvar  energy
+  yvar  absn    0 1
+  yvar  emis    0 1
+  yvar  csrc    0 1
+
+
+plot "YISO vs ISO"
+  xvar  iso     1
+  yvar  yiso    1 2
+
+plot "YISO vs ISO"
+  xvar  iso     2
+  yvar  yiso    2 2
+
+plot "ABSN, EMIS vs ENERGY"
+  xvar  energy
+  yvar  absn    0 2
+  yvar  emis    0 2
+  yvar  csrc    0 2
+
+
+plot "TEV, TIV vs TIME"
+  xvar  time
+  yvar  tev    0 1:2
+  yvar  tiv    0 1:2
+  yvar  trv    0 1:2
+
+plot "NE vs TIME"
+  xvar  time
+  yvar  ne      0 1:2
+
+plot "ZBAR vs TIME"
+  xvar  time
+  yvar  zbar    1:2 1:2
+
+plot "YISO vs TIME"
+  xvar  time
+  yvar  yiso    1 1 0:10
+  yvar  yiso    2 1 0:54
+
+plot "YISO vs TIME"
+  xvar  time
+  yvar  yiso    1 2 0:10
+  yvar  yiso    2 2 0:54
+
+plot "EMAT vs TIME"
+  xvar  time
+  yvar  emate   0 1:2
+  yvar  dedte   0 1:2
+  yvar  emati   0 1:2
+  yvar  dedti   0 1:2
+  yvar  dedr    0 1:2
+
+plot "PMAT vs TIME"
+  xvar  time
+  yvar  pmate   0 1:2
+  yvar  dpdte   0 1:2
+  yvar  pmati   0 1:2
+  yvar  dpdti   0 1:2
+  yvar  dpdr    0 1:2
+
+#ifdef DISPLAY
+
+display "TEV, TIV vs TIME"
+  xvar  time
+  yvar  tev    0 1:2
+  yvar  tiv    0 1:2
+  yvar  trv    0 1:2
+
+display "ZBAR vs TIME"
+  xvar  time
+  yvar  zbar    1:2 1:2
+
+#endif

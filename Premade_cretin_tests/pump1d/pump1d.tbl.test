@@ -1,0 +1,34 @@
+CRETIN : pump1d.r00
+  
+ CRETIN - version v_02_17  (ifort)                       
+          created on Tue Oct 24 13:39:54 PDT 2017        
+          by hascott                                     
+
+
+  ****   Starting execution -- Tue Oct 24 13:51:30 2017   ****
+
+
+
+Reading redistribution table  pumpr2a :   NS = 81   NR = 41   NA =  8
+
+Writing restart dump pump1d.r01
+
+     cycle #    5     time = 5.0000E-09
+
+
+
+Memory allocated =     2.7  Mbytes
+ cpu =    0.8  seconds       total cpu =    1.1  seconds
+
+ Timing statistics                  cpu       total cpu      %
+ -----------------                  ---       ---------     ---
+     Generation               :   0.00E+00     1.30E-01    11.9
+     Initialization           :   0.00E+00     1.55E-01    14.2
+     Kinetics                 :   5.29E-03     6.52E-03     0.6
+     1-d line transfer        :   7.83E-01     9.36E-01    86.0
+       PRD calculations       :   1.69E-02     1.69E-02     1.5
+     Edits                    :   1.23E-01     1.50E-01    13.8
+
+
+ ****   Finishing execution -- Tue Oct 24 13:51:31 2017   ****
+

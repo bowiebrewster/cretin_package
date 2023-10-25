@@ -1,0 +1,167 @@
+c           **** 2D conduction - 1D thermal wave ****
+
+c This is a thermal wave produced by an instantaneous plane source;
+c it is a self similar problem discussed in Zel'dovich and Raiser,
+c "Physics of Shock Waves and High-Temperature Hydrodynamic
+c Phenomena", Vol. II, Chap. XI, Section 4, pate 663.
+
+
+c ------------------------------------------------------------
+c   Aliases
+c ------------------------------------------------------------
+
+alias k1    1
+alias k2   11
+alias k3   12
+alias k4  100
+
+alias l1    1
+alias l2    3
+alias l3    5
+
+alias k2-  k2 - 1
+alias k3+  k3 + 1
+
+alias n11  k1
+alias n21  k4
+alias n12  k1 + (l2 - 1) * k4
+alias n22  k4 + (l2 - 1) * k4
+alias n13  k1 + (l3 - 1) * k4
+alias n23  k4 + (l3 - 1) * k4
+
+alias dn   11
+
+c ------------------------------------------------------------
+c   Materials
+c ------------------------------------------------------------
+
+regionkl k1 k2  l1 l3 1000.
+  background  6.e23 6.e23 1. 1. 1.
+
+regionkl k3 k4  l1 l3 0.01
+  background  6.e23 6.e23 1. 1. 1.
+
+
+c ------------------------------------------------------------
+c   Geometry
+c ------------------------------------------------------------
+
+geometry xy
+
+quad k1  k2- l1  l3   0.00    0.01     0.00 0.20  1.0 1.0
+quad k2  k3  l1  l3   0.01    0.01001  0.00 0.20  1.0 1.0
+quad k3+ k4  l1  l3   0.01002 0.20     0.00 0.20  1.0 1.0
+
+
+c ------------------------------------------------------------
+c   Controls
+c ------------------------------------------------------------
+
+tstart 0.
+tquit  1.0e-5
+
+restart
+
+
+c ------------------------------------------------------------
+c   Switches and Parameters
+c ------------------------------------------------------------
+
+switch  11  1                 ! make .plt file
+switch  16  3                 ! use fixed coulomb logarithm
+switch  29  2                 ! variable timesteps
+switch  30  100               ! timesteps between edits
+switch  31  1                 ! time-dependent temperatures
+switch  42  1                 ! zone-centered mesh
+switch  49  1                 ! turn on electron conduction
+switch  50  0                 ! no flux limiting
+switch  51  100               ! Spitzer Z-correction = 1.
+switch 151  0                 ! no degeneracy
+
+switch 67  50                 ! # of orthogonalizations for gmres
+switch 68 -1                  ! # of restarts for gmres
+
+param 31 1.                   ! Coulomb logarithm
+param 38 1.                   ! minimum temperature for timestep control
+param 40 1.0e-6               ! time between edits
+param 41 1.0e-9               ! initial timestep
+param 44 1.0e-13              ! minimum timestep
+param 48 1.e-6                ! no e-i coupling
+param 64 1.0                  ! conduction multiplier
+param 88 1.e-6                ! convergence criterion
+
+
+c ------------------------------------------------------------
+c   Edits
+c ------------------------------------------------------------
+
+plot "TEV, TIV vs R"
+  xvar  r
+  yvar  tev
+  yvar  tiv
+
+plot "TEV vs KR"
+  xvar  kr   0 l1
+  yvar  tev  0 l1:l3
+
+plot "TIV vs KR"
+  xvar  kr   0 l1
+  yvar  tiv  0 l1:l3
+
+plot "ECOND vs R"
+  xvar  r
+  yvar  econd
+
+plot "ECOND vs KR"
+  xvar  kr     0 l1
+  yvar  econd  0 l1:l3
+
+plot "TEV vs TIME"
+  xvar  time
+  yvar  tev   0  n11:n21:dn
+  yvar  tev   0  n12:n22:dn
+  yvar  tev   0  n13:n23:dn
+
+plot "TIV vs TIME"
+  xvar  time
+  yvar  tiv   0  n11:n21:dn
+  yvar  tiv   0  n12:n22:dn
+  yvar  tiv   0  n13:n23:dn
+
+plot "TOTAL ENERGY vs TIME"
+integrated
+  xvar  time
+  yvar  emat_e
+  yvar  emat_i
+  yvar  emat
+
+#ifdef DISPLAY
+
+display "TEV vs KR"
+  xvar  kr   0 l1
+  yvar  tev  0 l1:l3
+
+display "TIV vs KR"
+  xvar  kr   0 l1
+  yvar  tiv  0 l1:l3
+
+display "ECOND vs KR"
+  xvar  kr     0 l1
+  yvar  econd  0 l1:l3
+
+display "TEV vs TIME" loglin
+  xvar  time
+  yvar  tev   0  n12:n22:dn
+
+display "TIV vs TIME" loglin
+  xvar  time
+  yvar  tiv   0  n12:n22:dn
+
+display "TOTAL ENERGY vs TIME" loglin
+integrated
+  xvar  time
+  yvar  emat_e
+  yvar  emat_i
+  yvar  emat
+
+#endif

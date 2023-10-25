@@ -1,0 +1,39 @@
+CRETIN : hedge.r00
+  
+ CRETIN - version v_02_19  (ifort)                       
+          created on Wed May 29 12:23:59 PDT 2019        
+          by hascott                                     
+
+
+  ****   Starting execution -- Wed May 29 15:41:11 2019   ****
+
+
+
+Writing restart dump hedge.r01
+
+     cycle #    1     time = 1.0000E+00
+
+
+
+ cycle #   1 : time =  1.0000E+00
+
+ NTRY vs CYCLE                                               
+          cycle      ntry      
+                               
+      1 :  0.000E+00  0.000E+00
+      2 :  1.000E+00  2.000E+00
+
+
+Memory allocated =     2.5  Mbytes
+ cpu =    0.2  seconds       total cpu =    0.5  seconds
+
+ Timing statistics                  cpu       total cpu      %
+ -----------------                  ---       ---------     ---
+     Generation               :   0.00E+00     8.38E-03     1.8
+     Initialization           :   0.00E+00     2.52E-01    54.7
+     Kinetics                 :   1.86E-01     4.38E-01    94.8
+     Edits                    :   1.00E-02     1.85E-02     4.0
+
+
+ ****   Finishing execution -- Wed May 29 15:41:11 2019   ****
+

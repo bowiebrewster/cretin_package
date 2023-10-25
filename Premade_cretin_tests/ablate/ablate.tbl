@@ -1,0 +1,231 @@
+CRETIN : ablate.gen
+  
+ CRETIN - version v_02_19  (gfortran.openmp.dist)        
+          created on Mon Jul  1 17:47:21 PDT 2019        
+          by hascott                                     
+
+
+  ****   Starting execution -- Wed Oct 25 15:23:21 2023   ****
+
+
+
+
+ ------------------------------------------------------------
+
+    alias  N             evaluated to   1.01000E+02
+    alias  DN            evaluated to   1.00000E+01
+    alias  RMIN          evaluated to   0.00000E+00  -  "0."
+    alias  RMAX          evaluated to   1.00000E-02
+    alias  DRTOT         evaluated to   1.00000E-02
+    alias  DRMIN         evaluated to   1.00000E-06
+    alias  TE            evaluated to   1.00000E-02
+    alias  RHO           evaluated to   1.00000E-01
+    alias  TMAX          evaluated to   2.00000E-08
+    alias  ILASER        evaluated to   1.00000E+18
+    alias  TLASER        evaluated to   1.00000E-09
+    alias  TLMAX         evaluated to   5.00000E-09
+    alias  RLASER        evaluated to   1.00100E+01
+    alias  FABS          evaluated to   5.00000E-01
+
+
+ ------------------------------------------------------------
+
+c     **** 1D laser-driven ablation, planar geometry ****
+
+c ... initially overdense plasma
+c ... inverse bremsstrahlung absorption
+c ... thermal conduction
+c ... no radiation
+
+c ------------------------------------------------------------
+c   Aliases
+c ------------------------------------------------------------
+
+alias N       101
+alias DN      10
+
+alias RMIN    0.
+alias RMAX    1.e-2
+alias DRTOT   RMAX - RMIN       ! plasma extent
+alias DRMIN   1.e-6             ! minimum zone size
+
+alias TE      0.01              ! initial temperature (eV)
+alias RHO     0.1               ! initial density (g/cc)
+
+alias TMAX    20.*TLASER        ! stop time (s)
+
+alias ILASER  1.e18             ! laser intensity (erg/cm^2/s)
+alias TLASER  1.e-9             ! laser pulse width (s)
+alias TLMAX   5*TLASER          ! time of laser pulse max (s)
+alias RLASER  RMAX + 10.        ! laser position
+alias FABS    0.5               ! resonance absorption fraction
+
+
+c ------------------------------------------------------------
+c   Materials
+c ------------------------------------------------------------
+
+region  1 N  TE
+  material RHO 100. 5. 25.      ! material with Z=5, Z^2=25, A=100
+  qstart
+
+
+c ------------------------------------------------------------
+c   Geometry
+c ------------------------------------------------------------
+
+geometry slab
+
+rgeom  1 N  RMIN RMAX DRMIN -1
+
+
+c ------------------------------------------------------------
+c   Sources and Boundary Conditions
+c ------------------------------------------------------------
+
+laser 1 1x value history 1 1.   ! 1w laser pulse
+  lasray RLASER 1. 0. 1. FABS
+
+history 1 ILASER 1. gaussian TLMAX TLASER  ! gaussian pulse
+
+switch 45 1                     ! turn on laser ray trace
+switch 47 0                     ! constant resonance absorption
+
+
+c ------------------------------------------------------------
+c   Radiation
+c ------------------------------------------------------------
+
+
+c ------------------------------------------------------------
+c   Controls
+c ------------------------------------------------------------
+
+tstart 0.
+tquit  TMAX
+
+restart
+dump all
+
+c ------------------------------------------------------------
+c   Switches and Parameters
+c ------------------------------------------------------------
+
+switch   2  1                   ! do hydro
+switch   3 1000                 ! maximum hydro subcycles
+switch  10  1                   ! do kinetics zone-centered
+switch  11  1                   ! make .plt file
+switch  30 100                  ! dump every n timesteps
+switch  31  1                   ! use temperature equation
+switch  49  1                   ! turn on thermal conduction
+switch 151  0                   ! no degeneracy
+
+param  40  TLASER               ! time between edits
+param  41  1.e-14               ! initial timestep
+
+
+c ------------------------------------------------------------
+c   Edits
+c ------------------------------------------------------------
+
+#ifdef DISPLAY
+
+when cycle 0
+  display 7
+  display 1
+  display 2
+  display 9
+end
+
+#endif
+
+plot "ZRHO vs R"
+  xvar  xzc
+  yvar  zrho
+
+plot "TEV, TIV vs R"
+  xvar  xzc
+  yvar  tev
+  yvar  tiv
+
+plot "ZE, ZP vs R"
+  xvar  xzc
+  yvar  ze
+  yvar  zp
+
+plot "ZEKIN vs R"
+  xvar  x
+  yvar  zekin
+
+plot "CSPD vs R"
+  xvar  xzc
+  yvar  cspd
+
+plot "LASER INTENSITY vs R"
+  xvar  r
+  yvar  plaser- 1 0 0 1
+  yvar  plaser+ 1 0 0 1
+
+plot "LASER INTENSITY vs TIME"
+  xvar  time
+  yvar  plaser  1
+
+plot "ZETOT vs TIME"
+  xvar  time
+  yvar  zetot
+  yvar  zktot
+  yvar  zektot
+
+plot "R vs TIME"
+  xvar  time
+  yvar  r       0  1:N:DN
+
+plot "U vs TIME"
+  xvar  time
+  yvar  vel     0  1:N:DN
+
+plot "TE, TI vs TIME"
+  xvar  time
+  yvar  tev     0  1:N:DN
+  yvar  tiv     0  1:N:DN
+
+plot "ZRHO vs TIME"
+  xvar  time
+  yvar  zrho    0  1:N-:DN
+
+
+ Indexing information
+ --------------------
+
+
+
+ ------------------------------------------------------------
+
+
+Writing restart dump ablate.r00
+
+     cycle #    0     time = 0.0000E+00
+
+
+Writing restart dump ablate.r01
+
+     cycle #  525     time = 2.0796E-08
+
+
+
+Memory allocated =     3.4  Mbytes
+ cpu =    0.4  seconds
+
+ Timing statistics                  cpu         %
+ -----------------                  ---        ---
+     Generation               :   6.93E-03     1.8
+     Initialization           :   3.25E-04     0.1
+     Kinetics                 :   1.47E-01    38.6
+     Hydrodynamics            :   6.89E-02    18.0
+     Laser deposition         :   1.67E-02     4.4
+     Temperature              :   2.44E-02     6.4
+     Edits                    :   1.33E-01    34.9
+
+
+ ****   Finishing execution -- Wed Oct 25 15:23:22 2023   ****
+

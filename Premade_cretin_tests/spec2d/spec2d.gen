@@ -1,0 +1,314 @@
+c    **** 2D Argon sphere (1 quadrant)                   ****
+c    ****    line transfer, spectrum, continuum-lowering ****
+
+c ------------------------------------------------------------
+c   Aliases
+c ------------------------------------------------------------
+
+alias K0     1
+alias K1    13
+
+alias L0     1
+alias L1     7
+
+alias Te    1000.
+alias Ni    6.e22
+
+alias R     0.005
+
+c ... node numbers for edits
+
+alias ir1   1
+alias ir2  13
+alias ir3  46
+alias ir4  79
+alias ir5  91
+
+
+c ------------------------------------------------------------
+c   Materials
+c ------------------------------------------------------------
+
+atoms hydrogenic(0:5) ar
+  modeltype fly
+
+regionkl  K0 K1  L0 L1   Te
+  element 1 Ni
+
+
+c ------------------------------------------------------------
+c   Geometry
+c ------------------------------------------------------------
+
+geometry rz
+
+wedge  K0 K1  L0 L1   0. R  90.0 0.0   1.0 1.0
+
+
+c ------------------------------------------------------------
+c   Radiation
+c ------------------------------------------------------------
+
+angles 4 4
+
+ebins 61  1. 1.e4
+
+spectrum 40     5.  1000.  1.
+spectrum 20  1000.  2800.  1.
+spectrum 40  2800.  4200.  1.
+spectrum 20  4200. 10000.  1.
+
+alias ISP1  60
+alias ISP2 100
+
+
+line 1 1 1 1 1 2
+  lbins 15 50.0 1.1
+
+line 2 1 1 1 1 3
+  lbins 15 50.0 1.1
+
+
+c ------------------------------------------------------------
+c   Controls
+c ------------------------------------------------------------
+
+tstart 0.
+tquit  4.0e-10
+
+restart
+
+sdump
+
+
+c ------------------------------------------------------------
+c   Switches and Parameters
+c ------------------------------------------------------------
+
+switch  8  2          ! product ray set
+switch 11  1          ! make .plt file
+switch 23  0          ! use isotropic scattering
+switch 29  2          ! use variable timesteps
+switch 30 10          ! dump every n timesteps
+switch 33  4          ! generalized escape factors
+switch 34 13          ! symmetric about k=1, l=1, l=lmax
+switch 36  0          ! no continuum transfer
+switch 37  1          ! do line transfer
+switch 38  1          ! symmetric line profiles
+switch 52 -1          ! do Stark broadening for everything
+switch 55  1          ! do continuum lowering
+switch 154 1          ! use k-axis for escape factors
+
+param 41 1.0e-10      ! initial timestep
+param 44 1.0e-10      ! minimum timestep
+param 45 1.0e-8       ! maximum timestep
+param 46 1.5          ! maximum timestep fractional increase
+param 61 1.e-4        ! frac. population for inclusion of iso-sequence
+
+
+c ------------------------------------------------------------
+c   Edits
+c ------------------------------------------------------------
+
+dump history mesh temperatures kappa_sp emis_sp jbar
+
+#include drat2d.gen
+
+editray 1 .001 1.570 1
+editray 2 .999 0.000 1
+
+plot "ISO POPULATIONS vs R"
+  xvar  kr        0 1
+  yvar  yiso      1 1 0:5
+
+plot "H-, He-like POPULATIONS vs R"
+  xvar  kr        0 1
+  yvar  y         1 1 1 1:4
+  yvar  y         1 1 2 1:4
+
+plot "TAULINEK vs EVLINE"
+  xvar  evline    1
+  yvar  taulinek  1 ir2
+  yvar  taulinek  1 ir5
+
+plot "TAULINEK vs EVLINE"
+  xvar  evline    2
+  yvar  taulinek  2 ir2
+  yvar  taulinek  2 ir5
+
+plot "TAULINEK vs EVLINE"
+  xvar  evline    1
+  yvar  tauline+  1 ir2 0 1
+  yvar  tauline+  1 ir5 0 2
+
+plot "TAULINE+ vs EVLINE"
+  xvar  evline    2
+  yvar  tauline+  2 ir2 0 1
+  yvar  tauline+  2 ir5 0 2
+
+plot "LKAP vs EVLINE"
+  xvar  evline    1
+  yvar  lkap      1 1
+
+plot "LKAP vs EVLINE"
+  xvar  evline    2
+  yvar  lkap      2 1
+
+plot "LKAP vs R"
+  xvar  kr        0 1
+  yvar  lkap      1 1 -1
+  yvar  lkap      2 1 -1
+
+plot "UVOIGT vs R"
+  xvar  kr        0 1
+  yvar  uvoigt    1 1
+  yvar  uvoigt    2 1
+
+plot "NRB vs R"
+  xvar  kr        0 L0
+  yvar  nrb       1 L0
+  yvar  nrb       2 L0
+
+plot "JBAR vs R"
+  xvar  kr        0 L0
+  yvar  jbar      1 L0
+  yvar  jbar      2 L0
+
+plot "JLINE vs EVLINE"
+  xvar  evline    1
+  yvar  jline     1 ir1
+  yvar  jline     1 ir2
+  yvar  jline     1 ir3
+  yvar  jline     1 ir4
+  yvar  jline     1 ir5
+
+plot "JLINE vs R" 
+  xvar  kr        0 L0
+  yvar  jline     1 L0 N
+
+plot "JLINE vs EVLINE"
+  xvar  evline    2
+  yvar  jline     2 ir1
+  yvar  jline     2 ir2
+  yvar  jline     2 ir3
+  yvar  jline     2 ir4
+  yvar  jline     2 ir5
+
+plot "JLINE vs R"
+  xvar  kr        0 L0
+  yvar  jline     2 L0 -1
+
+plot "NE, TEV, TIV, VEL, ZBAR, RHO vs KR"
+  xvar  kr        0 L0
+  yvar  ne        0 L0
+  yvar  tev       0 L0
+  yvar  tiv       0 L0
+  yvar  vel       0 L0
+  yvar  zbar      0 L0
+  yvar  rho       0 L0
+
+plot "OPTICAL DEPTH vs ENERGY"
+  xvar  sp_energy
+  yvar  tauspk    0 ir2
+  yvar  tauspk    0 ir5
+  yvar  tausp+    0 ir2 0 1
+  yvar  tausp+    0 ir5 0 2
+
+plot "SPECTRUM vs R"
+  xvar  kr        0 L0
+  yvar  jsp       0 L0 -1
+  yvar  jsp       0 L0 -2
+  yvar  jsp       0 L0 ISP1
+  yvar  jsp       0 L0 ISP2
+
+plot "SPECTRUM vs ENERGY"
+  xvar  sp_energy
+  yvar  jsp       0 ir1
+  yvar  jsp       0 ir2
+  yvar  jsp       0 ir3
+  yvar  jsp       0 ir4
+  yvar  jsp       0 ir5
+
+c
+c -- time edits --
+c
+
+plot "RHO, NE, TEV, TIV, NI vs TIME"
+  xvar  time
+  yvar  rho       0 1
+  yvar  ne        0 1
+  yvar  tev       0 1
+  yvar  tiv       0 1
+  yvar  ni        0 1
+
+plot "TAULINEK vs TIME"
+  xvar  time
+  yvar  taulinek  1 ir2 -1
+  yvar  taulinek  1 ir5 -1
+  yvar  taulinek  2 ir2 -1
+  yvar  taulinek  2 ir5 -1
+
+plot "ISO POPULATIONS vs TIME"
+  xvar  time
+  yvar  yiso      1 1 0:5
+
+plot "JBAR vs TIME"
+  xvar  time
+  yvar  jbar      1 ir1
+  yvar  jbar      1 ir2
+  yvar  jbar      1 ir3
+  yvar  jbar      1 ir4
+  yvar  jbar      1 ir5
+
+plot "JBAR vs TIME"
+  xvar  time
+  yvar  jbar      2 ir1
+  yvar  jbar      2 ir2
+  yvar  jbar      2 ir3
+  yvar  jbar      2 ir4
+  yvar  jbar      2 ir5
+
+plot "LINEITER vs TIME"
+  xvar  time
+  yvar  lineiter  1
+  yvar  lineiter  2
+
+#ifdef DISPLAY
+
+display "JBAR vs R"
+  xvar  kr        0 L0
+  yvar  jbar      1 L0
+  yvar  jbar      2 L0
+
+display "JLINE vs EVLINE"
+  xvar  evline    1
+  yvar  jline     1 ir1
+  yvar  jline     1 ir2
+  yvar  jline     1 ir3
+  yvar  jline     1 ir4
+  yvar  jline     1 ir5
+
+display "JLINE vs EVLINE"
+  xvar  evline    2
+  yvar  jline     2 ir1
+  yvar  jline     2 ir2
+  yvar  jline     2 ir3
+  yvar  jline     2 ir4
+  yvar  jline     2 ir5
+
+display "OPTICAL DEPTH vs ENERGY" linlog
+  xvar  sp_energy
+  yvar  tauspk    0 ir2
+  yvar  tauspk    0 ir5
+  yvar  tausp+    0 ir2 0 1
+  yvar  tausp+    0 ir5 0 2
+
+display "SPECTRUM vs ENERGY"
+  xvar  sp_energy
+  yvar  jsp       0 ir1
+  yvar  jsp       0 ir2
+  yvar  jsp       0 ir3
+  yvar  jsp       0 ir4
+  yvar  jsp       0 ir5
+
+#endif

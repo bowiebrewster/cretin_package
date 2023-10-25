@@ -1,0 +1,30 @@
+idatname df%l01la
+c made from dfnl01la using reconst option of xdfmakl
+c
+data model     6
+c
+c
+enot      0 nucleus        0.
+    elev   0   1 nucleus        1.            0.
+c
+enot      1 h-like       100.00
+    elev   1   1 1s             2.            0.
+    elev   1   2 2p             6.           10.20000
+c
+end data
+c
+c
+data phxs     10
+c
+d   1   1   1   2  4.1620e-01      1215.00000        0.     L_alpha          0.   anal
+c
+end data
+c
+c
+data coes     12
+c
+d  1    1  1    2 -1.000000e+00          0.            0.            0.   1.e-10  1.020000e+01     1.    10.
+d  1    1  0    1 -1.081280e+00 -6.172720e-01 -6.993930e-02 -3.077880e-03 1.e-20  1.360600e+01     1.    10.
+c
+end data
+c

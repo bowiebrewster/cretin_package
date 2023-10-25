@@ -1,0 +1,122 @@
+CRETIN : trial1.gen
+  
+ CRETIN - version v_02_19  (gfortran.openmp.dist)        
+          created on Mon Jul  1 17:47:21 PDT 2019        
+          by hascott                                     
+
+
+  ****   Starting execution -- Wed Oct 25 15:41:13 2023   ****
+
+
+
+
+ ------------------------------------------------------------
+
+     51 iso-sequences
+    215 levels    
+   data type phxs     --      301 transitions
+   data type phot_ion --      406 transitions
+   data type colex2   --      301 transitions
+   data type samp_ion --      406 transitions
+   data type augxs    --      126 transitions
+   data type augis    --     1518 transitions       343 statements
+
+
+ ------------------------------------------------------------
+
+
+c ------------------------------------------------------------
+c   Materials
+c ------------------------------------------------------------
+atoms hydrogenic_3 Sn
+
+region 1 41 30 30 30
+	element 1 100000000000000000000 False
+	rho 6.9
+	background 100000000000000000000 100000000000000000000 50 12 144
+
+c ------------------------------------------------------------
+c   Geometry
+c ------------------------------------------------------------
+
+geometry slab
+rlin 1 41 0 0.1
+
+c ------------------------------------------------------------
+c   Radiation
+c ------------------------------------------------------------
+
+ebins 121 1e-05 100000
+angles 3
+
+c ------------------------------------------------------------
+c   Sources
+c ------------------------------------------------------------
+source laser 4x rate history 1 4 1 41source jnu 4 1.3 rate history 1 4 1 3source jbndry 1 4 4 rate history 1 4 1 4
+
+
+
+c ------------------------------------------------------------
+c   Controls
+c ------------------------------------------------------------
+
+tstart 0.0
+tquit 3e-07
+
+restart
+
+dump all
+
+c ------------------------------------------------------------
+c   Switches and Parameters
+c ------------------------------------------------------------
+
+switch 36 2
+switch 30 3
+
+
+Constructing hydrogenic atomic model for (z,a) =  50 , 1.1869E+02
+     51 iso-sequences
+    215 levels    
+   data type phxs     --      301 transitions
+   data type phot_ion --      406 transitions
+   data type colex2   --      301 transitions
+   data type samp_ion --      406 transitions
+   data type augxs    --      126 transitions
+   data type augis    --     1502 transitions       340 statements
+
+
+ Indexing information
+ --------------------
+
+ source   1 :  continuum bins   70 -   70
+
+
+ ------------------------------------------------------------
+
+
+Writing restart dump trial1.r00
+
+     cycle #    0     time = 0.0000E+00
+
+
+Writing restart dump trial1.r01
+
+     cycle #   30     time = 3.8350E-07
+
+
+
+Memory allocated =     6.9  Mbytes
+ cpu =    2.6  seconds
+
+ Timing statistics                  cpu         %
+ -----------------                  ---        ---
+     Generation               :   9.01E-03     0.4
+     Initialization           :   6.20E-02     2.4
+     Kinetics                 :   2.30E+00    89.2
+     1-d continuum transfer   :   2.43E-01     9.4
+     Edits                    :   8.94E-04     0.0
+
+
+ ****   Finishing execution -- Wed Oct 25 15:41:16 2023   ****
+

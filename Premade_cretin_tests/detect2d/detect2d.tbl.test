@@ -1,0 +1,28 @@
+CRETIN : detect2d.r00
+  
+ CRETIN - version v_02_16  (ifort)                       
+          created on Fri Apr  7 17:06:44 PDT 2017        
+          by hascott                                     
+
+
+  ****   Starting execution -- Thu Apr 13 13:35:53 2017   ****
+
+
+
+
+Memory allocated =     0.5  Mbytes
+ cpu =    0.0  seconds       total cpu =    0.1  seconds
+
+ Timing statistics                  cpu       total cpu      %
+ -----------------                  ---       ---------     ---
+     Generation               :   0.00E+00     1.02E-02    12.0
+     Initialization           :   0.00E+00     6.43E-02    76.0
+     Kinetics                 :   0.00E+00     7.16E-04     0.8
+     2-d ray generation       :   0.00E+00     1.11E-03     1.3
+     2-d continuum transfer   :   0.00E+00     4.17E-02    49.2
+     Drat                     :   0.00E+00     1.98E-02    23.4
+     Edits                    :   3.84E-03     4.17E-02    49.2
+
+
+ ****   Finishing execution -- Thu Apr 13 13:35:53 2017   ****
+

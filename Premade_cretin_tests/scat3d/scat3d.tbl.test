@@ -1,0 +1,32 @@
+CRETIN : scat3d.r00
+  
+ CRETIN - version v_02_19  (ifort)                       
+          created on Wed Oct 31 00:40:14 PDT 2018        
+          by hascott                                     
+
+
+  ****   Starting execution -- Fri Nov  2 13:25:08 2018   ****
+
+
+
+Writing restart dump scat3d.r01
+
+     cycle #    2     time = 2.0000E-10
+
+
+
+Memory allocated =     4.5  Mbytes
+ cpu =    0.3  seconds       total cpu =    0.4  seconds
+
+ Timing statistics                  cpu       total cpu      %
+ -----------------                  ---       ---------     ---
+     Generation               :   0.00E+00     1.30E-02     3.0
+     Initialization           :   0.00E+00     1.17E-01    27.1
+     Kinetics                 :   7.06E-03     9.93E-03     2.3
+     3-d ray generation       :   1.66E-02     3.41E-02     7.9
+     3-d continuum transfer   :   1.70E-01     2.66E-01    61.7
+     Edits                    :   1.30E-01     2.16E-01    50.1
+
+
+ ****   Finishing execution -- Fri Nov  2 13:25:08 2018   ****
+

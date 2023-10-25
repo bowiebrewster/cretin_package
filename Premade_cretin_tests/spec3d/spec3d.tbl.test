@@ -1,0 +1,39 @@
+CRETIN : spec3d.r00
+  
+ CRETIN - version v_02_19  (ifort)                       
+          created on Wed May 29 12:23:59 PDT 2019        
+          by hascott                                     
+
+
+  ****   Starting execution -- Wed May 29 15:43:23 2019   ****
+
+
+
+Starting spectral dump spec3d.s01
+
+     cycle #    4     time = 4.6526E-10
+
+
+Writing restart dump spec3d.r01
+
+     cycle #    4     time = 4.6526E-10
+
+
+
+Memory allocated =    25.9  Mbytes
+ cpu =    2.1  seconds       total cpu =    2.7  seconds
+
+ Timing statistics                  cpu       total cpu      %
+ -----------------                  ---       ---------     ---
+     Generation               :   0.00E+00     1.28E-02     0.5
+     Initialization           :   0.00E+00     1.83E-01     6.7
+     Kinetics                 :   6.55E-01     7.73E-01    28.3
+     3-d ray generation       :   3.31E-02     6.49E-02     2.4
+     3-d line transfer        :   4.65E-01     4.98E-01    18.2
+     Spectrum calculation     :   8.63E-01     1.28E+00    46.7
+       Spectral opacities     :   3.98E-01     5.84E-01    21.4
+     Edits                    :   2.01E-01     3.04E-01    11.1
+
+
+ ****   Finishing execution -- Wed May 29 15:43:26 2019   ****
+

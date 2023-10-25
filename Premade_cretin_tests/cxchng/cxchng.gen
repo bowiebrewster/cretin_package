@@ -1,0 +1,235 @@
+c        **** 0-d kinetics / temperature evolution ****
+c                with charge exchange
+
+c ------------------------------------------------------------
+c   Aliases
+c ------------------------------------------------------------
+
+alias  Te    100.             ! initial temperature
+alias  Tr    0.               ! radiation temperature
+
+alias  N_fe  1.e18            ! Fe number density
+alias  N_n   1.e17            ! N  number density
+
+alias  CX    1.               ! charge exchange rate multiplier
+alias  ICX   1                ! redo cx rates if >0, all rates if <0
+
+alias  ITER  10               ! iterations / timestep
+alias  ITERK 20               ! kinetics iterations / iteration
+
+
+c ------------------------------------------------------------
+c   Materials
+c ------------------------------------------------------------
+
+atoms hydrogenic_5  fe
+atoms hydrogenic_5   n
+
+region  1 1  Te Te Tr
+  element  1   N_fe
+  element  2   N_n
+
+
+c ------------------------------------------------------------
+c   Radiation
+c ------------------------------------------------------------
+
+ebins 41 1.0 1.e4
+
+
+c ------------------------------------------------------------
+c   Sources
+c ------------------------------------------------------------
+
+
+c ------------------------------------------------------------
+c   Controls
+c ------------------------------------------------------------
+
+tstart 0.
+tquit  1.0e-7
+
+restart
+dump all
+
+c ------------------------------------------------------------
+c   Switches and Parameters
+c ------------------------------------------------------------
+
+switch  11   1                ! make .plt file
+switch  20   3                ! use radiation temperature
+switch  25   1                ! time-dependent
+switch  28   0                ! do LTE initialization
+switch  30  20                ! dump every n timesteps
+switch  31   1                ! do temperature calculation
+switch  44  ITER              ! maximum # of iterations
+switch 151   0                ! no degeneracy
+switch 180  ITERK             ! kinetics iterations
+switch 181  ICX               ! include charge exchange
+
+param  41  1.e-10             ! initial timestep
+param  44  2.e-14             ! minimum timestep
+param  45  2.e-9              ! maximum timestep
+param  55  1.e-3              ! convergence value for temperatures
+param  56  1.e-3              ! convergence value for populations
+param  61  1.e-10             ! iso-sequence population threshold
+param 138  CX                 ! charge exchange rate multiplier
+
+
+c ------------------------------------------------------------
+c   Edits
+c ------------------------------------------------------------
+
+plot "YISOFRAC vs ISO"
+  xvar  iso         1
+  yvar  yisofrac    1 1
+
+plot "ISORATES vs TIME"
+  xvar  time
+  yvar  isorates    0 1
+
+plot "ISORATES vs ISO"
+  xvar  iso         1
+  yvar  isorate+    1 1
+  yvar  isorate+_c  1 1
+  yvar  isorate+_p  1 1
+  yvar  isorate+_a  1 1
+  yvar  isorate+_x  1 1
+
+plot "ISORATES vs ISO"
+  xvar  iso         1
+  yvar  isorate-    1 1
+  yvar  isorate-_c  1 1
+  yvar  isorate-_p  1 1
+  yvar  isorate-_a  1 1
+  yvar  isorate-_x  1 1
+
+plot "ISORATES vs ISO"
+  xvar  iso         2
+  yvar  isorate+    2 1
+  yvar  isorate+_c  2 1
+  yvar  isorate+_p  2 1
+  yvar  isorate+_a  2 1
+  yvar  isorate+_x  2 1
+
+plot "ISORATES vs ISO"
+  xvar  iso         2
+  yvar  isorate-    2 1
+  yvar  isorate-_c  2 1
+  yvar  isorate-_p  2 1
+  yvar  isorate-_a  2 1
+  yvar  isorate-_x  2 1
+
+plot "TEV, TIV vs TIME"
+  xvar  time
+  yvar  tev      0 1
+  yvar  tiv      0 1
+
+plot "ZBAR vs TIME"
+  xvar  time
+  yvar  zbar     1:2 1
+
+plot "NE vs TIME"
+  xvar  time
+  yvar  ne       0 1
+
+plot "YISOFRAC vs TIME"
+  xvar  time
+  yvar  yisofrac 1 1 26:0:-1
+
+plot "YISOFRAC vs TIME"
+  xvar  time
+  yvar  yisofrac 2 1 7:0:-1
+
+plot "ISORATES vs TIME"
+  xvar  time
+  yvar  isorate+    1 1 20:26
+  yvar  isorate+_x  1 1 20:26
+
+plot "ISORATES vs TIME"
+  xvar  time
+  yvar  isorate-    1 1 20:26
+  yvar  isorate-_x  1 1 20:26
+
+plot "ISORATES vs TIME"
+  xvar  time
+  yvar  isorate+    2 1 5:7
+  yvar  isorate+_x  2 1 5:7
+
+plot "ISORATES vs TIME"
+  xvar  time
+  yvar  isorate-    2 1 5:7
+  yvar  isorate-_x  2 1 5:7
+
+plot "ISOMIN, ISOMAX vs TIME"
+  xvar  time
+  yvar  isomin   1:2 1
+  yvar  isomax   1:2 1
+
+plot "HEATING RATES vs TIME"
+  xvar  time
+  yvar  heatct   1 1
+  yvar  heatpt   1 1
+  yvar  heatat   1 1
+  yvar  heatit   1 1
+  yvar  heatbt   0 1
+  yvar  heatjt   0 1
+  yvar  heatet   1 1
+
+plot "HEATCHK vs TIME"
+  xvar  time
+  yvar  heatchk   0 1
+
+plot "DHEATx vs TIME"
+  xvar  time
+  yvar  dhtcdt   1 1
+  yvar  dhtpdt   1 1
+  yvar  dhtadt   1 1
+  yvar  dhtidt   1 1
+  yvar  dhtbdt   0 1
+  yvar  dhtedt   1 1
+  yvar  dhtjdt   0 1
+
+plot "DTIME vs TIME"
+  xvar  time
+  yvar  dtime
+
+plot "DTIME vs CYCLE"
+  xvar  cycle
+  yvar  dtime
+
+plot "NTRCX vs TIME"
+  xvar  time
+  yvar  ntrcx    0 1
+
+plot "NTRY vs TIME"
+  xvar  time
+  yvar  ntry
+  yvar  ntryk    0 1
+
+plot "NTRY vs CYCLE"
+  xvar  cycle
+  yvar  ntry
+  yvar  ntryk    0 1
+
+#ifdef DISPLAY
+
+display "YISOFRAC vs ISO"  linlog
+  xvar  iso      1
+  yvar  yisofrac 1 1
+
+display "TEV, TIV vs TIME"
+  xvar  time
+  yvar  tev      0 1
+  yvar  tiv      0 1
+
+display "ZBAR vs TIME"
+  xvar  time
+  yvar  zbar     1:2 1
+
+display "NTRY vs TIME"
+  xvar  time
+  yvar  ntry
+  yvar  ntryk    0 1
+
+#endif
