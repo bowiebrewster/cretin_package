@@ -3,7 +3,7 @@ import os
 
 def to_personal_data():
     #add the path to your personal folder here, this is where by defualt all you generator files will be written too and the correspoding plots will be send to 
-    path_test = '/home/brewster/Desktop/cretin_main/Personal_experiments/'
+    path_test = '/home/brewster/Desktop/cretin_package-master/Personal_experiments/'
 
     if os.path.exists(path_test): 
         path = path_test 
@@ -18,7 +18,7 @@ def to_personal_data():
 
 def to_folder_cretin():
     #add the path to the folder where this file is located. 
-    path_test = '/home/brewster/Desktop/cretin_main/Code/'
+    path_test = '/home/brewster/Desktop/cretin_package-master/'
 
     if os.path.exists(path_test): 
         path = path_test 
@@ -35,7 +35,7 @@ def to_folder_cretin():
 def to_previous_experiments():
     #add the path to your test folder here, the "test" folder contains the premade generator files and will contain 
     # the output of the simulation (ie log files and plots)
-    path_test = '/home/brewster/Desktop/cretin_main/Premade_cretin_tests/'
+    path_test = '/home/brewster/Desktop/cretin_package-master/Premade_cretin_tests/'
 
     if os.path.exists(path_test): 
         path = path_test 
