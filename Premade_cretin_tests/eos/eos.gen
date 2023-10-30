@@ -1,0 +1,164 @@
+c ------------------------------------------------------------
+c   Aliases
+c ------------------------------------------------------------
+
+alias N_Te   101
+alias Temin  1.
+alias Temax  30.
+
+alias N_Ne   121
+alias Nemin  1.e8
+alias Nemax  1.e24
+
+alias Tr     0.
+
+alias E0     0.1
+alias E1     1.e3
+alias NBINS  81
+
+alias IG1    10
+alias IG2    50
+alias IGD    20
+
+#ifdef BACKGROUND
+alias NI     0.
+alias NIB    1.e16
+alias NISO   0
+#else
+alias NI     1.e16
+alias NIB    0.
+alias NISO   6
+#endif
+
+#ifdef NE
+alias DEN    ne
+alias NK     3
+alias NL     N_Ne
+alias NV     NK
+alias XV     y2d
+alias Nemin  1.e16
+alias S58    -1
+#else
+alias DEN    density
+alias NK     N_Te
+alias NL     3
+alias NV     NL
+alias XV     x2d
+#endif
+
+
+c ------------------------------------------------------------
+c   Materials
+c ------------------------------------------------------------
+
+atoms hydrogenic  c
+
+regionkl  1 NK 1 NL  1. 1. Tr
+  background  NIB 0 1 0 0
+  element  1  1.
+  ne          1.
+
+
+c ------------------------------------------------------------
+c   Geometry
+c ------------------------------------------------------------
+
+geometry xy
+
+xlog  1 NK  Temin Temax
+ylog  1 NL  Nemin Nemax
+
+product_mesh
+
+scalekl  temperature  1 NK  1 NL  0. 1. 0. 1. 1. 0. 0. 0. 0. 0.
+scalekl  DEN          1 NK  1 NL  0. 1. 0. 0. 0. 0. 0. 1. 1. 0.
+
+
+c ------------------------------------------------------------
+c   Radiation
+c ------------------------------------------------------------
+
+ebins NBINS  E0 E1
+
+
+c ------------------------------------------------------------
+c   Controls
+c ------------------------------------------------------------
+
+tstart 0.
+tquit  0.
+
+restart
+
+
+c ------------------------------------------------------------
+c   Switches and Parameters
+c ------------------------------------------------------------
+
+switch 11  1                  ! make ascii plot file
+switch 17  1                  ! include lines in continuum emission
+switch 20  3                  ! NLTE
+switch 25  0                  ! steady-state
+switch 28  1                  ! do steady-state initialization
+switch 44 10                  ! maximum number of iterations
+switch 55  1                  ! Stewart-Pyatt continuum lowering
+switch 58 S58                 ! fix ion or electron densities
+switch 111 1                  ! iterate zones independently
+switch 120 1                  ! output convergence diagnostics
+switch 151 1                  ! include degeneracy
+
+
+c ------------------------------------------------------------
+c   Edits
+c ------------------------------------------------------------
+
+plot "YISO"
+  xvar  XV          0 1
+  yvar  yiso        1 1:NV 0:NISO
+  yvar  dyisodt     1 1:NV 0:NISO
+  yvar  dyisodn     1 1:NV 0:NISO
+
+plot "ELOWER"
+  xvar  XV          0 1
+  yvar  elower      1 1:NV 1:NISO
+  yvar  elowerdt    1 1:NV 1:NISO
+  yvar  elowerdn    1 1:NV 1:NISO
+
+plot "NE, NI, ZBAR"
+  xvar  XV          0 1
+  yvar  ne          1 1:NV
+  yvar  ni          1 1:NV
+  yvar  zbar        1 1:NV
+  yvar  dzbdt       1 1:NV
+  yvar  dzbdne      1 1:NV
+
+plot "EINT"
+  xvar  XV          0 1
+  yvar  eint        1 1:NV
+  yvar  deintdt     1 1:NV
+  yvar  deintdn     1 1:NV
+
+plot "ETOTAL"
+  xvar  XV          0 1
+  yvar  emate       0 1:NV
+  yvar  dedte       0 1:NV
+  yvar  dedne       0 1:NV
+  yvar  dedni       0 1:NV
+
+plot "CHEMU, etc."
+  xvar  XV          0 1
+  yvar  chemu       0 1:NV
+  yvar  fugacity    0 1:NV
+  yvar  zeta        0 1:NV
+
+plot "ABSN"
+  xvar  XV          0 1
+  yvar  absn        0 1:NV IG1:IG2:IGD
+  yvar  dadt        0 1:NV IG1:IG2:IGD
+  yvar  dadn        0 1:NV IG1:IG2:IGD
+
+plot "EMIS"
+  xvar  XV          0 1
+  yvar  emis        0 1:NV IG1:IG2:IGD
+  yvar  dedt        0 1:NV IG1:IG2:IGD
+  yvar  dedn        0 1:NV IG1:IG2:IGD

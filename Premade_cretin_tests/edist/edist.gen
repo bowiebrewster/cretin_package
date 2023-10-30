@@ -1,0 +1,138 @@
+alias  TE       500.
+alias  TR       0.
+alias  RHO      1.
+alias  NI       1.e22
+alias  NE       1.5e23
+
+#ifdef LTE
+alias  TEH      TE
+alias  NEH      NE
+alias  EE0      10.
+#else
+alias  TEH      1.e4
+alias  NEH      1.e23
+alias  EE0      100.
+#endif
+
+alias  E0       1.0
+alias  E1       1.e5
+alias  NBINS    121
+
+alias  ESP0     5.e3
+alias  ESP1     5.e4
+alias  NSP      901
+
+alias  EE1      1.e5
+alias  NEBINS   120
+
+alias  NP       -2
+
+
+c ------------------------------------------------------------
+c   Materials
+c ------------------------------------------------------------
+
+atoms  hydrogenic  kr
+
+region 1 4  TE TE TR
+  element 1 NI
+  rho       RHO
+  ne        NE
+
+
+c ------------------------------------------------------------
+c   Radiation
+c ------------------------------------------------------------
+
+ebins NBINS  E0 E1
+
+spectrum  NSP ESP0 ESP1
+
+
+c ------------------------------------------------------------
+c   Sources
+c ------------------------------------------------------------
+
+#ifdef XFILE
+
+xfile edist0.xfa
+
+switch 58 -1
+
+#else
+
+eebins NEBINS  EE0 EE1
+
+source edist EE0 EE1 maxwellian      value constant TEH NEH 2 2
+source edist EE0 EE1 power-law NP 0. value constant TEH NEH 3 3
+
+source tehot 1 value constant TEH 1. 4 4
+source nehot 1 value constant NEH 1. 4 4
+
+#endif
+
+
+c ------------------------------------------------------------
+c   Controls
+c ------------------------------------------------------------
+
+tstart 0.
+tquit  0.
+
+#ifdef NEWXFILE
+
+newxfile all
+
+#endif
+
+
+c ------------------------------------------------------------
+c   Switches and Parameters
+c ------------------------------------------------------------
+
+switch  11  1                 ! make ascii plot file
+switch  20  3                 ! use Trad photons
+switch  25  0                 ! steady-state
+switch  28  1                 ! do steady-state initialization
+switch  44  2                 ! maximum number of iterations
+switch  55  1                 ! continuum lowering
+switch 151  0                 ! no degeneracy
+
+param  136  1.                ! multiplier on non-thermal coll. recombination
+
+c switch  58 -1
+
+
+c ------------------------------------------------------------
+c   Edits
+c ------------------------------------------------------------
+
+plot "ZBAR, NE, NI vs N"
+  xvar  n
+  yvar  zbar
+  yvar  ne
+  yvar  ne_thermal
+  yvar  ni
+
+plot "YISOFRAC vs ISO"
+  xvar  iso         1
+  yvar  yisofrac    1 1:-1
+
+plot "EMIS vs ENERGY"
+  xvar  energy
+  yvar  emis        0 1:-1
+
+plot "EMIS vs ENERGY"
+  xvar  sp_energy
+  yvar  emis_sp     0 1:-1
+
+plot "EDIST vs ENERGY"
+  xvar  eenergy
+  yvar  edist       0 1:-1
+  yvar  nedist      0 1:-1
+
+plot "EDIST vs ENERGY"
+  xvar  eebins
+  yvar  edist       0 1:-1
+  yvar  nedist      0 1:-1
+

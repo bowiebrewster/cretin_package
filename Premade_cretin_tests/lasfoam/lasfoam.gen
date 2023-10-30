@@ -1,0 +1,219 @@
+c        **** laser-driven foam, 5 drive options ****
+c                1: sourced laser intensity
+c                2: sourced photon intensity
+c                3: radiation transfer
+c                4: radiation transfer w/temperature calculation
+c                5: laser ray trace
+
+c ------------------------------------------------------------
+c   Aliases
+c ------------------------------------------------------------
+
+alias N0        1
+alias N1       21
+alias DN       10
+alias DR       0.1
+
+alias TE       2.0                     ! initial T high for ionization
+alias RHO      0.003
+
+alias E1       4.68                    ! laser photon energy (eV)
+alias E2       E1 * 1.001              ! define delta E of 0.1%
+alias MULT     HPEV/(E2-E1)            ! convert delta E from eV to Hz
+                                       ! to specify intensity
+
+alias ELASER   1000.                   ! laser energy (J)
+alias TLASER   2.e-9                   ! laser pulse length
+alias RSPOT    0.1                     ! laser focal spot radius
+
+alias ILASER   1.e7*ELASER/(TLASER*PI*RSPOT^2)
+
+#ifdef ZC
+alias SW42    -1                       ! zone centered
+alias NX       2
+alias DN       9
+#else
+alias SW42     0                       ! node centered
+alias NX       1
+#endif
+
+
+c ------------------------------------------------------------
+c   Materials
+c ------------------------------------------------------------
+
+atoms hydrogenic_3  h                  ! restrict PQNs to <=3
+atoms hydrogenic_3  c                  ! to run faster
+
+region  N0 N1  TE
+  rho RHO
+  element 1 1.
+  element 2 1.
+
+
+c ------------------------------------------------------------
+c   Geometry
+c ------------------------------------------------------------
+
+geometry slab
+
+rlin  N0 N1  0. DR
+
+
+c ------------------------------------------------------------
+c   Radiation
+c ------------------------------------------------------------
+
+ebins 61 0.1 1.e5
+
+angles 3
+
+
+c ------------------------------------------------------------
+c   Sources
+c ------------------------------------------------------------
+
+#ifdef SOURCE1
+
+source laser 4x rate history 1 1. N0 N1
+
+#elif SOURCE2
+
+source jnu E1 E2 rate history 1 MULT N0 N1
+
+#elif SOURCE3
+
+source jbndry 1 E1 E2 rate history 1 MULT
+boundary radiation streaming 1. 0. N1 xfile 1 1.
+
+switch 36 2                            ! turn on continuum transfer
+                                       ! integral formalism
+
+#elif SOURCE4
+
+source jbndry 1 E1 E2 rate history 1 MULT
+boundary radiation streaming 1. 0. N1 xfile 1 1.
+
+switch 100  1                          ! use rad package
+rswitch  1 -2                          ! integral formalism
+rswitch 20  1                          ! NLTE
+
+#elif SOURCE5
+
+laser 1 4x rate history 1 1.
+  lasray 0.11 1. 0. 1.
+
+switch 45 1                            ! turn on laser ray trace
+switch 36 2                            ! turn on continuum transfer
+                                       ! integral formalism
+
+#endif
+
+history 1 ILASER TLASER                ! flat-topped pulse
+  tv  0.   1.
+  tv  1.0  1.
+  tv  1.0  0.
+c tv  10.  0.
+
+
+c ------------------------------------------------------------
+c   Controls
+c ------------------------------------------------------------
+
+tstart 0.
+tquit  3.e-9
+
+restart
+
+dump all
+c ------------------------------------------------------------
+c   Switches and Parameters
+c ------------------------------------------------------------
+
+switch 11  1                  ! make .plt file
+switch 42  SW42               ! centering
+
+#ifndef SOURCE4
+switch 31  1                  ! temperature calculation
+switch 44  10                 ! maximum # of iterations
+#endif
+
+param  5 0.                   ! scattering multiplier
+param 40 1.e-9                ! time between edits
+param 41 1.e-13               ! initial timestep
+param 44 1.e-14               ! minimum timestep
+param 45 1.e-10               ! maximum timestep
+
+
+c ------------------------------------------------------------
+c   Edits
+c ------------------------------------------------------------
+
+alias IG  18                  ! group containing radiation source
+
+editray 1 1. 0. 1
+
+plot "TEV vs R"
+  xvar  r
+  yvar  tev
+
+plot "ZBAR vs R"
+  xvar  r
+  yvar  zbar      0:2
+
+plot "NE vs R"
+  xvar  r
+  yvar  ne
+
+plot "JNU vs R"
+  xvar  r
+  yvar  jnu       0 0 IG
+
+plot "TAU vs time"
+  xvar  time
+  yvar  tautot    0 0 IG
+
+plot "TEV vs TIME"
+  xvar  time
+  yvar  tev       0 NX:N1:DN
+
+plot "ZBAR vs TIME"
+  xvar  time
+  yvar  zbar      0 NX:N1:DN
+
+plot "NI, NE vs TIME"
+  xvar  time
+  yvar  ni        0 NX:N1:DN
+  yvar  ne        0 NX:N1:DN
+
+plot "HEATING vs TIME"
+  xvar  time
+  yvar  heatl     0 NX:N1:DN
+  yvar  heatt     0 NX:N1:DN
+
+plot "NTRY vs TIME"
+  xvar  time
+  yvar  ntry
+
+plot "DTIME vs TIME"
+  xvar  time
+  yvar  dtime
+
+#ifdef DISPLAY
+display "TEV vs TIME"
+  xvar  time
+  yvar  tev       0 NX:N1:DN
+
+display "TEV vs R"
+  xvar  r
+  yvar  tev
+
+display "HEATING vs TIME"
+  xvar  time
+  yvar  heatl     0 NX:N1:DN
+  yvar  heatt     0 NX:N1:DN
+
+display "NTRY vs TIME"
+  xvar  time
+  yvar  ntry
+#endif

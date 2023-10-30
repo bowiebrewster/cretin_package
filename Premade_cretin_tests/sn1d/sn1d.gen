@@ -1,0 +1,164 @@
+c              **** 1-d grey SN radiation test ****
+
+c This is a thermal wave produced by an instantaneous plane source;
+c it is a self similar problem discussed in Zel'dovich and Raiser,
+c "Physics of Shock Waves and High-Temperature Hydrodynamic
+c Phenomena", Vol. II, Chap. XI, Section 4, page 663.
+
+c ------------------------------------------------------------
+c   Aliases
+c ------------------------------------------------------------
+
+alias N     101
+alias DN     10
+
+alias RHO   1.e2
+
+alias TE    .001
+alias TR    0.
+alias TB    1.e3
+
+alias KAP   1.0 * RHO
+
+alias RMAX  1000. / RHO
+alias TMAX  1.e-4
+
+alias DTMIN  TMAX / 1.e2
+alias DTMAX  TMAX / 10
+alias DTEDIT TMAX / 10
+
+#ifndef ITER
+alias ITER 100
+#endif
+
+
+c ------------------------------------------------------------
+c   Geometry
+c ------------------------------------------------------------
+
+geometry slab
+
+rlin 1 N 0.0 RMAX
+
+
+c ------------------------------------------------------------
+c   Materials
+c ------------------------------------------------------------
+
+region 1 N  TE TE TR
+  material RHO  1. 1. 1.
+  opacity analytic constant KAP
+
+
+c ------------------------------------------------------------
+c   Radiation
+c ------------------------------------------------------------
+
+energy 1.e5
+
+angles 1
+
+
+c ------------------------------------------------------------
+c   Sources and Boundary Conditions
+c ------------------------------------------------------------
+
+boundary radiation value 1 TB
+boundary radiation value N 0.
+
+
+c ------------------------------------------------------------
+c   Controls
+c ------------------------------------------------------------
+
+tstart 0.
+tquit  TMAX
+
+restart
+
+
+c ------------------------------------------------------------
+c   Switches and Parameters
+c ------------------------------------------------------------
+
+switch 11  1                  ! make .plt file
+switch 20  0                  ! LTE
+switch 29  2                  ! variable timesteps
+
+switch 100 1                  ! do radiation
+switch 151 0                  ! no degeneracy
+
+param  5 0.0                  ! scattering multiplier
+param 40 DTEDIT               ! time between edits
+param 41 DTMIN                ! initial timestep
+param 44 DTMIN                ! minimum timestep
+param 45 DTMAX                ! maximum timestep
+param 46 1.0                  ! max fractional change in Te
+param 48 0.0                  ! e-i coupling multiplier
+
+
+rswitch 1 -1                  ! do Sn radiation
+rswitch 3 ITER                ! number of iterations
+rswitch 4 1                   ! direct solution
+rswitch 5 1                   ! time-dependent
+
+rparam  3 1.e-4               ! convergence criterion
+rparam  5 1.0                 ! max fractional change in Erad
+rparam  6 0.1                 ! min Emate/Erad to apply rparam(5)
+
+
+c ------------------------------------------------------------
+c   Edits
+c ------------------------------------------------------------
+
+plot "TEMPERATURE vs R"
+  xvar  r
+  yvar  tev
+  yvar  trv
+
+plot "ITERATIONS vs TIME"
+  xvar  time
+  yvar  iter_radd
+
+plot "ENERGY vs R"
+  xvar  r
+  yvar  emat_e
+  yvar  erad
+
+plot "TEV vs TIME"
+  xvar  time
+  yvar  tev     0   1:N:DN
+
+plot "TRV vs TIME"
+  xvar  time
+  yvar  trv     0   1:N:DN
+
+plot "EMAT vs TIME"
+  xvar  time
+  yvar  emat_e  0   1:N:DN
+
+plot "ERAD vs TIME"
+  xvar  time
+  yvar  erad    0   1:N:DN
+
+plot "INTEGRATED ENERGY vs TIME"
+integrated
+  xvar  time
+  yvar  emat_e
+  yvar  erad
+
+#ifdef DISPLAY
+display "TEMPERATURE vs R"
+  xvar  r
+  yvar  tev
+  yvar  trv
+
+display "ENERGY vs R"
+  xvar  r
+  yvar  emat_e
+  yvar  erad
+
+display "TEV vs TIME"
+  xvar  time
+  yvar  tev     0   1:N:DN
+#endif

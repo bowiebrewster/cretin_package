@@ -1,0 +1,352 @@
+CRETIN : thd.gen
+  
+ CRETIN - version v_02_19  (gfortran.openmp.dist)        
+          created on Mon Jul  1 17:47:21 PDT 2019        
+          by hascott                                     
+
+
+  ****   Starting execution -- Wed Sep 27 12:44:09 2023   ****
+
+
+
+
+ ------------------------------------------------------------
+
+    alias  N0            evaluated to   1.00000E+00
+    alias  N1            evaluated to   1.10000E+01
+    alias  N2            evaluated to   2.20000E+01
+    alias  N3            evaluated to   3.30000E+01
+    alias  DN            evaluated to   5.00000E+00
+    alias  R0            evaluated to   0.00000E+00  -  "0."
+    alias  R1            evaluated to   6.00000E-03
+    alias  R2            evaluated to   8.00000E-03
+    alias  R3            evaluated to   1.20000E-02
+    alias  Te1           evaluated to   3.00000E+03
+    alias  Te2           evaluated to   1.00000E+03
+    alias  Te3           evaluated to   2.00000E+02
+    alias  Tr1           evaluated to   8.00000E+02
+    alias  Tr2           evaluated to   8.00000E+02
+    alias  Tr3           evaluated to   1.00000E+02
+    alias  fge           evaluated to   1.00000E-02
+    alias  NDT           evaluated to   2.00000E+24
+    alias  NCH           evaluated to   5.00000E+24
+    alias  Nge           evaluated to   5.00000E+22
+    alias  Mcore         evaluated to   1.00000E+00
+    alias  Acore         evaluated to   7.25900E+01
+    alias  Vcore         evaluated to   9.04779E-07
+    alias  Ncore         evaluated to   9.16921E+18
+    alias  TFAC          evaluated to   1.00000E-03
+    alias  WFAC          evaluated to   1.00000E+08
+      2 iso-sequences
+     11 levels    
+   data type phxs     --       45 transitions
+   data type phot_ion --       10 transitions
+   data type colex2   --       45 transitions
+   data type samp_ion --       10 transitions
+      7 iso-sequences
+    250 levels    
+   data type phxs     --     1671 transitions
+   data type phot_ion --      497 transitions
+   data type colex2   --     1671 transitions
+   data type samp_ion --      497 transitions
+   data type augxs    --      724 transitions
+   data type augis    --     9065 transitions      1338 statements
+     21 iso-sequences
+    967 levels    
+   data type phxs     --    32730 transitions
+   data type phot_ion --     2580 transitions
+   data type colex2   --     5977 transitions
+   data type samp_ion --     2580 transitions
+   data type augxs    --     2788 transitions
+   data type augis    --    54689 transitions     10836 statements
+
+
+ ------------------------------------------------------------
+
+c        *** mock-up of imploded THD capsule w/ Ge ***
+
+c ------------------------------------------------------------
+c   Aliases
+c ------------------------------------------------------------
+
+alias  N0      1
+alias  N1     11
+alias  N2     22
+alias  N3     33
+
+alias  DN      5
+
+alias  R0     0.
+alias  R1     0.006                  ! hot spot radius
+alias  R2     0.008                  ! core radius
+alias  R3     0.012                  ! shell radius
+
+alias  Te1    3000.                  ! hot spot temperature
+alias  Te2    1000.                  ! core temperature
+alias  Te3     200.                  ! shell temperature
+
+alias  Tr1     800.                  ! hot spot radiation temperature
+alias  Tr2     800.                  ! core radiation temperature
+alias  Tr3     100.                  ! shell radiation temperature
+
+alias  fge    0.01                   ! fraction of Ge in shell
+
+alias  NDT    2.e24                  ! core density
+alias  NCH    5.e24                  ! shell density
+alias  Nge    NCH * fge
+
+
+alias  Mcore  1.                     ! Ge mass mixed into hot spot (in ng)
+alias  Acore  72.59
+alias  Vcore  4.*PI*R1**3/3.
+alias  Ncore  1.e-9*Mcore/(Vcore*Acore*AMASS)
+
+
+c ------------------------------------------------------------
+c   Materials
+c ------------------------------------------------------------
+
+atoms  hydrogenic   h
+atoms  hydrogenic   c
+
+atoms  hydrogenic(0:20)  ge
+  modeltype  term
+
+region   N0  N1  Te1 Te1 Tr1
+  element 1  NDT
+  element 3  Ncore
+
+region   N1+ N2  Te2 Te2 Tr2
+  element 1  NDT
+
+region   N2+ N3  Te3 Te3 Tr3
+  element 1  NCH
+  element 2  NCH
+  element 3  Nge
+
+
+c ------------------------------------------------------------
+c   Geometry
+c ------------------------------------------------------------
+
+geometry sphere
+
+rlin  N0  N1  R0 R1
+rlin  N1+ N2  R1 R2
+rlin  N2+ N3  R2 R3
+
+
+c ------------------------------------------------------------
+c   Radiation
+c ------------------------------------------------------------
+
+angles 2
+
+ebins  28     10.  2000.
+ebins  56   2000. 10000.
+ebins  32  10000. 12000.
+ebins  16  12000. 20000.
+
+spectrum   50   5000.  9000.
+spectrum  200   9000. 10000.  1.
+spectrum  250  10000. 10500.  1.
+spectrum  100  10500. 11000.  1.
+spectrum   50  11000. 12000.  1.
+spectrum   50  12000. 12200.  1.
+spectrum  100  12200. 13000.  1.
+spectrum   50  13000. 20000.
+
+
+c ------------------------------------------------------------
+c   Controls
+c ------------------------------------------------------------
+
+tstart 0.
+tquit  0.
+
+restart
+
+dump history mesh temperatures kappa_sp emis_sp
+
+
+c ------------------------------------------------------------
+c   Switches and Parameters
+c ------------------------------------------------------------
+
+switch  11  1          ! make .plt file
+switch  28  1          ! steady-state initialization
+switch  36  2          ! do continuum transfer
+switch  44  10         ! max iterations per timestep
+switch  52  -1         ! do Stark broadening for everything if <0
+switch  55  1          ! do continuum lowering
+switch  89  1          ! include plasma polarization shifts
+switch 120  1          ! show convergence diagnostics
+switch 133  10000      ! add ionizations from inner shell states
+
+param   56  1.e-2      ! conv. criterion for populations
+param   60  1.e-2      ! frac. population for considering convergence
+param   78  1.e4       ! # of Lorentz widths in spectra
+
+
+c ------------------------------------------------------------
+c   Edits
+c ------------------------------------------------------------
+
+alias  TFAC  1.e-3
+alias  WFAC  1.e8
+
+rad-units ergs per-ev
+
+editray 1 1. 0. 1
+
+plot "TE, TR vs R"
+  xvar  r
+  yvar  tev  0 0 0 0 TFAC
+  yvar  trv  0 0 0 0 TFAC
+
+plot "RHO vs R"
+  xvar  r
+  yvar  rho
+
+plot "NE vs R"
+  xvar  r
+  yvar  ne
+
+plot "ZBAR vs R"
+  xvar  r
+  yvar  zbar      1:3
+
+plot "NI vs R"
+  xvar  r
+  yvar  ytot      1:3
+
+plot "Ge ISO-POPULATIONS"
+  xvar  iso       3
+  yvar  yisofrac  3  N0:N3:DN
+
+plot "Ge POPULATIONS"
+  xvar  level     3   0 10
+  yvar  yfrac     3  31 10
+
+plot "Ge POPULATIONS"
+  xvar  level     3   0 11
+  yvar  yfrac     3  31 11
+
+plot "Ge POPULATIONS"
+  xvar  level     3   0 12
+  yvar  yfrac     3  31 12
+
+plot "JNU vs ENERGY"
+  xvar  energy     0  0 0 0 TFAC
+  yvar  jnu        0 N0:N3:DN
+
+plot "JNU vs ENERGY"
+  xvar  energy     0  0 0 0 TFAC
+  yvar  bnu        0 N0:N3:DN
+
+plot "EMISSIVITY vs ENERGY"
+  xvar  sp_energy  0  0 0 0 TFAC
+  yvar  emis_sp    0  1
+  yvar  ebbi_sp    3  1 0 1:4
+  yvar  ebfi_sp    3  1 0 -1
+  yvar  ebfi_sp    1  1 0 -1
+  yvar  eff_sp     0  1
+
+plot "EMISSIVITY vs ENERGY"
+  xvar  sp_energy  0  0 0 0 TFAC
+  yvar  emis_sp    0 N0:N3:DN
+
+plot "ABSORPTIVITY vs ENERGY"
+  xvar  sp_energy  0  0 0 0 TFAC
+  yvar  kappa_sp   0 N0:N3:DN
+
+plot "JSPAREA vs ENERGY"
+send-to-dump
+  xvar  sp_energy  0  0 0 0 TFAC
+  yvar  jsparea    0 N0:N3:DN
+  yvar  jsparea    0 -1
+
+plot "ISP+ vs WAVELENGTH"
+rad-units ergs per-angstrom
+  xvar  sp_wvl     0  0 0 0 WFAC
+  yvar  isp+       0 N0:N3:DN 0 1
+
+plot "ISP+ vs ENERGY"
+  xvar  sp_energy  0  0 0 0 TFAC
+  yvar  isp+       0 N0:N3:DN 0 1
+
+plot "OPTICAL DEPTH vs ENERGY"
+send-to-dump
+  xvar  sp_energy  0  0 0 0 TFAC
+  yvar  tausp      0 N1
+  yvar  tausp      0 N2
+  yvar  tausp      0 N3
+
+Constructing hydrogenic atomic model for (z,a) =   1 , 1.0079E+00
+      2 iso-sequences
+     11 levels    
+   data type phxs     --       45 transitions
+   data type phot_ion --       10 transitions
+   data type colex2   --       45 transitions
+   data type samp_ion --       10 transitions
+
+Constructing hydrogenic atomic model for (z,a) =   6 , 1.2011E+01
+      7 iso-sequences
+    250 levels    
+   data type phxs     --     1671 transitions
+   data type phot_ion --      497 transitions
+   data type colex2   --     1671 transitions
+   data type samp_ion --      497 transitions
+   data type augxs    --      724 transitions
+   data type augis    --     9065 transitions      1338 statements
+
+Constructing hydrogenic atomic model for (z,a) =  32 , 7.2590E+01
+     21 iso-sequences
+    967 levels    
+   data type phxs     --    32730 transitions
+   data type phot_ion --     2580 transitions
+   data type colex2   --     5977 transitions
+   data type samp_ion --     2580 transitions
+   data type augxs    --     2788 transitions
+   data type augis    --    54689 transitions     10836 statements
+
+
+ Indexing information
+ --------------------
+
+
+
+ ------------------------------------------------------------
+
+
+  cycle #    0     time = 0.0000E+00     dtime =   0.000E+00
+    iteration       diffymax     diffjmax     difftmax
+          1   :    2.000E+00    0.000E+00    0.000E+00  :      23   3  11
+          2   :    2.404E-01    0.000E+00    0.000E+00  :      33   3  10
+          3   :    1.617E-02    0.000E+00    0.000E+00  :      33   3  10
+          4   :    2.895E-03    0.000E+00    0.000E+00  :      33   3  10
+
+  converged successfully after   4 iterations
+
+Writing restart dump thd.r00
+
+     cycle #    0     time = 0.0000E+00
+
+
+
+Memory allocated =    71.2  Mbytes
+ cpu =   15.0  seconds
+
+ Timing statistics                  cpu         %
+ -----------------                  ---        ---
+     Generation               :   1.70E-01     1.1
+     Initialization           :   4.67E+00    31.1
+     Kinetics                 :   4.44E+00    29.6
+     1-d continuum transfer   :   2.31E-01     1.5
+     Spectrum calculation     :   1.01E+01    67.4
+       Spectral opacities     :   9.75E+00    64.9
+     Edits                    :   2.94E-01     2.0
+
+
+ ****   Finishing execution -- Wed Sep 27 12:44:24 2023   ****
+

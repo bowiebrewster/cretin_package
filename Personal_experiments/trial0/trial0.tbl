@@ -1,0 +1,119 @@
+CRETIN : trial0.gen
+  
+ CRETIN - version v_02_19  (gfortran.openmp.dist)        
+          created on Mon Jul  1 17:47:21 PDT 2019        
+          by hascott                                     
+
+
+  ****   Starting execution -- Mon Oct 30 11:49:09 2023   ****
+
+
+
+
+ ------------------------------------------------------------
+
+     51 iso-sequences
+    215 levels    
+   data type phxs     --      301 transitions
+   data type phot_ion --      406 transitions
+   data type colex2   --      301 transitions
+   data type samp_ion --      406 transitions
+   data type augxs    --      126 transitions
+   data type augis    --     1518 transitions       343 statements
+
+
+ ------------------------------------------------------------
+
+
+c ------------------------------------------------------------
+c   Materials
+c ------------------------------------------------------------
+atoms hydrogenic_3 Sn
+
+region 1 41 30 30 30
+	element 1 100000000000000000000 False
+	rho 6.9
+	background 100000000000000000000 100000000000000000000 50 12 144
+
+c ------------------------------------------------------------
+c   Geometry
+c ------------------------------------------------------------
+
+geometry slab
+rlin 1 41 0 0.1
+
+c ------------------------------------------------------------
+c   Radiation
+c ------------------------------------------------------------
+
+ebins 121 1e-05 100000
+angles 3
+
+c ------------------------------------------------------------
+c   Sources
+c ------------------------------------------------------------
+
+
+
+
+c ------------------------------------------------------------
+c   Controls
+c ------------------------------------------------------------
+
+tstart 0.0
+tquit 3e-06
+
+restart
+
+dump all
+
+c ------------------------------------------------------------
+c   Switches and Parameters
+c ------------------------------------------------------------
+
+switch 30 5
+
+
+Constructing hydrogenic atomic model for (z,a) =  50 , 1.1869E+02
+     51 iso-sequences
+    215 levels    
+   data type phxs     --      301 transitions
+   data type phot_ion --      406 transitions
+   data type colex2   --      301 transitions
+   data type samp_ion --      406 transitions
+   data type augxs    --      126 transitions
+   data type augis    --     1502 transitions       340 statements
+
+
+ Indexing information
+ --------------------
+
+
+
+ ------------------------------------------------------------
+
+
+Writing restart dump trial0.r00
+
+     cycle #    0     time = 0.0000E+00
+
+
+Writing restart dump trial0.r01
+
+     cycle #   36     time = 4.3683E-06
+
+
+
+Memory allocated =     6.2  Mbytes
+ cpu =    2.0  seconds
+
+ Timing statistics                  cpu         %
+ -----------------                  ---        ---
+     Generation               :   8.08E-03     0.4
+     Initialization           :   5.00E-02     2.5
+     Kinetics                 :   2.00E+00    98.6
+     Edits                    :   5.92E-04     0.0
+
+
+ ****   Finishing execution -- Mon Oct 30 11:49:11 2023   ****
+

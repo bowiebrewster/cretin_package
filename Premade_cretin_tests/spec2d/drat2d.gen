@@ -1,0 +1,27 @@
+c ... these reference points must be outside the mesh
+
+alias RD1   0.
+alias ZD1   1.
+alias MU1   1.
+
+alias RD2   1.
+alias ZD2   0.
+alias MU2   0.
+
+alias RD3   1.
+alias ZD3   1.
+alias MU3   sqrt(1./2.)
+
+alias XMAX  0.003
+alias XMIN  -XMAX
+
+alias YMAX  0.002
+alias YMIN  -YMAX
+
+alias PHI0  PI / 2.
+
+drat  MU2 PHI0  RD2 ZD2 0.  XMIN XMAX YMIN YMAX   1  1 info 2
+
+c drat  MU1 0.    RD1 ZD1 0.  XMIN XMAX YMIN YMAX  21 21 info 2
+c drat  MU2 PHI0  RD2 ZD2 0.  XMIN XMAX YMIN YMAX  41 41 info 2
+c drat  MU3 PHI0  RD3 ZD3 0.  XMIN XMAX YMIN YMAX  21 21 info 3

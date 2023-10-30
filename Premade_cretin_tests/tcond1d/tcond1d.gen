@@ -1,0 +1,121 @@
+c            **** 1D conduction - thermal wave ****
+
+c This is a thermal wave produced by an instantaneous plane source;
+c it is a self similar problem discussed in Zel'dovich and Raiser,
+c "Physics of Shock Waves and High-Temperature Hydrodynamic
+c Phenomena", Vol. II, Chap. XI, Section 4, pate 663.
+
+
+c ------------------------------------------------------------
+c   Materials
+c ------------------------------------------------------------
+
+region  1  11  1000.
+  background  6.e23 6.e23 1. 1. 1.
+
+region 12 100  0.01
+  background  6.e23 6.e23 1. 1. 1.
+
+
+c ------------------------------------------------------------
+c   Geometry
+c ------------------------------------------------------------
+
+geometry slab
+
+rlin  1  10   0.00    0.01
+rlin 11  12   0.01    0.01001
+rlin 13 100   0.01002 0.20
+
+
+c ------------------------------------------------------------
+c   Controls
+c ------------------------------------------------------------
+
+tstart 0.
+tquit  1.0e-5
+
+restart
+
+
+c ------------------------------------------------------------
+c   Switches and Parameters
+c ------------------------------------------------------------
+
+switch  11  1                 ! make .plt file
+switch  16  3                 ! use fixed coulomb logarithm
+switch  29  2                 ! variable timesteps
+switch  30  100               ! timesteps between edits
+switch  31  1                 ! time-dependent temperatures
+switch  42  1                 ! zone-centered mesh
+switch  49  1                 ! turn on electron conduction
+switch  50  0                 ! no flux limiting
+switch  51  100               ! Spitzer Z-correction = 1.
+switch 151  0                 ! no degeneracy
+
+param 31 1.                   ! Coulomb logarithm
+param 38 1.                   ! minimum temperature for timestep control
+param 40 1.0e-6               ! time between edits
+param 41 1.0e-9               ! initial timestep
+param 44 1.0e-13              ! minimum timestep
+param 48 1.0e-6               ! e-i coupling multiplier
+param 64 1.0                  ! conduction multiplier
+
+
+c ------------------------------------------------------------
+c   Edits
+c ------------------------------------------------------------
+
+plot "TEV, TIV vs R"
+  xvar  r
+  yvar  tev
+  yvar  tiv
+
+plot "ECOND vs R"
+  xvar  r
+  yvar  econd
+  yvar  icond
+
+plot "TEV vs TIME"
+  xvar  time
+  yvar  tev   0  1:100:12
+
+plot "TIV vs TIME"
+  xvar  time
+  yvar  tiv   0  1:100:12
+
+plot "TOTAL ENERGY vs TIME"
+integrated
+  xvar  time
+  yvar  emat_e
+  yvar  emat_i
+  yvar  emat
+
+#ifdef DISPLAY
+
+display "TEV, TIV vs R"
+  xvar  r
+  yvar  tev
+  yvar  tiv
+
+display "ECOND vs R"
+  xvar  r
+  yvar  econd
+  yvar  icond
+
+display "TEV vs TIME" loglin
+  xvar  time
+  yvar  tev   0  1:100:12
+
+display "TIV vs TIME" loglin
+  xvar  time
+  yvar  tev   0  1:100:12
+
+display "TOTAL ENERGY vs TIME" loglin
+integrated
+  xvar  time
+  yvar  emat_e
+  yvar  emat_i
+  yvar  emat
+
+#endif

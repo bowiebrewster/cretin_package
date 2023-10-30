@@ -1,0 +1,230 @@
+CRETIN : join3.gen
+  
+ CRETIN - version v_02_19  (gfortran.openmp.dist)        
+          created on Mon Jul  1 17:47:21 PDT 2019        
+          by hascott                                     
+
+
+  ****   Starting execution -- Wed Sep 27 12:42:56 2023   ****
+
+
+
+
+ ------------------------------------------------------------
+
+    alias  N0            evaluated to   1.00000E+00
+    alias  N1            evaluated to   2.10000E+01
+    alias  N2            evaluated to   4.10000E+01
+    alias  DN            evaluated to   2.00000E+01
+    alias  R0            evaluated to   0.00000E+00  -  "0.00"
+    alias  R1            evaluated to   5.00000E+04
+    alias  R2            evaluated to   1.00000E+05
+    alias  DR            evaluated to   5.00000E+04
+    alias  DRMIN         evaluated to   1.00000E-04
+    alias  DE            evaluated to   2.00000E+03
+    alias  NBINS         evaluated to   5.00000E+01
+    alias  Te            evaluated to   2.71000E+02
+    alias  Ni            evaluated to   1.00000E+20
+
+
+ ------------------------------------------------------------
+
+c              **** interacting line transfer ****
+
+c ------------------------------------------------------------
+c   Aliases
+c ------------------------------------------------------------
+
+alias N0     1
+alias N1    N0 + DN
+alias N2    N1 + DN
+
+alias DN    20
+
+alias R0    0.00
+alias R1    R0 + DR
+alias R2    R1 + DR
+
+alias DR    5.e4
+alias DRMIN 1.e-4
+
+alias DE    2000.
+alias NBINS 50
+
+alias Te    271.
+alias Ni    1.e20
+
+
+c ------------------------------------------------------------
+c   Materials
+c ------------------------------------------------------------
+
+atoms dl3lu1.dat ne
+
+region N0 N2  Te
+  element 1  Ni
+
+
+c ------------------------------------------------------------
+c   Geometry
+c ------------------------------------------------------------
+
+geometry slab
+
+rgeom  N0 N1  R0 R1  DRMIN +1
+rgeom  N1 N2  R1 R2  DRMIN -1
+
+
+c ------------------------------------------------------------
+c   Radiation
+c ------------------------------------------------------------
+
+ebins 11 50. 8.e4
+
+angles 5
+
+linedefault approximate
+
+line 1  1  1 1  1 3
+  lbins NBINS DE 1.20
+
+line 2  1  1 1  1 2
+  lbins NBINS DE 1.20
+
+line 3  1  1 2  1 3
+  lbins NBINS DE 1.20
+
+joinline  1 2 3
+
+
+c ------------------------------------------------------------
+c   Controls
+c ------------------------------------------------------------
+
+tstart 0.
+tquit  5.0e-09
+
+restart
+
+
+c ------------------------------------------------------------
+c   Switches and Parameters
+c ------------------------------------------------------------
+
+switch 11 1                   ! make .plt file
+switch 25 0                   ! steady-state
+switch 28 2                   ! no initialization
+switch 29 1                   ! use constant timesteps
+switch 30 10                  ! dump every n timesteps
+switch 35 1                   ! no bremsstrahlung
+switch 36 1                   ! do continuum transfer
+switch 37 1                   ! do line transfer
+switch 38 1                   ! use symmetric line profiles
+
+param  41 1.e-09              ! timestep
+
+
+c ------------------------------------------------------------
+c   Edits
+c ------------------------------------------------------------
+
+plot "JBAR (lines 1,2,3) vs R"
+  xvar r
+  yvar jbar     1:3
+
+plot "JLINE (line 1) vs EVLINE"
+  xvar evline   1
+  yvar jline    1 N0
+  yvar jline    1 N2
+  yvar jline    1 N1
+
+plot "JLINE (line 2) vs EVLINE"
+  xvar evline   2
+  yvar jline    2 N0
+  yvar jline    2 N2
+  yvar jline    2 N1
+
+plot "JLINE (line 3) vs EVLINE"
+  xvar evline   3
+  yvar jline    3 N0
+  yvar jline    3 N2
+  yvar jline    3 N1
+
+plot "TAULINE (lines 1,2,3) vs EVLINE"
+  xvar evline   1
+  yvar tauline  1:3
+
+plot "JBAR (line 1) vs TIME"
+  xvar time
+  yvar jbar     1 N0
+  yvar jbar     1 N1
+  yvar jbar     1 N2
+
+plot "JBAR (line 2) vs TIME"
+  xvar time
+  yvar jbar     2 N0
+  yvar jbar     2 N1
+  yvar jbar     2 N2
+
+plot "JBAR (line 3) vs TIME"
+  xvar time
+  yvar jbar     3 N0
+  yvar jbar     3 N1
+  yvar jbar     3 N2
+
+plot "LINEITER vs TIME"
+  xvar time
+  yvar lineiter 1:3
+
+#ifdef DISPLAY
+
+display "JBAR (lines 1,2,3) vs R"
+  xvar r
+  yvar jbar     1:3
+
+#endif
+
+Reading atomic model dl3lu1.dat
+       1 iso-sequences
+       3 levels    
+   data type phxs     --        3 transitions
+   data type coes     --        2 transitions
+
+
+ Indexing information
+ --------------------
+
+ line      1 :  continuum bin    6
+ line      2 :  continuum bin    5
+ line      3 :  continuum bin    4
+
+
+ ------------------------------------------------------------
+
+
+Writing restart dump join3.r00
+
+     cycle #    0     time = 0.0000E+00
+
+
+Writing restart dump join3.r01
+
+     cycle #    5     time = 5.0000E-09
+
+
+
+Memory allocated =     5.0  Mbytes
+ cpu =    0.1  seconds
+
+ Timing statistics                  cpu         %
+ -----------------                  ---        ---
+     Generation               :   7.43E-03     5.5
+     Initialization           :   5.82E-04     0.4
+     Kinetics                 :   3.26E-03     2.4
+     1-d continuum transfer   :   2.11E-03     1.6
+     1-d line transfer        :   1.10E-01    80.9
+     Edits                    :   1.11E-02     8.2
+
+
+ ****   Finishing execution -- Wed Sep 27 12:42:56 2023   ****
+

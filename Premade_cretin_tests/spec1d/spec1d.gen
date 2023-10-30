@@ -1,0 +1,358 @@
+c    **** 1D Argon sphere                                ****
+c    ****    line transfer, spectrum, continuum-lowering ****
+
+c ------------------------------------------------------------
+c   Aliases
+c ------------------------------------------------------------
+
+alias  N    21
+alias DN    10
+
+alias Te    1000.
+alias Ni    6.e22
+
+alias R     0.005
+alias DR    0.01 * R
+
+c ... node numbers for edits
+
+alias ir1   1
+alias ir2  11
+alias ir3  21
+
+
+c ------------------------------------------------------------
+c   Materials
+c ------------------------------------------------------------
+
+atoms hydrogenic(0:5) ar
+  modeltype fly
+
+region  1 N  Te
+  element 1 Ni
+
+
+c ------------------------------------------------------------
+c   Geometry
+c ------------------------------------------------------------
+
+geometry sphere
+
+rgeom  1 N  0. R  DR -1
+
+
+c ------------------------------------------------------------
+c   Radiation
+c ------------------------------------------------------------
+
+angles 4
+
+ebins 61  1. 1.e4
+
+spectrum 40     5.  1000.  1.
+spectrum 20  1000.  2800.  1.
+spectrum 40  2800.  4200.  1.
+spectrum 20  4200. 10000.  1.
+
+spectral-group 10 1000. 2800.
+spectral-group 20 2800. 4200.
+spectral-group 30 4200. 5000.
+
+alias ISP1  60
+alias ISP2 100
+
+
+linedefault approximate
+
+line 1 1 1 1 1 2
+  lbins 15 50.0 1.1
+
+line 2 1 1 1 1 3
+  lbins 15 50.0 1.1
+
+
+c ------------------------------------------------------------
+c   Controls
+c ------------------------------------------------------------
+
+tstart 0.
+tquit  4.0e-10
+
+restart
+
+sdump
+
+
+c ------------------------------------------------------------
+c   Switches and Parameters
+c ------------------------------------------------------------
+
+switch 11  1          ! make .plt file
+switch 23  0          ! use isotropic scattering
+switch 29  2          ! use variable timesteps
+switch 30  1          ! dump every n timesteps
+switch 33  4          ! use generalized escape factors
+switch 36  0          ! no continuum transfer
+switch 37  1          ! do line transfer
+switch 38  1          ! symmetric line profiles
+switch 52 -1          ! do Stark broadening for everything
+switch 55  1          ! do continuum lowering
+switch 72  1          ! do spectral calculation every n timesteps
+switch 73  1          ! do spectral dump every n timesteps
+
+param  41  1.0e-10    ! initial timestep
+param  44  1.0e-10    ! minimum timestep
+param  45  1.0e-8     ! maximum timestep
+param  46  1.5        ! maximum timestep fractional increase
+param  61  1.e-4      ! frac. population for inclusion of iso-sequence
+param  78  1.e4       ! # of Lorentz widths in spectra
+
+
+c ------------------------------------------------------------
+c   Edits
+c ------------------------------------------------------------
+
+dump all history
+
+plot "ISO POPULATIONS vs R"
+  xvar  r
+  yvar  yiso      1 0 0:5
+
+plot "H-, He-like POPULATIONS vs R"
+  xvar  r
+  yvar  y         1 0 1 1:4
+  yvar  y         1 0 2 1:4
+
+plot "TAULINE vs EVLINE"
+  xvar  evline    1
+  yvar  tauline   1
+  yvar  tauline   2
+
+plot "LKAP vs EVLINE"
+  xvar  evline    1
+  yvar  lkap      1 1
+  yvar  lkap      2 1
+
+plot "LKAP vs R"
+  xvar  r
+  yvar  lkap      1 0 -1
+  yvar  lkap      2 0 -1
+
+plot "UVOIGT vs R"
+  xvar  r
+  yvar  uvoigt    1
+  yvar  uvoigt    2
+
+plot "NRB vs R"
+  xvar  r
+  yvar  nrb       1
+  yvar  nrb       2
+
+plot "JBAR vs R"
+  xvar  r
+  yvar  jbar      1
+  yvar  jbar      2
+
+plot "JLINE vs R"
+  xvar  r
+  yvar  jline     1 0 -1
+
+plot "JLINE vs EVLINE"
+  xvar  evline    1
+  yvar  jline     1 1:N:DN
+
+plot "JLINE vs R"
+  xvar  r
+  yvar  jline     2 0 -1
+
+plot "JLINE vs EVLINE"
+  xvar  evline    2
+  yvar  jline     2 1:N:DN
+
+plot "NE, TEV, TIV, VEL, ZBAR, RHO vs R"
+  xvar  r
+  yvar  ne
+  yvar  tev
+  yvar  tiv
+  yvar  vel
+  yvar  zbar
+  yvar  rho
+
+plot "CONTINUUM ABSORPTION, etc. vs ENERGY"
+  xvar  energy
+  yvar  ckap      0 ir1
+  yvar  cemis     0 ir1
+  yvar  csrc      0 ir1
+
+plot "OPTICAL DEPTH vs ENERGY"
+  xvar  energy
+  yvar  taukap
+
+plot "OPTICAL DEPTH vs WAVELENGTH"
+  xvar  wvl
+  yvar  taukap
+
+plot "OPTICAL DEPTH vs ENERGY"
+  xvar  sp_energy
+  yvar  tausp
+
+plot "OPTICAL DEPTH vs WAVELENGTH"
+  xvar  sp_wvl
+  yvar  tausp
+
+plot "FORWARD OPTICAL DEPTH vs NODE"
+  xvar  n
+  yvar  tausp     0  0 -1
+  yvar  tausp     0  0 -2
+
+plot "BACKWARD OPTICAL DEPTH vs NODE"
+  xvar  -n
+  yvar  tausp     0  0 -1
+  yvar  tausp     0  0 -2
+
+plot "SPECTRAL ABSORPTION vs ENERGY"
+  xvar  sp_energy
+  yvar  kappa_sp  0 ir1
+  yvar  kbb_sp    0 ir1
+  yvar  kbf_sp    0 ir1
+  yvar  kbti_sp   1 ir1 0 -1
+  yvar  kbti_sp   1 ir1 0 1:5
+
+plot "SPECTRAL ABSORPTION vs ENERGY"
+  xvar  sp_energy
+  yvar  kff_sp    0 ir1
+  yvar  kffi_sp   1 ir1 0 0:5
+
+plot "SPECTRAL EMISSION vs ENERGY"
+  xvar  sp_energy
+  yvar  emis_sp   0 ir1
+  yvar  ebb_sp    0 ir1
+  yvar  ebf_sp    0 ir1
+  yvar  ebti_sp   1 ir1 0 -1:5
+
+plot "SPECTRAL EMISSION vs ENERGY"
+  xvar  sp_energy
+  yvar  eff_sp    0 ir1
+  yvar  effi_sp   1 ir1 0 -1:5
+
+plot "SPECTRAL SOURCE FUNCTION vs ENERGY"
+  xvar  sp_energy
+  yvar  src_sp    0 ir1
+
+plot "SPECTRUM vs R"
+  xvar  r
+  yvar  jsp       0 0 -1
+  yvar  jsp       0 0 -2
+  yvar  jsp       0 0 ISP1
+  yvar  jsp       0 0 ISP2
+
+plot "SPECTRUM vs R"
+sp-integrated
+  xvar  r
+  yvar  ispp
+
+plot "SPECTRUM vs R"
+  xvar  r
+  yvar  ispp      0 0 -1
+  yvar  ispp      0 0 -2
+
+plot "SPECTRUM vs ENERGY"
+  xvar  sp_energy
+  yvar  jsp       0 ir1
+  yvar  jsp       0 ir2
+  yvar  jsp       0 ir3
+
+plot "SPECTRUM vs ENERGY"
+  xvar  sp_energy
+  yvar  jsparea   0 N
+
+plot "SPECTRUM vs ENERGY"
+  xvar  sp_energy 10
+  yvar  jsparea   10 N
+
+plot "SPECTRUM vs ENERGY"
+  xvar  sp_energy 20
+  yvar  jsparea   20 N
+
+plot "SPECTRUM vs ENERGY"
+  xvar  sp_energy 30
+  yvar  jsparea   30 N
+
+plot "SPECTRUM vs FREQUENCY"
+  xvar  sp_freq   20
+  yvar  jsparea   20 N
+
+plot "TIME-INTEGRATED SPECTRUM vs FREQUENCY"
+time-integrated snapshot
+  xvar  sp_freq
+  yvar  jsparea   0 N
+
+c
+c -- time edits --
+c
+
+plot "RHO, NE, TEV, TIV, NI vs TIME"
+  xvar  time
+  yvar  rho       0 1
+  yvar  ne        0 1
+  yvar  tev       0 1
+  yvar  tiv       0 1
+  yvar  ni        0 1
+
+plot "TAULINE vs TIME"
+  xvar  time
+  yvar  tauline   1 0 -1
+  yvar  tauline   2 0 -1
+
+plot "ISO POPULATIONS vs TIME"
+  xvar  time
+  yvar  yiso      1 1 0:5
+
+plot "JBAR vs TIME"
+  xvar  time
+  yvar  jbar      1 1:N:DN
+
+plot "JBAR vs TIME"
+  xvar  time
+  yvar  jbar      2 1:N:DN
+
+plot "TOTAL EMITTED ENERGY vs TIME"
+sp-integrated
+  xvar  time
+  yvar  jsparea   20 N
+
+plot "INTEGRATED INTENSITY vs TIME"
+sp-integrated
+  xvar  time
+  yvar  ispp      20 1
+
+plot "INTEGRATED ENERGY vs TIME"
+time-integrated
+sp-integrated
+  xvar  time
+  yvar  jsparea   0 N
+
+#ifdef DISPLAY
+
+display "JBAR vs R"
+  xvar  r
+  yvar  jbar      1
+  yvar  jbar      2
+
+display "JLINE vs EVLINE"
+  xvar  evline    1
+  yvar  jline     1 1:N:DN
+
+display "JLINE vs EVLINE"
+  xvar  evline    2
+  yvar  jline     2 1:N:DN
+
+display "OPTICAL DEPTH vs ENERGY" linlog
+  xvar  sp_energy
+  yvar  tausp
+
+display "SPECTRUM vs ENERGY"
+  xvar  sp_energy
+  yvar  jsparea    0 N
+
+#endif

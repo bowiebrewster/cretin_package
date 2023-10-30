@@ -1,0 +1,29 @@
+CRETIN : eos.r00
+  
+ CRETIN - version v_02_19  (ifort)                       
+          created on Wed Jun 26 14:57:48 PDT 2019        
+          by hascott                                     
+
+
+  ****   Starting execution -- Wed Jun 26 22:13:57 2019   ****
+
+
+
+  converged successfully after   0 iterations
+
+  converged successfully after   0 iterations
+
+
+Memory allocated =     9.9  Mbytes
+ cpu =    0.0  seconds       total cpu =    5.3  seconds
+
+ Timing statistics                  cpu       total cpu      %
+ -----------------                  ---       ---------     ---
+     Generation               :   0.00E+00     2.19E-02     0.4
+     Initialization           :   0.00E+00     5.16E+00    98.2
+     Kinetics                 :   0.00E+00     5.15E+00    98.1
+     Edits                    :   2.18E-02     7.99E-02     1.5
+
+
+ ****   Finishing execution -- Wed Jun 26 22:13:57 2019   ****
+

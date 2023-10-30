@@ -1,0 +1,222 @@
+c             **** 1D Lyman alpha line transfer ****
+
+c ------------------------------------------------------------
+c   Aliases
+c ------------------------------------------------------------
+
+alias N0      1
+alias N1     13
+alias N2     25
+
+alias  N     N2
+alias DN     N- / 2
+
+alias EMIN   10.
+alias EMAX   11.
+
+alias DE     3.e-3
+alias NBINS  25
+
+alias Te     1.
+alias Ni     2.e16
+alias VEL    5.e6
+
+
+c ------------------------------------------------------------
+c   Materials
+c ------------------------------------------------------------
+
+atoms hlyman.dat h
+atoms hlyman.dat h
+atoms hlyman.dat h
+
+region 1 N  Te
+  element 1 Ni
+  element 2 Ni
+  element 3 Ni
+
+
+c ------------------------------------------------------------
+c   Geometry
+c ------------------------------------------------------------
+
+geometry slab
+
+rgeom N0 N1 0.70 0.80 1.e-4 +1
+rgeom N1 N2 0.80 0.90 1.e-4 -1
+
+velocity  1 N  VEL
+
+scale velocity 1 N 0. 1. 0.8 0.1 1.
+
+
+c ------------------------------------------------------------
+c   Sources and Boundary Conditions
+c ------------------------------------------------------------
+
+source jbndry 1 0 EMAX value constant 1.e-5 1.
+
+boundary radiation streaming 0.707 0. N xfile 1 1.
+
+
+c ------------------------------------------------------------
+c   Radiation
+c ------------------------------------------------------------
+
+ebins 11  EMIN EMAX 1.
+
+angles 7
+
+line 1 1 1 1 1 2
+  lbins NBINS DE 1.02
+
+line 2 2 1 1 1 2
+  linetype doppler
+  lbins NBINS DE 1.02
+
+line 3 3 1 1 1 2
+  linetype approximate doppler
+  lbins NBINS DE 1.02
+
+
+c ------------------------------------------------------------
+c   Controls
+c ------------------------------------------------------------
+
+tstart 0.
+tquit  1.0e-03
+
+restart
+
+
+c ------------------------------------------------------------
+c   Switches and Parameters
+c ------------------------------------------------------------
+
+switch 11 1                   ! make .plt file
+switch 28 1                   ! steady-state initialization
+switch 29 1                   ! use constant timesteps
+switch 30 10                  ! dump every n timesteps
+switch 37 1                   ! do line transfer
+switch 38 1                   ! symmetric line profiles
+switch 55 0                   ! no continuum lowering
+
+param  41 2.e-04              ! timestep
+
+
+c ------------------------------------------------------------
+c   Edits
+c ------------------------------------------------------------
+
+editray 3 0.707 0 0
+
+transition 1 3 1 1 1 2
+
+plot "VEL vs R"
+  xvar  r
+  yvar  vel
+
+plot "JBAR vs R"
+  xvar  r
+  yvar  jbar     1:3
+
+plot "JLINE, JLINE0 vs R"
+  xvar  r
+  yvar  jline   1:3 0 -1
+  yvar  jline0   3  0 -1
+
+plot "JLINE (line 1) vs EVLINE"
+  xvar  evline   1
+  yvar  jline    1 1:N:DN
+
+plot "JLINE (line 2) vs EVLINE"
+  xvar  evline   2
+  yvar  jline    2 1:N:DN
+
+plot "JLINE (line 3) vs EVLINE"
+  xvar  evline   3
+  yvar  jline    3 1:N:DN
+
+plot "JLINE0 (line 3) vs EVLINE"
+  xvar  evline   3
+  yvar  jline0   3 1:N:DN
+
+plot "LKAP vs EVLINE"
+  xvar  evline   3
+  yvar  lkap     3 N0 0
+  yvar  lkap+    3 N0 0 3
+  yvar  lkap-    3 N0 0 3
+
+plot "LKAP vs R"
+  xvar  r
+  yvar  lkap     3 0 -1
+  yvar  lkap+    3 0 -1 3
+  yvar  lkap-    3 0 -1 3
+
+plot "TAU vs EVLINE"
+  xvar  evline   3
+  yvar  tauline  3 0 0
+  yvar  tauline+ 3 0 0 3
+  yvar  tauline- 3 0 0 3
+
+plot "TAU vs R"
+  xvar  r
+  yvar  tauline  3 0 -1
+  yvar  tauline+ 3 0 -1 3
+  yvar  tauline- 3 0 -1 3
+
+plot "JBAR(line 1) vs TIME"
+  xvar  time
+  yvar  jbar     1 1:N:DN
+
+plot "JBAR(line 2) vs TIME"
+  xvar  time
+  yvar  jbar     2 1:N:DN
+
+plot "JBAR(line 3) vs TIME"
+  xvar  time
+  yvar  jbar     3 1:N:DN
+
+plot "TAU vs TIME"
+  xvar  time
+  yvar  tauline  3 0 -1
+  yvar  tauline+ 3 0 -1 3
+  yvar  tauline- 3 0 -1 3
+
+plot "LINEITER vs TIME"
+  xvar  time
+  yvar  lineiter 3
+
+plot "ACOEFF vs TIME"
+  xvar  time
+  yvar  acoeff   1 N1
+
+plot "AVOIGT0 vs TIME"
+  xvar  time
+  yvar  avoigt0  1 N1
+
+plot "UVOIGT0 vs TIME"
+  xvar  time
+  yvar  uvoigt0  1 N1
+
+#ifdef DISPLAY
+
+display "JBAR vs R"
+  xvar  r
+  yvar  jbar    1:3
+
+display "JLINE (line 3) vs EVLINE"
+  xvar  evline   3
+  yvar  jline    3 1:N:DN
+
+display "TAU vs EVLINE"
+  xvar  evline   3
+  yvar  tauline  3 0 0
+  yvar  tauline+ 3 0 0 3
+  yvar  tauline- 3 0 0 3
+
+display "JBAR(line 3) vs TIME"
+  xvar  time
+  yvar  jbar     3 1:N:DN
+
+#endif

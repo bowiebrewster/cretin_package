@@ -1,0 +1,211 @@
+c        **** 0-d kinetics / temperature evolution ****
+
+c ------------------------------------------------------------
+c   Aliases
+c ------------------------------------------------------------
+
+alias  Te    1000.            ! initial temperature
+
+alias  N_fe  1.e20            ! Fe number density
+alias  N_c   3.e21            ! C  number density
+
+alias  Z_FE  26
+alias  Z_C   6
+
+#ifdef HDF
+switch 147 -1
+switch 153 33
+switch 172 2
+#endif
+
+
+c ------------------------------------------------------------
+c   Materials
+c ------------------------------------------------------------
+
+atoms iz=Z_FE dnl26h1.dat fe
+atoms iz=Z_C  dnl06ha.dat  c
+
+region  1 1  Te
+  element  Z_FE  N_fe
+  element  Z_C   N_c
+
+
+c ------------------------------------------------------------
+c   Radiation
+c ------------------------------------------------------------
+
+ebins 41 1.0 1.e5             ! differs from xfile ebins
+
+
+c ------------------------------------------------------------
+c   Sources
+c ------------------------------------------------------------
+
+xfile x0dty.dat
+
+xmult 1 pbins 0.1             ! multiply intensities from xfile
+
+
+c ------------------------------------------------------------
+c   Controls
+c ------------------------------------------------------------
+
+tstart 0.
+tquit  1.0e-8
+
+restart
+
+
+c ------------------------------------------------------------
+c   Switches and Parameters
+c ------------------------------------------------------------
+
+switch 11  1                  ! make .plt file
+switch 25  1                  ! time-dependent
+switch 28  0                  ! do LTE initialization
+switch 29  1                  ! use fixed timesteps
+switch 30 10                  ! dump every n timesteps
+switch 31  1                  ! do temperature calculation
+switch 44  3                  ! maximum # of iterations
+
+param  41  1.e-10             ! timestep
+param  48  0.1                ! electron-ion coupling multiplier
+param  61  1.e-4              ! iso-sequence population threshold
+
+
+c ------------------------------------------------------------
+c   Edits
+c ------------------------------------------------------------
+
+plot "Y1FRAC vs ISO (IRON)"
+  xvar  iso      Z_FE
+  yvar  y1frac   Z_FE 1
+
+plot "TEV, TIV vs TIME"
+  xvar  time
+  yvar  tev      0 1
+  yvar  tiv      0 1
+
+plot "NE vs TIME"
+  xvar  time
+  yvar  ne       0 1
+
+plot "COULOG vs TIME"
+  xvar  time
+  yvar  coulog   0 1
+  yvar  couloge  0 1
+  yvar  coulogi  0 1
+
+plot "TAUEI vs TIME"
+  xvar  time
+  yvar  tauei    0 1
+  yvar  tauee    0 1
+  yvar  tauii    0 1
+
+plot "Y1FRAC (IRON) vs TIME"
+  xvar  time
+  yvar  y1frac  Z_FE 1 10:0:-1
+
+plot "ISOMIN, ISOMAX (CARBON) vs TIME"
+  xvar  time
+  yvar  isomin   Z_C 1
+  yvar  isomax   Z_C 1
+
+plot "ISOMIN, ISOMAX (IRON) vs TIME"
+  xvar  time
+  yvar  isomin   Z_FE 1
+  yvar  isomax   Z_FE 1
+
+plot "HEATC, COOLC vs TIME"
+  xvar  time
+  yvar  heatc    Z_FE 1
+  yvar  coolc    Z_FE 1
+  yvar  heatct   Z_FE 1
+
+plot "HEATP, COOLP vs TIME"
+  xvar  time
+  yvar  heatp    Z_FE 1
+  yvar  coolp    Z_FE 1
+  yvar  heatpt   Z_FE 1
+
+plot "HEATA, COOLA vs TIME"
+  xvar  time
+  yvar  heata    Z_FE 1
+  yvar  coola    Z_FE 1
+  yvar  heatat   Z_FE 1
+
+plot "HEATB, COOLB vs TIME"
+  xvar  time
+  yvar  heatb    0 1
+  yvar  coolb    0 1
+  yvar  heatbt   0 1
+
+plot "HEATJ, COOLJ vs TIME"
+  xvar  time
+  yvar  heatj    0 1
+  yvar  coolj    0 1
+  yvar  heatjt   0 1
+
+plot "HEATE, COOLE vs TIME"
+  xvar  time
+  yvar  heate    Z_FE 1
+  yvar  coole    Z_FE 1
+  yvar  heatet   Z_FE 1
+
+c plot "HEATCHK vs TIME"
+c  xvar  time
+c  yvar  heatchk   0 1
+
+plot "DHEATx vs TIME"
+  xvar  time
+  yvar  dhtcdt   Z_FE 1
+  yvar  dhtpdt   Z_FE 1
+  yvar  dhtadt   Z_FE 1
+  yvar  dhtbdt   0 1
+  yvar  dhtedt   Z_FE 1
+  yvar  dhtjdt   0 1
+
+c plot "DHTCHKDT vs TIME"
+c  xvar  time
+c  yvar  dhtchkdt  0 1
+
+plot "EINT vs TIME"
+  xvar  time
+  yvar  eint     Z_C  1
+  yvar  eint     Z_FE 1
+
+plot "DEINTDT vs TIME"
+  xvar  time
+  yvar  deintdt  Z_C  1
+  yvar  deintdt  Z_FE 1
+
+c plot "EIGENV_R (CARBON) vs TIME"
+c  xvar  time
+c  yvar  eigenv_r   Z_C  1 0 1:5
+
+c plot "EIGENV_R (IRON) vs TIME"
+c  xvar  time
+c  yvar  eigenv_r   Z_FE 1 0 1:5
+
+plot "NTRY vs TIME"
+  xvar  time
+  yvar  ntry
+
+c plot "DIFFT vs TIME"
+c  xvar  time
+c  yvar  diffte    0 1
+c  yvar  diffti    0 1
+
+c plot "DIFFY1 (IRON) vs TIME"
+c  xvar  time
+c  yvar  diffy1    Z_FE 1 10:0:-1
+
+#ifdef DISPLAY
+
+display "TEV, TIV vs TIME"
+  xvar  time
+  yvar  tev      0 1
+  yvar  tiv      0 1
+
+#endif
