@@ -1,62 +1,30 @@
 # this cute little tool for manaing all the paths
 import os 
 
+
+def to_path(paths:list, name:str):
+    for path in paths:
+        if not path.endswith('/'):
+            path += '/'
+
+        if os.path.exists(path):
+            return path
+        
+    raise Exception(f'none of the paths provided in {name} exist in this system')
+
+
 def to_personal_data():
-    #add the path to your personal folder here, this is where by defualt all you generator files will be written too and the correspoding plots will be send to 
-    path_test = '/home/brewster/Desktop/cretin_package-master/Personal_experiments/'
-
-    if os.path.exists(path_test): 
-        path = path_test 
-
-    else:
-        raise Exception("add your path to the 'to_personal_data' in paths.py")
-    
-    if not path.endswith('/'):
-        path += '/'
-
-    return path
+    paths = ['/home/brewster/Desktop/cretin_package-master/Personal_experiments/']
+    return to_path(paths, 'to_personal_data')
 
 def to_folder_cretin():
-    #add the path to the folder where this file is located. 
-    path_test = '/home/brewster/Desktop/cretin_package-master/'
-
-    if os.path.exists(path_test): 
-        path = path_test 
-
-    else:
-        raise Exception("add your path to the 'to_folder_cretin' in paths.py")
-    
-    if not path.endswith('/'):
-        path += '/'
-
-    return path
-
+    paths = ['/home/brewster/Desktop/cretin_package-master/']
+    return to_path(paths, 'to_folder_cretin')
 
 def to_previous_experiments():
-    #add the path to your test folder here, the "test" folder contains the premade generator files and will contain 
-    # the output of the simulation (ie log files and plots)
-    path_test = '/home/brewster/Desktop/cretin_package-master/Premade_cretin_tests/'
-
-    if os.path.exists(path_test): 
-        path = path_test 
-
-    else:
-        raise Exception("add your path to the 'to_previous_experiments' in paths.py")
-
-    if not path.endswith('/'):
-        path += '/'
-
-    return path
+    paths = ['/home/brewster/Desktop/cretin_package-master/Premade_cretin_tests/']
+    return to_path(paths, 'to_previous_experiments')
 
 def to_cretin_ex():
-
-    #there is where the backend cretin is located that will do our simulations  
-    path_cretin_ex = f"{os.environ['HOME']}/Desktop/cretin.v2_19_test/bin"
-
-    if os.path.exists(path_cretin_ex): 
-        path = path_cretin_ex 
-
-    else:
-        raise Exception("add your path to the 'to_cretin_ex' in paths.py")
-
-    return path
+    paths = [f"{os.environ['HOME']}/Desktop/cretin.v2_19_test/bin"]
+    return to_path(paths, 'to_cretin_ex')

@@ -1,0 +1,145 @@
+CRETIN : checking_lasfoam4.gen
+  
+ CRETIN - version v_02_19  (gfortran.openmp.dist)        
+          created on Mon Jul  1 17:47:21 PDT 2019        
+          by hascott                                     
+
+
+  ****   Starting execution -- Mon Oct 30 11:49:01 2023   ****
+
+
+
+
+ ------------------------------------------------------------
+
+      2 iso-sequences
+      4 levels    
+   data type phxs     --        3 transitions
+   data type phot_ion --        3 transitions
+   data type colex2   --        3 transitions
+   data type samp_ion --        3 transitions
+      7 iso-sequences
+     33 levels    
+   data type phxs     --       46 transitions
+   data type phot_ion --       57 transitions
+   data type colex2   --       46 transitions
+   data type samp_ion --       57 transitions
+   data type augxs    --       31 transitions
+
+
+ ------------------------------------------------------------
+
+
+c ------------------------------------------------------------
+c   Materials
+c ------------------------------------------------------------
+atoms hydrogenic_3 h
+atoms hydrogenic_3 c
+
+region 1 21 2.0 2.0 2.0
+	element 1 1.0 False
+	element 2 1.0 False
+	rho 0.003
+
+c ------------------------------------------------------------
+c   Geometry
+c ------------------------------------------------------------
+
+geometry slab
+rlin 1 21 0 0.1
+
+c ------------------------------------------------------------
+c   Radiation
+c ------------------------------------------------------------
+
+ebins 61 0.1 100000
+angles 3
+
+c ------------------------------------------------------------
+c   Sources
+c ------------------------------------------------------------
+source jbndry 1 4.68 4.684679999999999 rate history 1 8.836896401710208e-13
+
+boundary radiation streaming 1 0 21 xfile 1 1
+history 1 1.591549430918953e+20 2e-09
+	tv 0.0 1
+	tv 1.0 1.0
+	tv 1.0 0.0
+rswitch 20 1
+rswitch 1 -2
+
+c ------------------------------------------------------------
+c   Controls
+c ------------------------------------------------------------
+
+tstart 0.0
+tquit 3e-09
+
+restart
+
+dump all
+
+c ------------------------------------------------------------
+c   Switches and Parameters
+c ------------------------------------------------------------
+
+switch 100 1
+param 5 0
+param 41 1e-13
+param 44 1e-14
+param 45 1e-10
+param 40 1e-09
+
+
+Constructing hydrogenic atomic model for (z,a) =   1 , 1.0079E+00
+      2 iso-sequences
+      4 levels    
+   data type phxs     --        3 transitions
+   data type phot_ion --        3 transitions
+   data type colex2   --        3 transitions
+   data type samp_ion --        3 transitions
+
+Constructing hydrogenic atomic model for (z,a) =   6 , 1.2011E+01
+      7 iso-sequences
+     33 levels    
+   data type phxs     --       46 transitions
+   data type phot_ion --       57 transitions
+   data type colex2   --       46 transitions
+   data type samp_ion --       57 transitions
+   data type augxs    --       31 transitions
+
+
+ Indexing information
+ --------------------
+
+ source   1 :  continuum bins   18 -   18
+
+
+ ------------------------------------------------------------
+
+
+Writing restart dump checking_lasfoam4.r00
+
+     cycle #    0     time = 0.0000E+00
+
+
+Writing restart dump checking_lasfoam4.r01
+
+     cycle #  257     time = 3.0217E-09
+
+
+
+Memory allocated =     3.8  Mbytes
+ cpu =    4.1  seconds
+
+ Timing statistics                  cpu         %
+ -----------------                  ---        ---
+     Generation               :   6.79E-03     0.2
+     Initialization           :   1.01E-02     0.2
+     Kinetics                 :   3.73E+00    90.0
+     Radiation transport      :   3.86E-01     9.3
+     Edits                    :   2.88E-03     0.1
+
+
+ ****   Finishing execution -- Mon Oct 30 11:49:05 2023   ****
+

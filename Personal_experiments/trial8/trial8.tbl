@@ -1,0 +1,182 @@
+CRETIN : trial8.gen
+  
+ CRETIN - version v_02_19  (gfortran.openmp.dist)        
+          created on Mon Jul  1 17:47:21 PDT 2019        
+          by hascott                                     
+
+
+  ****   Starting execution -- Mon Oct 30 11:50:32 2023   ****
+
+
+
+
+ ------------------------------------------------------------
+
+     51 iso-sequences
+    215 levels    
+   data type phxs     --      301 transitions
+   data type phot_ion --      406 transitions
+   data type colex2   --      301 transitions
+   data type samp_ion --      406 transitions
+   data type augxs    --      126 transitions
+   data type augis    --     1518 transitions       343 statements
+
+
+ ------------------------------------------------------------
+
+
+c ------------------------------------------------------------
+c   Materials
+c ------------------------------------------------------------
+atoms hydrogenic_3 sn
+
+region 1 21 30.0 30.0 30.0
+	element 1 1.0 False
+	rho 0.002
+
+c ------------------------------------------------------------
+c   Geometry
+c ------------------------------------------------------------
+
+geometry slab
+rlin 1 21 0 0.1
+
+c ------------------------------------------------------------
+c   Radiation
+c ------------------------------------------------------------
+
+ebins 101 0.1 100
+angles 3
+
+c ------------------------------------------------------------
+c   Sources
+c ------------------------------------------------------------
+source laser 4x rate history 1 1 1 21
+
+
+history 1 7.639437268410976e+18 2e-09
+	tv 0.0 1
+	tv 1.0 1.0
+	tv 1.0 0.0
+
+c ------------------------------------------------------------
+c   Controls
+c ------------------------------------------------------------
+
+tstart 0.0
+tquit 3e-09
+
+restart
+
+dump all
+
+c ------------------------------------------------------------
+c   Switches and Parameters
+c ------------------------------------------------------------
+
+switch 31 1
+switch 44 20
+param 5 0
+param 41 1e-13
+param 44 1e-14
+param 45 1e-09
+param 40 1e-09
+
+c ------------------------------------------------------------
+c   Edits
+c ------------------------------------------------------------
+
+plot "plotter"
+	xvar time
+	yvar tiv
+plot "plotter"
+	xvar time
+	yvar tiv
+plot "plotter1"
+	xvar time
+	yvar tev
+plot "plotter1"
+	xvar time
+	yvar tev
+plot "plotter2"
+	xvar time
+	yvar rho
+plot "plotter2"
+	xvar time
+	yvar rho
+plot "plotter3"
+	xvar time
+	yvar tev
+plot "plotter3"
+	xvar time
+	yvar tev
+plot "plotter4"
+	xvar time
+	yvar tautot
+plot "plotter4"
+	xvar time
+	yvar tautot
+plot "plotter5"
+	xvar time
+	yvar zbar
+plot "plotter5"
+	xvar time
+	yvar zbar
+plot "plotter6"
+	xvar time
+	yvar nion
+plot "plotter6"
+	xvar time
+	yvar nion
+plot "plotter7"
+	xvar time
+	yvar ne
+plot "plotter7"
+	xvar time
+	yvar ne
+
+Constructing hydrogenic atomic model for (z,a) =  50 , 1.1869E+02
+     51 iso-sequences
+    215 levels    
+   data type phxs     --      301 transitions
+   data type phot_ion --      406 transitions
+   data type colex2   --      301 transitions
+   data type samp_ion --      406 transitions
+   data type augxs    --      126 transitions
+   data type augis    --     1502 transitions       340 statements
+
+
+ Indexing information
+ --------------------
+
+ source   1 :  continuum bins   57 -   57
+
+
+ ------------------------------------------------------------
+
+
+Writing restart dump trial8.r00
+
+     cycle #    0     time = 0.0000E+00
+
+
+Writing restart dump trial8.r01
+
+     cycle #   51     time = 3.1537E-09
+
+
+
+Memory allocated =     6.8  Mbytes
+ cpu =    2.2  seconds
+
+ Timing statistics                  cpu         %
+ -----------------                  ---        ---
+     Generation               :   8.77E-03     0.4
+     Initialization           :   1.82E-02     0.8
+     Kinetics                 :   2.17E+00    98.0
+     Temperature              :   1.54E-03     0.1
+     Edits                    :   1.80E-02     0.8
+
+
+ ****   Finishing execution -- Mon Oct 30 11:50:34 2023   ****
+

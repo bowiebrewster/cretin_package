@@ -5,7 +5,7 @@ CRETIN : trial0.gen
           by hascott                                     
 
 
-  ****   Starting execution -- Wed Oct 25 15:41:10 2023   ****
+  ****   Starting execution -- Mon Oct 30 11:49:09 2023   ****
 
 
 
@@ -52,7 +52,7 @@ angles 3
 c ------------------------------------------------------------
 c   Sources
 c ------------------------------------------------------------
-source laser 1x rate history 1 1 1 41source jnu 4 1.3 rate history 1 1 1 3source jbndry 1 4 1 rate history 1 1 1 1
+
 
 
 
@@ -61,7 +61,7 @@ c   Controls
 c ------------------------------------------------------------
 
 tstart 0.0
-tquit 3e-07
+tquit 3e-06
 
 restart
 
@@ -71,8 +71,7 @@ c ------------------------------------------------------------
 c   Switches and Parameters
 c ------------------------------------------------------------
 
-switch 36 2
-switch 30 3
+switch 30 5
 
 
 Constructing hydrogenic atomic model for (z,a) =  50 , 1.1869E+02
@@ -89,7 +88,6 @@ Constructing hydrogenic atomic model for (z,a) =  50 , 1.1869E+02
  Indexing information
  --------------------
 
- source   1 :  continuum bins   62 -   62
 
 
  ------------------------------------------------------------
@@ -102,21 +100,20 @@ Writing restart dump trial0.r00
 
 Writing restart dump trial0.r01
 
-     cycle #   30     time = 3.8350E-07
+     cycle #   36     time = 4.3683E-06
 
 
 
-Memory allocated =     6.9  Mbytes
- cpu =    2.5  seconds
+Memory allocated =     6.2  Mbytes
+ cpu =    2.0  seconds
 
  Timing statistics                  cpu         %
  -----------------                  ---        ---
-     Generation               :   9.16E-03     0.4
-     Initialization           :   6.49E-02     2.6
-     Kinetics                 :   2.23E+00    89.5
-     1-d continuum transfer   :   2.31E-01     9.3
-     Edits                    :   7.56E-04     0.0
+     Generation               :   8.08E-03     0.4
+     Initialization           :   5.00E-02     2.5
+     Kinetics                 :   2.00E+00    98.6
+     Edits                    :   5.92E-04     0.0
 
 
- ****   Finishing execution -- Wed Oct 25 15:41:13 2023   ****
+ ****   Finishing execution -- Mon Oct 30 11:49:11 2023   ****
 
