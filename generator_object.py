@@ -179,7 +179,7 @@ class User_input():
 
 
     def sources_history(self, id: int, value_multiplier : float = None, time_multiplier : float = None, pulse_type : str = None, p1 : float = None, p2 : float = None):
-        string_input_requirement(pulse_type, ['gaussian'])
+
         if (not recursive_search(self.sources, 'history')) and (not recursive_search(self.lasers, 'history')):
             raise Exception('history command must bec attached to some earlier history input inside f.e source laser command')
         data = [id, value_multiplier, time_multiplier, pulse_type,p1, p2]
