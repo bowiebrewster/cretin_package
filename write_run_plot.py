@@ -217,7 +217,7 @@ def plot2d(path:str, masterkey:str, longprint:bool, plot_duplicates : bool, arr)
         if key in naming_dict.keys():
             masterkey = naming_dict[key] + index    
         plt.title(masterkey)
-        plt.savefig(f'{path}/{masterkey}.png')
+        plt.savefig(f'{path}/{masterkey}.png', dpi=800)
         plt.clf()
         plt.close()
 
