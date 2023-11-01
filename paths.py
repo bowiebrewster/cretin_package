@@ -2,7 +2,11 @@
 import os 
 
 
-def to_path(paths:list, name:str):
+def to_path(paths:list, name:str, override: bool = False):
+    print(override)
+    if override:
+        return paths[0]
+    
     for path in paths:
         if not path.endswith('/'):
             path += '/'
@@ -30,5 +34,4 @@ def to_cretin_ex():
     return to_path(paths, 'to_cretin_ex')
 
 def to_animation():
-    paths = ['/home/brewster/Desktop/ffmpeg-6.0-amd64-static/ffmpeg']
-    return to_path(paths, 'to_animation')
+    return '/home/brewster/Desktop/ffmpeg-6.0-amd64-static/ffmpeg'

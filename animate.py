@@ -1,16 +1,15 @@
 # This file is for turning many plots into an animation. Inspired by seeing 50 time slices from serial sim tools.
 # the data from the plots should be 2*N (X vector and Y vector) *M (Time slices)
 
-import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-import paths
 import numpy as np
+import os, h5py, glob, shutil, matplotlib, paths
 
 matplotlib.rcParams['animation.ffmpeg_path'] = paths.to_animation()
 
 
-def call(data, path:str, name:str):
+def ex(data, path:str, name:str):
     if type(data) != type(np.array([])):
         raise Exception('data type must be nump array')
 
@@ -40,7 +39,30 @@ def call(data, path:str, name:str):
 
 
 
+# rewriting plot from serial sim tools
 
+
+def plot(name : str, plot_duplicates : bool):
+    # finding d file
+    path_test = paths.to_personal_data()
+    os.chdir(path_test + '/' + name)
+    file_list = glob.glob('*.d*')
+
+    if len(file_list) == 0:
+        raise Exception(f'{name} file list does not contain dump file but does contain {os.listdir()}')
+    fullpath = f'{path_test}/{name}/{file_list[0]}'
+
+    with h5py.File(fullpath, 'r') as f:
+        # managing directories
+        path = path_test + name + '/images'
+        if os.path.exists(path):
+            shutil.rmtree(path) 
+        os.mkdir(path)
+        print(f.keys())
+        for key in f.keys():
+            arr = np.array(f[key])
+
+            
 
 
 # testing functionality

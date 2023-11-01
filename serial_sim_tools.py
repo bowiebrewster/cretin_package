@@ -83,7 +83,7 @@ def plot(name : str, plot_duplicates : bool):
         if os.path.exists(path):
             shutil.rmtree(path) 
         os.mkdir(path)
-            
+        print(f.keys())
         for key in f.keys():
             arr = np.array(f[key])
 
@@ -97,7 +97,7 @@ def plot(name : str, plot_duplicates : bool):
                 plot2d(key, plot_duplicates, arr)
 
             else:
-                print(f'strange array with shape {arr.shape} has not been plot')
+                print(f'array with shape {arr.shape} has not been plot')
 
 def plot2d(masterkey:str,  plot_duplicates : bool, arr):
     save_bool = True 
