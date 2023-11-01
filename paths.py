@@ -28,3 +28,7 @@ def to_previous_experiments():
 def to_cretin_ex():
     paths = [f"{os.environ['HOME']}/Desktop/cretin.v2_19_test/bin"]
     return to_path(paths, 'to_cretin_ex')
+
+def to_animation():
+    paths = ['/home/brewster/Desktop/ffmpeg-6.0-amd64-static/ffmpeg']
+    return to_path(paths, 'to_animation')
