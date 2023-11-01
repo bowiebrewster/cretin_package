@@ -83,7 +83,6 @@ def plot(name : str, plot_duplicates : bool):
         if os.path.exists(path):
             shutil.rmtree(path) 
         os.mkdir(path)
-        print(f.keys())
         for key in f.keys():
             arr = np.array(f[key])
 

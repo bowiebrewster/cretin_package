@@ -3,7 +3,6 @@ import os
 
 
 def to_path(paths:list, name:str, override: bool = False):
-    print(override)
     if override:
         return paths[0]
     
