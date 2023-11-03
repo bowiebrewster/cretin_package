@@ -127,9 +127,10 @@ def plot3d(masterkey : str,  plot_duplicates : bool, arr):
         if save_bool or plot_duplicates:
             arrays3d[masterkey] = arr
 
-def all(path: str, key: str, trials:list):
+def all(path: str, key: str, trials:list, dpi :int = 300):
     legend = []
     has_plot = False
+
     for trial in trials:
         trial_dict = all_trials_dict[trial][0]
         if key in trial_dict.keys():
@@ -151,15 +152,23 @@ def all(path: str, key: str, trials:list):
         pass
 
     if key in naming_dict.keys():
-        key = naming_dict[key]+index
+        key = naming_dict[key]+ pad_single_digit_with_zero(index)
 
         plt.legend(legend, fontsize = '8')
 
     if has_plot:
         plt.title(key)
-        plt.savefig(f'{path}/{key}.png')
+        plt.savefig(f'{path}/{key}.png', dpi = dpi)
     plt.clf()
     plt.close()
+
+
+def pad_single_digit_with_zero(input_string):
+    if len(input_string) == 1 and input_string.isdigit():
+        return input_string.zfill(2)
+    else:
+        return input_string
+
 
 # checking diffrence between dicionaries
 def compare_run(name1 : str, name2 : str, longprint : bool = False):
@@ -247,7 +256,7 @@ def xaxis_delimitter(lst):
     return start, end
 
 # for plotting .plt files created by cretin
-def plt_files(path: str, trials : list):
+def plt_files(path: str, trials : list, dpi :int = 300):
     all_extract_dict  = {}
     for trial in trials:
 
@@ -281,6 +290,6 @@ def plt_files(path: str, trials : list):
             plt.title(title)
             plt.xlabel(xlabel)  
             plt.ylabel(ylable)  
-            plt.savefig(goto)
+            plt.savefig(goto, dpi = dpi)
             plt.clf()
             plt.close()

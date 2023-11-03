@@ -54,11 +54,14 @@ def plot(name : str, plot_duplicates : bool):
 
     with h5py.File(fullpath, 'r') as f:
         # managing directories
-        path = path_test + name + '/images'
+        path = path_test + name + '/video'
         if os.path.exists(path):
             shutil.rmtree(path) 
         os.mkdir(path)
-        print(f.keys())
+        
+
+        keys = [key for key in f.keys() if name in key]
+
         for key in f.keys():
             arr = np.array(f[key])
 
