@@ -13,7 +13,7 @@ git add write_run_plot.py
 git add demo.sh
 git add gits.sh
 git add README.txt
-
+git add TODO.txt
 
 git commit -m 'pushed via gits.sh'
 git push origin master 

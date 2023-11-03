@@ -36,7 +36,7 @@ def savedict(path : str):
 
 all_trials_dict = {}
 
-def plot_all(foldername : str, trials : list):
+def plot_all(foldername : str, trials : list, dpi:int = 300):
     for trial in trials:
         global arrays2d, arrays3d
         arrays2d, arrays3d = {}, {}
@@ -59,13 +59,13 @@ def plot_all(foldername : str, trials : list):
 
     if len(keys2d) >0:
         for key in set_2d:
-            all(path, key, trials)
+            all(path, key, trials, dpi = dpi)
 
     if len(keys3d) >0:
         for key in set_3d:
-            all(path, key, trials)
+            all(path, key, trials, dpi = dpi)
 
-    plt_files(path, trials)
+    plt_files(path, trials, dpi = dpi)
 
 def plot(name : str, plot_duplicates : bool):
     # finding d file

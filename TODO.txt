@@ -1,0 +1,3 @@
+rewrite plt_file.restructure
+finish animation.py
+analyse q start + consider associated temporal shift + normalise x axis 
