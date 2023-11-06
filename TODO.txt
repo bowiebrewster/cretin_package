@@ -1,3 +1,4 @@
-rewrite plt_file.restructure
-finish animation.py
-analyse q start + consider associated temporal shift + normalise x axis 
+can cretin plot radiative flux
+Normalize with respect to Ta etc 
+locate abaltion front 
+in general data closer to mathematica
