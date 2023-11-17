@@ -231,166 +231,182 @@ class User_input():
     def controls_history_tv(self, time : float, value : float):
         self.tv.append([time, value])
 
-    def popular_switches(self, include_degeneracy : str = None, timestep_type : str = None, continuum_transfer : str = None,
-                          continuum_transfer_evolves_temp : bool = False, timestep_between_snapshot : int = None, 
-                          kinematics : str = None, initialization_control : str = None, continuum_lowering_control  : str = None,
-                          raytrace : bool = None, temparture_calc_heating_rates : list = None, max_iterations_per_timestep : float = None):
-        
-        # using the gather_data.ipynb file i've searched for the most common switches 
-        if include_degeneracy == None:
-            string0 = None
-        else:
-            include_degeneracy_dict = {'no degeneracy':0,'include electron degeneracy': 0.5, 'ignore additional correction for ionizations': -0.5, 'integrate collisional ionizations numerically': 1.5, 'integrate collisional excitations numerically': 2.5}
-
-            string_input_requirement(include_degeneracy, include_degeneracy_dict.keys())
-            string0 = f'switch 151 {str(include_degeneracy_dict[include_degeneracy])}'
-
-        if timestep_type == None:
-            string1 = None
-        else:
-            time_step_dict = {'use constant timesteps' : -1, 'use_dynamic_timesteps' : 1}
-            string_input_requirement(timestep_type, time_step_dict.keys())   
-            string1 = f'switch 29 {str(time_step_dict[timestep_type])}'
-
-        if continuum_transfer == None:
-            string2 = None
-        else:
-            continuum_transfer_dict = {'do steady-state continuum transfer': .5, 'do time-dependent continuum transfer':-.5, 'do steady-state and use Feautrier formalism': 1, 'do steady-state and use integral formalism formalism':2}
-            string_input_requirement(continuum_transfer, continuum_transfer_dict.keys())   
-            string2 = f'switch 36 {str(continuum_transfer_dict[continuum_transfer])}'
-
-        string3 =  'switch 100 1' if continuum_transfer_evolves_temp == True else None
-        string4 = None if timestep_between_snapshot == None else f'switch 30 {str(timestep_between_snapshot)}'
-
-        if kinematics == None:
-            string5 = None
-        else:
-            kinematics_dict = {'steady-state kinetics': 0, 'time-dependent kinetics':.5, 'use approx. LTE and QSS distributions to choose LTE or NLTE': 1.5, 'calculate approx. LTE and QSS distribution': -1, 'no kinetics':-1.5}
-            string_input_requirement(kinematics, kinematics_dict.keys())   
-            string5 = f'switch 25  {str(kinematics_dict[kinematics])}'
-
-        if initialization_control == None:
-            string6 = None
-        else:
-            initialization_control_dict = {'LTE at fixed electron density':-1,' LTE at fixed ion density':0,'steady-state w/ radiation transfer':1,
-                                           'steady-state kinetics w/o radiation transfer':2,': no kinetics, broadcast boundary radiation':3, 'none':4}
-            string_input_requirement(initialization_control, initialization_control_dict.keys())
-            string6 = f'switch 28 {str(initialization_control_dict[initialization_control])}' if initialization_control != None else None
-        
-        if continuum_lowering_control == None:
-            string7 = None
-        else:
-            continuum_lowering_control_dict = {'approximate accounting for missing Rydberg levels':-1,' no continuum lowering':0,'Stewart-Pyatt with formula for degeneracy lowering':1,
-                                      'Stewart-Pyatt with microfield degeneracy lowering':2,'microfield degeneracy lowering w/o continuum lowering':3,
-                                      'SP/EK w/o degeneracy lowering':5,' use maximum of SP/EK and approximate accounting':10}
-
-            string7 = f'switch 55 {str(continuum_lowering_control_dict[continuum_lowering_control])}' if continuum_lowering_control != None else None
-
-        if continuum_lowering_control == None:
-            string7 = None
-        else:
-            continuum_lowering_control_dict = {'approximate accounting for missing Rydberg levels':-1,' no continuum lowering':0,'Stewart-Pyatt with formula for degeneracy lowering':1,
-                                      'Stewart-Pyatt with microfield degeneracy lowering':2,'microfield degeneracy lowering w/o continuum lowering':3,
-                                      'SP/EK w/o degeneracy lowering':5,' use maximum of SP/EK and approximate accounting':10}
-
-            string7 = f'switch 55 {str(continuum_lowering_control_dict[continuum_lowering_control])}' if continuum_lowering_control != None else None
-        
-        if raytrace == None or raytrace == False:
-            string8 = None
-        else:
-            string8 = 'switch 45 1'
-
-        if temparture_calc_heating_rates == None:
-            string9 = None
-        else:
-            temp1, heat1 = temparture_calc_heating_rates[0], temparture_calc_heating_rates[1]
-            temp_calc_dict = {'temp calc = none' : 0,'temp calc = time dependant' : 1,' temp calc = steady state' : -1}
-
-            heating_type_dict = {'heating rates = electronic' : 1,' heating rate uses internal energy rates':2,
-                              'heating rate uses interal energy deltas':3}
-            
-            string_input_requirement(temp1, temp_calc_dict.keys())
-            string_input_requirement(heat1, heating_type_dict.keys())
-
-            sol = temp_calc_dict[temp1]*heating_type_dict[heat1]
-            string9 = f'switch 31 {sol}'
-
-
-        if max_iterations_per_timestep == None:
-            string10 = None
-        else:
-            string10 = f'switch 44 {max_iterations_per_timestep}'
-            
-        self.pop_switches = [value for key, value in locals().items() if 'string' in key]
-
-
-    def other_switches(self, population_calculation: str  = None, subcycle_maximum : int = None, do_kinetics_zone_centerd : bool = None, 
-                       resonant_absrption_fraction: str = None, control_calc_thermal_conduct: str = None):
-        #switches   2,3,10,49,47
-
-        pop_cal_dict = {'assuming steady state diffusion': 0, 'time dependent diffusion': 1}
-        string0 = switch_format(population_calculation, pop_cal_dict, 2)
-
-        if subcycle_maximum == None:
-            string1 = None
-        else:
-            string1 = f'switch 3 {subcycle_maximum}' 
-
-
-        if do_kinetics_zone_centerd == None:
-            string2 = f'switch 10 0' 
-        else:
-            string2 = f'switch 10 1' 
-
-        resonant_absrption_fraction_dict = {'constant value for each ray from lasray': 0, 
-                                            'Ginzburg formula': 1,
-                                            'Ginzburg formula + smooth resonant absorption over neighboring zones':-1,
-                                            'tabulated values': .5,
-                                            'tabulated values + smooth resonant absorption over neighboring zones':-.5}
-        string3 = switch_format(resonant_absrption_fraction, resonant_absrption_fraction_dict, 47)
-        thermal_conduction_dict = {
-            'no thermal conduction': 0,
-            'include thermal conduction': 1,
-            'use iccg': 2,
-            'use ilur': 3,
-            'use gmres with diagonal preconditioning': 4,
-            'use gmres with iccg preconditioning': 5,
-            'use gmres with ilur preconditioning': 6,
-            'use gmres with no preconditioning': 7
+    def popular_switches(
+    self,
+    include_degeneracy=None,
+    timestep_type=None,
+    continuum_transfer=None,
+    continuum_transfer_evolves_temp=False,
+    timestep_between_snapshot=None,
+    kinematics=None,
+    initialization_control=None,
+    continuum_lowering_control=None,
+    raytrace=None,
+    temparture_calc_heating_rates=None,
+    max_iterations_per_timestep=None
+):
+        switch_mappings = {
+            "include_degeneracy": {
+                "no degeneracy": 0,
+                "include electron degeneracy": 0.5,
+                "ignore additional correction for ionizations": -0.5,
+                "integrate collisional ionizations numerically": 1.5,
+                "integrate collisional excitations numerically": 2.5,
+            },
+            "timestep_type": {"use constant timesteps": -1, "use_dynamic_timesteps": 1},
+            "continuum_transfer": {
+                "do steady-state continuum transfer": 0.5,
+                "do time-dependent continuum transfer": -0.5,
+                "do steady-state and use Feautrier formalism": 1,
+                "do steady-state and use integral formalism formalism": 2,
+            },
+            "kinematics": {
+                "steady-state kinetics": 0,
+                "time-dependent kinetics": 0.5,
+                "use approx. LTE and QSS distributions to choose LTE or NLTE": 1.5,
+                "calculate approx. LTE and QSS distribution": -1,
+                "no kinetics": -1.5,
+            },
+            "initialization_control": {
+                "LTE at fixed electron density": -1,
+                "LTE at fixed ion density": 0,
+                "steady-state w/ radiation transfer": 1,
+                "steady-state kinetics w/o radiation transfer": 2,
+                "no kinetics, broadcast boundary radiation": 3,
+                "none": 4,
+            },
+            "continuum_lowering_control": {
+                "approximate accounting for missing Rydberg levels": -1,
+                "no continuum lowering": 0,
+                "Stewart-Pyatt with formula for degeneracy lowering": 1,
+                "Stewart-Pyatt with microfield degeneracy lowering": 2,
+                "microfield degeneracy lowering w/o continuum lowering": 3,
+                "SP/EK w/o degeneracy lowering": 5,
+                "use maximum of SP/EK and approximate accounting": 10,
+            },
         }
-        string4 = switch_format(control_calc_thermal_conduct, thermal_conduction_dict, 49)
 
-        self.ot_switches = [value for key, value in locals().items() if 'string' in key]
-
-
-    def parameters(self, scattering_muliplier : float = None, initial_timestep : float = None, minimum_timestep : float = None, maximum_timestep : float = None, time_between_snapshots : float = None):
-        if scattering_muliplier == None:
-            string1 = None
-        else:
-            string1 = f'param 5 {scattering_muliplier}'
-
-        if initial_timestep == None:
-            string2 = None
-        else:
-            string2 = f'param 41 {initial_timestep}'
-
-        if minimum_timestep == None:
-            string3 = None
-        else:
-            string3 = f'param 44 {minimum_timestep}'
-
-        if maximum_timestep == None:
-            string4 = None
-        else:
-            string4 = f'param 45 {maximum_timestep}'
-
-        if time_between_snapshots == None:
-            string5 = None
-        else:
-            string5 = f'param 40 {time_between_snapshots}'               
+        switch_strings = []
         
-            
-        self.pop_parameters = [value for key, value in locals().items() if 'string' in key]
+        for arg_name, arg_value in locals().items():
+            if arg_name in switch_mappings and arg_value is not None:
+                switch_value = switch_mappings[arg_name].get(arg_value, None)
+                if switch_value is not None:
+                    switch_strings.append(f"switch {switch_value} {arg_name}")
+        
+        if continuum_transfer_evolves_temp:
+            switch_strings.append("switch 100 1")
+        
+        if timestep_between_snapshot is not None:
+            switch_strings.append(f"switch 30 {timestep_between_snapshot}")
+
+        if raytrace:
+            switch_strings.append("switch 45 1")
+
+        if temparture_calc_heating_rates is not None:
+            temp1, heat1 = temparture_calc_heating_rates
+            temp_calc_dict = {"temp calc = none": 0, "temp calc = time dependant": 1, "temp calc = steady state": -1}
+            heating_type_dict = {
+                "heating rates = electronic": 1,
+                "heating rate uses internal energy rates": 2,
+                "heating rate uses interal energy deltas": 3,
+            }
+            temp_calc_value = temp_calc_dict.get(temp1, None)
+            heat_value = heating_type_dict.get(heat1, None)
+            if temp_calc_value is not None and heat_value is not None:
+                switch_strings.append(f"switch 31 {temp_calc_value * heat_value}")
+
+        if max_iterations_per_timestep is not None:
+            switch_strings.append(f"switch 44 {max_iterations_per_timestep}")
+
+        self.pop_switches = switch_strings
+
+
+    def other_switches(
+        self,
+        population_calculation=None,
+        subcycle_maximum=None,
+        do_kinetics_zone_centered=None,
+        resonant_absorption_fraction=None,
+        control_calc_thermal_conduct=None,
+        population_control=None
+    ):
+        
+        switch_mappings = {
+            "population_calculation": {
+                "assuming steady state diffusion": 0,
+                "time dependent diffusion": 1,
+            },
+            "resonant_absorption_fraction": {
+                "constant value for each ray from lasray": 0,
+                "Ginzburg formula": 1,
+                "Ginzburg formula + smooth resonant absorption over neighboring zones": -1,
+                "tabulated values": 0.5,
+                "tabulated values + smooth resonant absorption over neighboring zones": -0.5,
+            },
+            "control_calc_thermal_conduct": {
+                "no thermal conduction": 0,
+                "include thermal conduction": 1,
+                "use iccg": 2,
+                "use ilur": 3,
+                "use gmres with diagonal preconditioning": 4,
+                "use gmres with iccg preconditioning": 5,
+                "use gmres with ilur preconditioning": 6,
+                "use gmres with no preconditioning": 7,
+            },
+            "population_control": {
+                "Calculate LTE populations": 0,
+                "Calculate NLTE populations (fixed electron density)": -1,
+                "Calculate NLTE populations (fixed ion densities)": 1,
+                "Calculate NLTE populations using rate matrices (intensities from continuum transfer)": 1,
+                "Calculate NLTE populations using rate matrices (intensities from xfile)": 1,
+                "Calculate NLTE populations using rate matrices (zero intensities)": 1,
+                "Calculate NLTE populations using Planckian intensities (Te with multiplier)": 2,
+                "Calculate NLTE populations using Planckian intensities (Tr with multiplier)": 3,
+            },
+        }
+
+        switch_strings = []
+
+        for arg_name, arg_value in locals().items():
+            if arg_name in switch_mappings and arg_value is not None:
+                switch_value = switch_mappings[arg_name].get(arg_value, None)
+                if switch_value is not None:
+                    switch_strings.append(f"switch {switch_value} {arg_name}")
+
+        if subcycle_maximum is not None:
+            switch_strings.append(f"switch 3 {subcycle_maximum}")
+
+        if do_kinetics_zone_centered is not None:
+            switch_strings.append(f"switch 10 {int(do_kinetics_zone_centered)}")
+
+        self.ot_switches = switch_strings
+
+    def parameters(
+        self,
+        scattering_multiplier=None,
+        initial_timestep=None,
+        minimum_timestep=None,
+        maximum_timestep=None,
+        time_between_snapshots=None
+    ):
+            param_mappings = {
+                "scattering_multiplier": ("param 5", scattering_multiplier),
+                "initial_timestep": ("param 41", initial_timestep),
+                "minimum_timestep": ("param 44", minimum_timestep),
+                "maximum_timestep": ("param 45", maximum_timestep),
+                "time_between_snapshots": ("param 40", time_between_snapshots),
+            }
+
+            param_strings = []
+
+            for arg_name, (param_name, arg_value) in param_mappings.items():
+                if arg_value is not None:
+                    param_strings.append(f"{param_name} {arg_value}")
+
+            self.pop_parameters = param_strings
+           
+
 
     def add_plot(self, name:str, xvar:str, yvar:str, element_or_transition:str = None, node: int = None,
                   frequency_or_isosequence : str = None, direction_or_level: str = None, multiplier : float = None):
@@ -465,10 +481,3 @@ def recursive_search(item, target):
         return True
     return False
 
-def switch_format(entry, dict, switch_nr):
-    if entry == None:
-        return None
-    else:
-        string_input_requirement(entry, dict.keys())
-        return f'switch {switch_nr} {dict[entry]}'
-                

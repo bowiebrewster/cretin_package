@@ -2,3 +2,4 @@ can cretin plot radiative flux
 Normalize with respect to Ta etc 
 locate abaltion front 
 in general data closer to mathematica
+Inverse brehmstrallung??
