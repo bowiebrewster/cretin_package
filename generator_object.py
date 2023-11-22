@@ -165,7 +165,7 @@ class User_input():
         
         self.sources.append(['jnu', E_range, option_1, option_2, values, nodes])
 
-    def sources_laser(self, index, laser_wavelength : float, option_1 : str, option_2, multiplier : float, id_value:float ,polarization_fraction: float = None):
+    def sources_laser(self, index, laser_wavelength : float, option_1 : str, option_2:str, multiplier : float, id_value:float ,polarization_fraction: float = None):
         string_input_requirement(option_1, ['value', 'rate', 'integral', 'initial'])
         string_input_requirement(option_2, ['xfile', 'history', 'profile', 'svlist','constant'])
         self.lasray_lis = []
@@ -243,56 +243,52 @@ class User_input():
     continuum_lowering_control=None,
     raytrace=None,
     temparture_calc_heating_rates=None,
-    max_iterations_per_timestep=None
-):
+    max_iterations_per_timestep=None):
+        
         switch_mappings = {
-            "include_degeneracy": {
-                "no degeneracy": 0,
-                "include electron degeneracy": 0.5,
-                "ignore additional correction for ionizations": -0.5,
-                "integrate collisional ionizations numerically": 1.5,
-                "integrate collisional excitations numerically": 2.5,
-            },
-            "timestep_type": {"use constant timesteps": -1, "use_dynamic_timesteps": 1},
-            "continuum_transfer": {
-                "do steady-state continuum transfer": 0.5,
-                "do time-dependent continuum transfer": -0.5,
-                "do steady-state and use Feautrier formalism": 1,
-                "do steady-state and use integral formalism formalism": 2,
-            },
-            "kinematics": {
-                "steady-state kinetics": 0,
-                "time-dependent kinetics": 0.5,
-                "use approx. LTE and QSS distributions to choose LTE or NLTE": 1.5,
-                "calculate approx. LTE and QSS distribution": -1,
-                "no kinetics": -1.5,
-            },
-            "initialization_control": {
-                "LTE at fixed electron density": -1,
-                "LTE at fixed ion density": 0,
-                "steady-state w/ radiation transfer": 1,
-                "steady-state kinetics w/o radiation transfer": 2,
-                "no kinetics, broadcast boundary radiation": 3,
-                "none": 4,
-            },
-            "continuum_lowering_control": {
-                "approximate accounting for missing Rydberg levels": -1,
-                "no continuum lowering": 0,
-                "Stewart-Pyatt with formula for degeneracy lowering": 1,
-                "Stewart-Pyatt with microfield degeneracy lowering": 2,
-                "microfield degeneracy lowering w/o continuum lowering": 3,
-                "SP/EK w/o degeneracy lowering": 5,
-                "use maximum of SP/EK and approximate accounting": 10,
-            },
+        (151, "include_degeneracy"): {
+            "no degeneracy": 0,
+            "include electron degeneracy": 0.5,
+            "ignore additional correction for ionizations": -0.5,
+            "integrate collisional ionizations numerically": 1.5,
+            "integrate collisional excitations numerically": 2.5,
+        },
+        (29, "timestep_type"): {
+            "use constant timesteps": -1,
+            "use_dynamic_timesteps": 1,
+        },
+        (36, "continuum_transfer"): {
+            "do steady-state continuum transfer": 0.5,
+            "do time-dependent continuum transfer": -0.5,
+            "do steady-state and use Feautrier formalism": 1,
+            "do steady-state and use integral formalism formalism": 2,
+        },
+        (25, "kinematics"): {
+            "steady-state kinetics": 0,
+            "time-dependent kinetics": 0.5,
+            "use approx. LTE and QSS distributions to choose LTE or NLTE": 1.5,
+            "calculate approx. LTE and QSS distribution": -1,
+            "no kinetics": -1.5,
+        },
+        (28, "initialization_control"): {
+            "LTE at fixed electron density": -1,
+            "LTE at fixed ion density": 0,
+            "steady-state w/ radiation transfer": 1,
+            "steady-state kinetics w/o radiation transfer": 2,
+            "no kinetics, broadcast boundary radiation": 3,
+            "none": 4,
+        },
+        (55, "continuum_lowering_control"): {
+            "approximate accounting for missing Rydberg levels": -1,
+            "no continuum lowering": 0,
+            "Stewart-Pyatt with formula for degeneracy lowering": 1,
+            "Stewart-Pyatt with microfield degeneracy lowering": 2,
+            "microfield degeneracy lowering w/o continuum lowering": 3,
+            "SP/EK w/o degeneracy lowering": 5,
+            "use maximum of SP/EK and approximate accounting": 10,}
         }
 
-        switch_strings = []
-        
-        for arg_name, arg_value in locals().items():
-            if arg_name in switch_mappings and arg_value is not None:
-                switch_value = switch_mappings[arg_name].get(arg_value, None)
-                if switch_value is not None:
-                    switch_strings.append(f"switch {switch_value} {arg_name}")
+        switch_strings = switch_loop(switch_mappings, locals())
         
         if continuum_transfer_evolves_temp:
             switch_strings.append("switch 100 1")
@@ -329,22 +325,21 @@ class User_input():
         do_kinetics_zone_centered=None,
         resonant_absorption_fraction=None,
         control_calc_thermal_conduct=None,
-        population_control=None
-    ):
+        population_control=None):
         
         switch_mappings = {
-            "population_calculation": {
+            (2,"population_calculation"): {
                 "assuming steady state diffusion": 0,
                 "time dependent diffusion": 1,
             },
-            "resonant_absorption_fraction": {
+            (47,"resonant_absorption_fraction"): {
                 "constant value for each ray from lasray": 0,
                 "Ginzburg formula": 1,
                 "Ginzburg formula + smooth resonant absorption over neighboring zones": -1,
                 "tabulated values": 0.5,
                 "tabulated values + smooth resonant absorption over neighboring zones": -0.5,
             },
-            "control_calc_thermal_conduct": {
+            (49,"control_calc_thermal_conduct"): {
                 "no thermal conduction": 0,
                 "include thermal conduction": 1,
                 "use iccg": 2,
@@ -354,7 +349,7 @@ class User_input():
                 "use gmres with ilur preconditioning": 6,
                 "use gmres with no preconditioning": 7,
             },
-            "population_control": {
+            (20,"population_control"): {
                 "Calculate LTE populations": 0,
                 "Calculate NLTE populations (fixed electron density)": -1,
                 "Calculate NLTE populations (fixed ion densities)": 1,
@@ -366,13 +361,7 @@ class User_input():
             },
         }
 
-        switch_strings = []
-
-        for arg_name, arg_value in locals().items():
-            if arg_name in switch_mappings and arg_value is not None:
-                switch_value = switch_mappings[arg_name].get(arg_value, None)
-                if switch_value is not None:
-                    switch_strings.append(f"switch {switch_value} {arg_name}")
+        switch_strings = switch_loop(switch_mappings, locals())
 
         if subcycle_maximum is not None:
             switch_strings.append(f"switch 3 {subcycle_maximum}")
@@ -431,6 +420,17 @@ class User_input():
         self.plots.append(lis)
 
 #################################################################################################################################################
+
+def switch_loop(switch_mappings, localz):
+    switch_strings =[]
+    for (switch_number, dict_name), dict in switch_mappings.items():
+        if dict_name in localz and dict is not None and dict_name is not None:
+            user_input = localz.get(dict_name)
+            if user_input is not None:
+                switch_strings.append(f'switch {switch_number} {dict[user_input]}')
+
+    return switch_strings
+
 
 
 def list_input_requirement(lis):
