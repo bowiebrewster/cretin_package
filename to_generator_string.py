@@ -28,46 +28,47 @@ class Text_generator():
     def materials(self):
         string = self.start_chapter('Materials')
 
-        atoms = self.user_input.atoms
-        regions = self.user_input.regions
+        if 'atoms' in self.dict:
+            atoms = self.user_input.atoms
+            # materials_atom
+            for atom in atoms:
+                atom0, modeltype = atom
+                if atom0[2] == None:
+                    atom0[2] == ''
+                line = f'atoms hydrogenic_{atom0[1]} {atom0[0]} \n'
+                string += line
 
-        # materials_atom
-        for atom in atoms:
-            atom0, modeltype = atom
-            if atom0[2] == None:
-                atom0[2] == ''
-            line = f'atoms hydrogenic_{atom0[1]} {atom0[0]} \n'
-            string += line
+                if len(modeltype) > 0:
+                    modeltype0 = modeltype[0]
+                    if len(modeltype0)>0:
+                        line = f'\tmodeltype '
 
-            if len(modeltype) > 0:
-                modeltype0 = modeltype[0]
-                if len(modeltype0)>0:
-                    line = f'\tmodeltype '
+                        for model in modeltype0:
+                            if model != None:
+                                line +=f' {model}'
+                        string += line
 
-                    for model in modeltype0:
-                        if model != None:
-                            line +=f' {model}'
-                    string += line
+        if 'region' in self.dict:
+            regions  = self.dict.regions
+            for region in regions:
+                region0, element_of_region, material_of_region, rho_of_region, background_of_region, qstart = region
+                strings0 = ['region','regionkl','regionklm']
+                string += f'\n{strings0[region0[0]-1]} {self.ilts(region0[1])} {self.ilts(region0[2:])}'
 
-        for region in regions:
-            region0, element_of_region, material_of_region, rho_of_region, background_of_region, qstart = region
-            strings0 = ['region','regionkl','regionklm']
-            string += f'\n{strings0[region0[0]-1]} {self.ilts(region0[1])} {self.ilts(region0[2:])}'
+                for el in element_of_region:
+                    string += f'\n\telement {self.ilts(el)}'
 
-            for el in element_of_region:
-                string += f'\n\telement {self.ilts(el)}'
+                for mat in material_of_region:
+                    string += f'\n\tmaterial {self.ilts(mat)}'
 
-            for mat in material_of_region:
-                string += f'\n\tmaterial {self.ilts(mat)}'
+                for rho in rho_of_region:
+                    string += f'\n\trho {str(rho_of_region[0])}'
 
-            for rho in rho_of_region:
-                string += f'\n\trho {str(rho_of_region[0])}'
+                for bac in background_of_region:
+                    string += f'\n\tbackground {self.ilts(background_of_region[0])}'
 
-            for bac in background_of_region:
-                string += f'\n\tbackground {self.ilts(background_of_region[0])}'
-
-            if qstart:
-                string += f'\n\tqstart'
+                if qstart:
+                    string += f'\n\tqstart'
         return string
 
     def geometry(self):
@@ -213,19 +214,20 @@ class Text_generator():
         return string
     
     def edits(self):
-        if len(self.user_input.plots) >0:
-            string = self.start_chapter('Edits')
+        string = self.start_chapter('Edits')
+        if 'plots' in self.dict:
+            if len(self.user_input.plots) >0:
+                string = self.start_chapter('Edits')
 
-            for plot in self.user_input.plots:
-                
-                string += f'\nplot "{plot[0]}"\n\txvar {plot[1]}\n\tyvar {plot[2]}'
+                for plot in self.user_input.plots:
+                    
+                    string += f'\nplot "{plot[0]}"\n\txvar {plot[1]}\n\tyvar {plot[2]}'
 
-                if len(plot) == 8:
-                    string += f'{self.ilts(plot[3:])}'
+                    if len(plot) == 8:
+                        string += f'{self.ilts(plot[3:])}'
 
-            return string
-        else:
-            return ''
+        return ''
+
 
     
     def execute(self):

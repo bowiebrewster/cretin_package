@@ -30,28 +30,26 @@ def write(name : str, object, longprint = None, plot_duplicates = None):
 
 #  running cretin using the written generator file
 def run(name : str, longprint : bool, object = None, plot_duplicates = None, newpath:str = None):
-    print(f'Running cretin with {name}')
-    process = subprocess.Popen(paths.to_folder_cretin() + 'demo.sh', 
-                               shell=True, 
-                               stdout=subprocess.PIPE, 
-                               stderr=subprocess.PIPE, 
-                               env=prepare_env(name, newpath))
-    
-    out, err = process.communicate()
-    
-    if longprint:
-        print(out.decode())
-    if err:
-        print("ERROR:", err.decode())
+    print(f'running cretin with {name}')
+    import subprocess
 
-def prepare_env(name, newpath=None):
     env = os.environ.copy()
-    path = os.path.join(newpath, name) if newpath else os.path.join(paths.to_personal_data(), name)
+    if newpath == None:
+        path = f'{paths.to_personal_data()}{name}'
+    else:
+        path = f'{newpath}{name}'
+
 
     env["ARG_NAME0"] = name
     env["ARG_NAME1"] = path
     env["CRETIN_BIN_DIR"] = paths.to_cretin_ex()
-    return env
+
+    process = subprocess.Popen(paths.to_folder_cretin() + 'demo.sh', shell = True , stdout = subprocess.PIPE, stderr = subprocess.PIPE, env = env)
+    process.wait() # Wait for process to complete.
+    out, err = process.communicate()
+
+    if longprint: print(out.decode())
+    if len(err.decode()) > 0: print("ERROR:",err.decode())
 
 def dump_path(name):
     path = os.path.join(paths.to_personal_data(), name)
@@ -168,8 +166,8 @@ def get_title(key):
 def extra_plot(name, multiplot=False):
     plt_file.create_plot(folder_name=name, multiplot=multiplot)
 
-def all(name, obj, longprint=False, plot_duplicates=False):
-    write(name, obj)
+def all(name, object, longprint=False, plot_duplicates=False):
+    write(name, object)
     run(name, longprint)
     plot(name, longprint, plot_duplicates)
     extra_plot(name)

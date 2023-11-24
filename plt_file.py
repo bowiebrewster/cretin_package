@@ -43,53 +43,66 @@ def restructure(line : str, count : int):
 
         data[vars].append(newline)
 
-
-def create_plot(folder_name : str, path:str = paths.to_personal_data(), multiplot : bool = False):
-    folder = f'{path}{folder_name}'
-    global data, start_lines, plot_count
-    data, start_lines, plot_count = {},{},0
-    
-    with open(plt_path(folder)) as f:
-        lines = f.readlines()
-
-        for count, line in enumerate(lines):
-            restructure(line, count)
+def create_plot(folder_name: str, path: str = paths.to_personal_data(), multiplot: bool = False):
+    #Generates plots from data in the specified folder
+    folder_path = os.path.join(path, folder_name)
+    plot_data, start_lines, plot_count = load_plot_data(folder_path)
 
     if multiplot:
-        return data
-    
-    if os.path.exists(f'{folder}/images'):
-        shutil.rmtree(f'{folder}/images')
-        print('removed existing image folder')
-    os.makedirs(f'{folder}/images')
-    print(f'Created image folder at {folder}/images')
+        return plot_data
 
+    prepare_image_folder(folder_path)
+    generate_plots(plot_data, folder_path)
 
-    for key, value in data.items():
+    del plot_data, start_lines, plot_count  # Clear variables to free memory
 
-        value = np.array(value)
-        value = value.astype('float')
+def load_plot_data(folder_path: str):
+    #Loads and restructures plot data from the specified folder
+    data, start_lines, plot_count = {}, {}, 0
 
-        col_count = 0
-        for column in value.T:
-            if col_count == 0:
-                col0 = column
-            else:
-                plt.plot(col0, column)
-            col_count += 1
+    plt_file_path = get_plot_file_path(folder_path)
+    with open(plt_file_path) as file:
+        lines = file.readlines()
 
-        plt.title(f'added plot {key}')
-        plt.xlabel(key[1])
-        plt.ylabel(key[2])
-        plt.savefig(f'{folder}/images/{key}.png')
-        plt.clf()
-        plt.close()
+    for count, line in enumerate(lines):
+        restructure(line, count)  # Assuming restructure is a predefined function
 
-    del data, start_lines, plot_count                    
+    return data, start_lines, plot_count
 
-
-def plt_path(folder : str):
+def get_plot_file_path(folder: str):
+    #Finds the full path of the first plot file in the specified folder
     os.chdir(folder)
     file_list = glob.glob('*.plt*')
-    fullpath = f'{folder}/{file_list[0]}'
-    return fullpath
+    return os.path.join(folder, file_list[0])
+
+def prepare_image_folder(folder_path: str):
+    #Creates or cleans an image folder at the specified path
+    image_folder_path = os.path.join(folder_path, 'images')
+    if os.path.exists(image_folder_path):
+        shutil.rmtree(image_folder_path)
+        print('Removed existing image folder')
+    os.makedirs(image_folder_path)
+    print(f'Created image folder at {image_folder_path}')
+
+def generate_plots(data, folder_path):
+    #Generates and saves plot images using the provided data
+    image_folder_path = os.path.join(folder_path, 'images')
+
+    for key, value in data.items():
+        value = np.array(value).astype('float')
+        plot_and_save(value, key, image_folder_path)
+
+def plot_and_save(value, key, image_folder_path):
+    #Plots and saves a single plot to the specified path
+    for col_count, column in enumerate(value.T):
+        if col_count == 0:
+            col0 = column
+        else:
+            plt.plot(col0, column)
+
+    plt.title(f'Added plot {key}')
+    plt.xlabel(key[1])
+    plt.ylabel(key[2])
+    plt.savefig(os.path.join(image_folder_path, f'{key}.png'))
+    plt.clf()
+    plt.close()
