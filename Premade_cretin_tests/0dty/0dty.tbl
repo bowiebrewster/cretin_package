@@ -5,13 +5,13 @@ CRETIN : 0dty.gen
           by hascott                                     
 
 
-  ****   Starting execution -- Wed Sep 27 12:42:34 2023   ****
+  ****   Starting execution -- Mon Nov 27 15:21:43 2023   ****
 
 
 Reading source file x0dty.dat
 
 Writing binary file x0dty.xdf
-   -- constructed on  Wed Sep 27 12:42:34 2023
+   -- constructed on  Mon Nov 27 15:21:43 2023
 
 
  ------------------------------------------------------------
@@ -274,16 +274,16 @@ Writing restart dump 0dty.r01
 
 
 Memory allocated =     5.7  Mbytes
- cpu =    0.4  seconds
+ cpu =    0.5  seconds
 
  Timing statistics                  cpu         %
  -----------------                  ---        ---
-     Generation               :   3.98E-02    10.0
-     Initialization           :   1.83E-03     0.5
-     Kinetics                 :   3.24E-01    81.3
-     Temperature              :   3.00E-04     0.1
-     Edits                    :   6.91E-03     1.7
+     Generation               :   8.60E-02    17.5
+     Initialization           :   2.65E-03     0.5
+     Kinetics                 :   3.58E-01    72.8
+     Temperature              :   3.81E-04     0.1
+     Edits                    :   7.76E-03     1.6
 
 
- ****   Finishing execution -- Wed Sep 27 12:42:34 2023   ****
+ ****   Finishing execution -- Mon Nov 27 15:21:43 2023   ****
 

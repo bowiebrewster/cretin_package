@@ -51,8 +51,11 @@ def run(name : str, longprint : bool, object = None, plot_duplicates = None, new
     if longprint: print(out.decode())
     if len(err.decode()) > 0: print("ERROR:",err.decode())
 
-def dump_path(name):
-    path = os.path.join(paths.to_personal_data(), name)
+def dump_path(name,  newpath:str= None):
+    if newpath == None:
+        path = os.path.join(paths.to_personal_data(), name)
+    else:
+        path = os.path.join(newpath, name)
     os.chdir(path)
     file_list = glob.glob('*.d0*')
     return os.path.join(path, file_list[0])
@@ -72,8 +75,12 @@ def blacklist_key(key : str):
     else:
         return False
 
-def plot(name, longprint=False, plot_duplicates=False, object = None):
-    fullpath = dump_path(name)
+def plot(name, longprint=False, plot_duplicates=False, object = None, newpath:str= None):
+    if newpath == None:
+        fullpath = dump_path(name)
+    else:
+        fullpath = dump_path(name, newpath)
+    
     path = os.path.join(paths.to_personal_data(), name, 'images')
     print(f'plotting {name} to {path}')
     if os.path.exists(path):
