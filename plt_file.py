@@ -46,6 +46,7 @@ def restructure(line : str, count : int):
 def create_plot(folder_name: str, path: str = paths.to_personal_data(), multiplot: bool = False):
     #Generates plots from data in the specified folder
     folder_path = os.path.join(path, folder_name)
+    global start_lines, plot_count
     plot_data, start_lines, plot_count = load_plot_data(folder_path)
 
     if multiplot:
@@ -54,7 +55,7 @@ def create_plot(folder_name: str, path: str = paths.to_personal_data(), multiplo
     prepare_image_folder(folder_path)
     generate_plots(plot_data, folder_path)
 
-    del plot_data, start_lines, plot_count  # Clear variables to free memory
+
 
 def load_plot_data(folder_path: str):
     #Loads and restructures plot data from the specified folder

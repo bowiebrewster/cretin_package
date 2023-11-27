@@ -88,7 +88,11 @@ def plot_data(file, path, longprint, plot_duplicates):
     for i, key in enumerate(file.keys()):
         arr = np.array(file[key])
         dim = len(arr.shape)
-        handle_plotting(arr, dim, key, path, longprint, plot_duplicates, arrays2d, arrays3d, i)
+        if is_valid_float_2d_array(arr):
+            handle_plotting(arr, dim, key, path, longprint, plot_duplicates, arrays2d, arrays3d, i)
+        else:
+            if longprint:
+                print(f'invalid array found with key {key}') 
 
 def handle_plotting(arr, dim, key, path, longprint, plot_duplicates, arrays2d, arrays3d, counter):
     if dim == 1 and len(arr) > 0:
@@ -157,14 +161,27 @@ def should_plot(arr, arrays, plot_duplicates, longprint):
             return False
     return True
 
+def is_valid_float_2d_array(arr):
+    # Check if it's a NumPy array
+    if not isinstance(arr, np.ndarray):
+        return False
+
+    # Check if the array's data type is floating-point
+    if not np.issubdtype(arr.dtype, np.floating):
+        return False
+    
+    return True
+
 def get_title(key):
     splitname = key.split('_')
     name = splitname[0]
     index = '_'.join(splitname[1:])
     return naming_dict.get(name, name) + index
 
-def extra_plot(name, multiplot=False):
-    plt_file.create_plot(folder_name=name, multiplot=multiplot)
+def extra_plot(name : str, multiplot : bool = False):
+    p = f'{paths.to_personal_data()}{name}/{name}.plt'
+    if os.path.exists(p):
+        plt_file.create_plot(folder_name = name, multiplot = multiplot)
 
 def all(name, object, longprint=False, plot_duplicates=False):
     write(name, object)

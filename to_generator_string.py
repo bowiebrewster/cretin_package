@@ -48,8 +48,8 @@ class Text_generator():
                                 line +=f' {model}'
                         string += line
 
-        if 'region' in self.dict:
-            regions  = self.dict.regions
+        if 'regions' in self.dict:
+            regions  = self.user_input.regions
             for region in regions:
                 region0, element_of_region, material_of_region, rho_of_region, background_of_region, qstart = region
                 strings0 = ['region','regionkl','regionklm']
@@ -226,7 +226,7 @@ class Text_generator():
                     if len(plot) == 8:
                         string += f'{self.ilts(plot[3:])}'
 
-        return ''
+        return string
 
 
     
