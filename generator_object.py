@@ -1,6 +1,6 @@
 
 import pandas as pd
-import paths
+import paths, json
 from drop_methods_module import DropMethods
 #this is a casual 1600 line python file what about it
 
@@ -402,12 +402,14 @@ class User_input():
         extra_indices = [element_or_transition, node, frequency_or_isosequence, direction_or_level, multiplier]
         summ = sum(x is None for x in extra_indices)
 
-        vars = """cycle,iter,time
-        ir,r,cdens,x2d,y2d,z2d,x3d,y3d,z3d,xy,k,kx,ky,kz,kr,l,lx,ly,lz,lr,m,mx,my,mz,mr
-        ifr,energy,freq,wvl,ebins,fbins,wbins,ifrline,evline,isp,sp_energy,sp_freq,sp_nu,sp_wvl,iso,ziso
-        level,elev"""
-        #string_input_requirement(xvar,vars.split(","))
-        #string_input_requirement(yvar,vars.split(","))
+        xvars = 'cycle,iter,time,ir,r,cdens,x2d,y2d,z2d,x3d,y3d,z3d,xy,k,kx,ky,kz,kr,l,lx,ly,lz,lr,m,mx,my,mz,mr,ifr,energy,freq,wvl,ebins,fbins,wbins,ifrline,evline,isp,sp_energy,sp_freq,sp_nu,sp_wvl,ie,iso,level,elev'
+        with open(f"{paths.to_folder_cretin()}/edit_naming.txt", 'r') as file:
+            ydict = json.load(file)
+            
+        if xvar not in xvars.split(','):
+            raise Exception('x var must be in {xvars}')
+        if yvar not in [yop.split(" ")[0] for yop in ydict.keys()]:
+            raise Exception('yvar invalid, options outlined in edit_naming.txt')
 
         if summ == 5:
             self.plots.append([name, xvar, yvar, element_or_transition, node, frequency_or_isosequence, direction_or_level, multiplier])
