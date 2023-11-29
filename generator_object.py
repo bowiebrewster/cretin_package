@@ -417,9 +417,6 @@ class User_input():
             self.plots.append([name, xvar, yvar])
         else:
             raise Exception('Including some of "element_or_transition, node, frequency_or_isosequence, direction_or_level, multiplier" is ambiguous and may lead to incorrect behavior in "add_plots')
-        lis = [name, xvar, yvar, element_or_transition, node, frequency_or_isosequence, direction_or_level, multiplier]
-        lis.remove(None)
-        self.plots.append(lis)
 
 #################################################################################################################################################
 

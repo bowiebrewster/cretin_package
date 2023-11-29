@@ -182,10 +182,11 @@ class Text_generator():
                 string += '\n\nrestart '
             if control[3]:
                 string += '\n edits'
-            string += '\n\ndump all'
+
         else:
             string = self.start_chapter('Controls')
-            string += '\n\ndump all'
+
+        string += '\n\ndump all'
         return string
     
     def pop_switches(self):
@@ -218,11 +219,13 @@ class Text_generator():
         if 'plots' in self.dict:
             if len(self.user_input.plots) >0:
                 string = self.start_chapter('Edits')
-
+                plotted_names = []
                 for plot in self.user_input.plots:
-                    
-                    string += f'\nplot "{plot[0]}"\n\txvar {plot[1]}\n\tyvar {plot[2]}'
-
+                    if plot[0] in plotted_names:
+                        string += f'\n\txvar {plot[1]}\n\tyvar {plot[2]}'
+                    else:
+                        string += f'\nplot "{plot[0]}"\n\txvar {plot[1]}\n\tyvar {plot[2]}'
+                        plotted_names.append(plot[0])
                     if len(plot) == 8:
                         string += f'{self.ilts(plot[3:])}'
 

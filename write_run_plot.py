@@ -186,9 +186,10 @@ def get_title(key):
     return naming_dict.get(name, name) + index
 
 def extra_plot(name : str, multiplot : bool = False):
+    import new_plt_file
     p = f'{paths.to_personal_data()}{name}/{name}.plt'
     if os.path.exists(p):
-        plt_file.create_plot(folder_name = name, multiplot = multiplot)
+        new_plt_file.create_plot(folder_name = name, multiplot = multiplot)
 
 def all(name, object, longprint=False, plot_duplicates=False):
     write(name, object)
