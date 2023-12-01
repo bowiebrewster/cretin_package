@@ -101,6 +101,7 @@ def plot2d(folder, title, df, xvars_in_cols, logplot):
 
         # Applying a logarithmic transformation
         heatmap_data = np.log(heatmap_data)
+
     sns.heatmap(heatmap_data)
     plt.xlabel(xvar2)
     plt.ylabel(xvar1)

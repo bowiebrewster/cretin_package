@@ -1,12 +1,12 @@
 import generator_object
 import write_run_plot
 import serial_sim_tools
-import new_plt_file
+import plt_file
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 from importlib import reload
-for obj in [generator_object, write_run_plot, serial_sim_tools, new_plt_file]:
+for obj in [generator_object, write_run_plot, serial_sim_tools, plt_file]:
     reload(obj)
 
 
