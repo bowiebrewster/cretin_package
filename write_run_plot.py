@@ -189,7 +189,7 @@ def extra_plot(name : str, multiplot : bool = False):
     import new_plt_file
     p = f'{paths.to_personal_data()}{name}/{name}.plt'
     if os.path.exists(p):
-        new_plt_file.create_plot(folder_name = name, multiplot = multiplot)
+        return new_plt_file.create_plot(folder_name = name, multiplot = multiplot)
 
 def all(name, object, longprint=False, plot_duplicates=False):
     write(name, object)
