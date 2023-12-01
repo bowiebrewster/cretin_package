@@ -221,7 +221,7 @@ class Text_generator():
                 for plot in self.user_input.plots:
                     [title, xvars, yvars] = plot
 
-                    string += f'\n\nplot"{title}"'
+                    string += f'\n\nplot "{title}"'
                     for command, variables in xvars.items():
                         string +=f'\n\txvar {command} {self.ilts(variables)}'
                     for command, variables in yvars.items():

@@ -64,10 +64,10 @@ gen = sim3(2)
 print(gen.plots)
 
 #write_run_plot.all(name=name, longprint = False, plot_duplicates=False, object=gen)
-#write_run_plot.write(name=name, longprint=False,plot_duplicates=False, object=gen)
+write_run_plot.write(name=name, longprint=False,plot_duplicates=False, object=gen)
 #write_run_plot.run(name=name, longprint = False, plot_duplicates=False, object=gen)
 #write_run_plot.plot(name=name, longprint = False, plot_duplicates=False, object=gen)
-"""
+
 data2 = write_run_plot.extra_plot(name=name, multiplot= True)
 title = 'electron temperature'
 df = data2[title]
@@ -90,4 +90,3 @@ log_heatmap_data = np.log(heatmap_data)
 sns.heatmap(log_heatmap_data)
 plt.gca().invert_yaxis()
 plt.show()
-"""

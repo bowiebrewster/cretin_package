@@ -185,11 +185,11 @@ def get_title(key):
     index = '_'.join(splitname[1:])
     return naming_dict.get(name, name) + index
 
-def extra_plot(name : str, multiplot : bool = False):
+def extra_plot(name : str, multiplot : bool = False, logplot :bool = False):
     import new_plt_file
     p = f'{paths.to_personal_data()}{name}/{name}.plt'
     if os.path.exists(p):
-        return new_plt_file.create_plot(folder_name = name, multiplot = multiplot)
+        return new_plt_file.create_plot(folder_name = name, multiplot = multiplot, logplot = logplot)
 
 def all(name, object, longprint=False, plot_duplicates=False):
     write(name, object)

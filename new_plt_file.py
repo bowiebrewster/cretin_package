@@ -27,13 +27,13 @@ def parse_data(folder_path):
     return(dataframes)
 
 
-def create_plot(folder_name : str, path:str = paths.to_personal_data(), multiplot : bool = False):
+def create_plot(folder_name : str, path:str = paths.to_personal_data(), multiplot : bool = False, logplot : bool = False):
     folder = f'{path}{folder_name}'
     global data, start_lines, plot_count
     data, start_lines, plot_count = {},{},0
 
     data = parse_data(folder)
-    print(f'adding additional plot to {folder}')
+    print(f'adding additional plot to {folder}/images')
     if multiplot:
         return data
 
@@ -45,52 +45,68 @@ def create_plot(folder_name : str, path:str = paths.to_personal_data(), multiplo
     xvars = 'cycle,iter,time,ir,r,cdens,x2d,y2d,z2d,x3d,y3d,z3d,xy,k,kx,ky,kz,kr,l,lx,ly,lz,lr,m,mx,my,mz,mr,ifr,energy,freq,wvl,ebins,fbins,wbins,ifrline,evline,isp,sp_energy,sp_freq,sp_nu,sp_wvl,ie,iso,level,elev'
     xvars_set = set(xvars.split(","))
     for title, df in data.items():
-        print(title, df.columns)
+
         # Check which columns in df are x variables
         xvars_in_cols = [col for col in df.columns if col in xvars_set]
 
         # Count the number of x variables in df
         num_xvars = len(xvars_in_cols)
-
-        # Raise exceptions based on the number of x variables
-        if num_xvars == 0:
-            raise Exception('Zero x variables in .plt file')
-        elif num_xvars == 1:
-            # Plot each y variable against the x variable
-            xvar = xvars_in_cols[0]
-            plt.figure()
-            y_labels = []        
-            for yvar in df.columns:
-                if yvar not in xvars_set:
-                    plt.plot(df[xvar], df[yvar])
-                    y_labels.append(yvar)
-            plt.xlabel(xvar)
-            plt.ylabel(y_labels)
-            plt.title(title)
-            plt.savefig(f'{folder}/images/{title}.png')
-            plt.close()   
+        if num_xvars == 1:
+            plot1d(folder, title, df, xvars_set, xvars_in_cols, logplot)
 
         elif num_xvars == 2:
-            if len(df.columns) != 3:
-                raise Exception('When using 2 xvariables to create a heatplot, there can only be one yvar since plots can not be overlayd')
-            # Plot heatmaps for each combination of x variables and y variables
-            xvar1, xvar2 = xvars_in_cols
-            for yvar in df.columns:
-                if yvar not in xvars_set:
-                    plt.figure()
-                    heatmap_data = df.pivot_table(index=xvar1, columns=xvar2, values=yvar)
-                    sns.heatmap(heatmap_data)
-                    plt.xlabel(xvar2)
-                    plt.ylabel(xvar1)
-                    g = f'{folder}/images/{title}_{yvar}_Heatmap'
-                    plt.title(g)
-                    plt.savefig(g)
-                    print(f"printing to {g}")
-                    plt.close()
-        else:
-            raise Exception('Too many x variables')
-        
+            plot2d(folder, title, df, xvars_in_cols, logplot)
 
+        else:
+            raise Exception('must be 2 or less x variables')
+
+
+def plot1d(folder, title, df, xvars_set, xvars_in_cols, logplot):
+    xvar = xvars_in_cols[0]
+    plt.figure()
+    y_labels = []        
+    for yvar in df.columns:
+        if yvar not in xvars_set:
+            plt.plot(df[xvar], df[yvar])
+            y_labels.append(yvar)
+
+    if logplot:
+        plt.yscale('log')
+
+    plt.xlabel(xvar)
+    plt.ylabel(y_labels)
+    plt.title(title)
+    plt.gca().invert_yaxis()
+    plt.savefig(f'{folder}/images/{title}.png')
+    plt.close()
+
+
+
+def plot2d(folder, title, df, xvars_in_cols, logplot):
+    if len(df.columns) != 3:
+        raise Exception('When using 2 xvariables to create a heatplot, there can only be one yvar since plots can not be overlayd')
+    # Plot heatmaps for each combination of x variables and y variables
+    xvar1, xvar2 = xvars_in_cols
+    yvar = set(df.columns) - set(xvars_in_cols)
+    g = f'{folder}/images/{title}_{yvar}_Heatmap'
+    
+    plt.figure()
+    heatmap_data = df.pivot_table(index=xvar1, columns=xvar2, values=yvar)
+    if logplot:
+        # Handling zeros or negative values in the data
+        heatmap_data = heatmap_data.replace(0, np.nan)
+        min_positive = heatmap_data.min().min()
+        heatmap_data = heatmap_data.fillna(min_positive)
+        heatmap_data = heatmap_data.clip(lower=min_positive)
+
+        # Applying a logarithmic transformation
+        heatmap_data = np.log(heatmap_data)
+    sns.heatmap(heatmap_data)
+    plt.xlabel(xvar2)
+    plt.ylabel(xvar1)
+    plt.title(title)
+    plt.savefig(g)
+    plt.close()
 
 
 def plt_path(folder : str):
