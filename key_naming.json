@@ -19,10 +19,7 @@
 "populations" : "ni + yiso + y",
 "jsp" : "spectral radiation intensity",
 "kappa"  :  "spectral absorption",
-"emis" : "spectral emmision",
 "spectrum" : "jsp + kappa_sp + emis_sp",
-"jbar" : "line strength",
 "lines" : "jbar + ylinel + ylineu + sigma",
-"radiation" : "jnu + jbar",
 "drat" : "mesh + kappa_sp + emis_sp + velocity"
 }

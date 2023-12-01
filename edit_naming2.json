@@ -1,0 +1,3467 @@
+{
+    "cycle": [],
+    "iter": [],
+    "itime": [],
+    "time": [],
+    "dtime": [],
+    "dtfrac": [],
+    "dtime_te": [
+        "0",
+        "ir"
+    ],
+    "dtime_ti": [
+        "0",
+        "ir"
+    ],
+    "dtime_tr": [
+        "0",
+        "ir"
+    ],
+    "dtime_rho": [
+        "0",
+        "ir"
+    ],
+    "dtimek": [
+        "iz",
+        "ir"
+    ],
+    "dtkin": [
+        "iz",
+        "ir"
+    ],
+    "dtkmin": [
+        "iz",
+        "ir"
+    ],
+    "dtkmax": [
+        "iz",
+        "ir"
+    ],
+    "id_dtime": [],
+    "ir_dtime": [],
+    "ir_dtimek": [],
+    "iz_dtime": [],
+    "iz_dtimek": [],
+    "ir": [
+        "0",
+        "ir"
+    ],
+    "-ir": [
+        "0",
+        "ir"
+    ],
+    "ireg": [
+        "0",
+        "ir"
+    ],
+    "nnode": [],
+    "nzone": [],
+    "kmax": [],
+    "lmax": [],
+    "mmax": [],
+    "r": [
+        "0",
+        "ir"
+    ],
+    "-r": [
+        "0",
+        "ir"
+    ],
+    "-x": [
+        "0",
+        "ir"
+    ],
+    "-z": [
+        "0",
+        "ir"
+    ],
+    "x2d": [
+        "0",
+        "ir"
+    ],
+    "y2d": [
+        "0",
+        "ir"
+    ],
+    "z2d": [
+        "0",
+        "ir"
+    ],
+    "r2d": [
+        "0",
+        "ir"
+    ],
+    "r3d": [
+        "0",
+        "ir"
+    ],
+    "xzc": [
+        "0",
+        "ir"
+    ],
+    "yzc": [
+        "0",
+        "ir"
+    ],
+    "zzc": [
+        "0",
+        "ir"
+    ],
+    "rhodr": [
+        "0",
+        "ir"
+    ],
+    "cdens": [
+        "0",
+        "ir"
+    ],
+    "vel": [
+        "0",
+        "ir"
+    ],
+    "dvdr": [
+        "0",
+        "ir"
+    ],
+    "u2d": [
+        "0",
+        "ir"
+    ],
+    "v2d": [
+        "0",
+        "ir"
+    ],
+    "w2d": [
+        "0",
+        "ir"
+    ],
+    "k": [
+        "0",
+        "(l,ir)",
+        "(m)"
+    ],
+    "kr": [
+        "0",
+        "(l,ir)",
+        "(m)"
+    ],
+    "kx": [
+        "0",
+        "(l,ir)",
+        "(m)"
+    ],
+    "ky": [
+        "0",
+        "(l,ir)",
+        "(m)"
+    ],
+    "kz": [
+        "0",
+        "(l,ir)",
+        "(m)"
+    ],
+    "l": [
+        "0",
+        "(k,ir)",
+        "(m)"
+    ],
+    "lr": [
+        "0",
+        "(k,ir)",
+        "(m)"
+    ],
+    "lx": [
+        "0",
+        "(k,ir)",
+        "(m)"
+    ],
+    "ly": [
+        "0",
+        "(k,ir)",
+        "(m)"
+    ],
+    "lz": [
+        "0",
+        "(k,ir)",
+        "(m)"
+    ],
+    "m": [
+        "0",
+        "ir"
+    ],
+    "mr": [
+        "0",
+        "ir"
+    ],
+    "mx": [
+        "0",
+        "ir"
+    ],
+    "my": [
+        "0",
+        "ir"
+    ],
+    "mz": [
+        "0",
+        "ir"
+    ],
+    "lteflag": [
+        "0",
+        "ir"
+    ],
+    "ne": [
+        "0",
+        "ir"
+    ],
+    "ne_lte": [
+        "0",
+        "ir"
+    ],
+    "neb": [
+        "0",
+        "ir"
+    ],
+    "dnedt": [
+        "0",
+        "ir"
+    ],
+    "ni": [
+        "iz",
+        "ir"
+    ],
+    "nib": [
+        "0",
+        "ir"
+    ],
+    "ntot": [
+        "0",
+        "ir"
+    ],
+    "rho": [
+        "0",
+        "ir"
+    ],
+    "te": [
+        "0",
+        "ir"
+    ],
+    "tev": [
+        "0",
+        "ir"
+    ],
+    "tevb": [
+        "0",
+        "ir"
+    ],
+    "te_lte": [
+        "0",
+        "ir"
+    ],
+    "tev_lte": [
+        "0",
+        "ir"
+    ],
+    "tfermi": [
+        "0",
+        "ir"
+    ],
+    "ti": [
+        "0",
+        "ir"
+    ],
+    "tiv": [
+        "0",
+        "ir"
+    ],
+    "tivb": [
+        "0",
+        "ir"
+    ],
+    "tr": [
+        "0",
+        "ir"
+    ],
+    "trv": [
+        "0",
+        "ir"
+    ],
+    "tdfac": [
+        "0",
+        "ir"
+    ],
+    "tehot": [
+        "i",
+        "ir"
+    ],
+    "nehot": [
+        "i",
+        "ir"
+    ],
+    "ne_thermal": [
+        "0",
+        "ir"
+    ],
+    "emat": [
+        "0",
+        "ir"
+    ],
+    "emat_e": [
+        "0",
+        "ir"
+    ],
+    "emat_i": [
+        "0",
+        "ir"
+    ],
+    "etot": [
+        "0",
+        "ir"
+    ],
+    "chemu": [
+        "0",
+        "ir"
+    ],
+    "fugacity": [
+        "0",
+        "ir"
+    ],
+    "zeta": [
+        "0",
+        "ir"
+    ],
+    "cv": [
+        "0",
+        "ir"
+    ],
+    "cvcgs": [
+        "0",
+        "ir"
+    ],
+    "cp": [
+        "0",
+        "ir"
+    ],
+    "cvpgs": [
+        "0",
+        "ir"
+    ],
+    "cv_e": [
+        "0",
+        "ir"
+    ],
+    "cvecgs": [
+        "0",
+        "ir"
+    ],
+    "cvetot": [
+        "0",
+        "ir"
+    ],
+    "cvetotcgs": [
+        "0",
+        "ir"
+    ],
+    "cv_i": [
+        "0",
+        "ir"
+    ],
+    "cvicgs": [
+        "0",
+        "ir"
+    ],
+    "cp_e": [
+        "0",
+        "ir"
+    ],
+    "cp_i": [
+        "0",
+        "ir"
+    ],
+    "cpicgs": [
+        "0",
+        "ir"
+    ],
+    "gamma1": [
+        "0",
+        "ir"
+    ],
+    "gamma1_e": [
+        "0",
+        "ir"
+    ],
+    "gamma1_i": [
+        "0",
+        "ir"
+    ],
+    "dedte": [
+        "0",
+        "ir"
+    ],
+    "dedti": [
+        "0",
+        "ir"
+    ],
+    "dedne": [
+        "0",
+        "ir"
+    ],
+    "dedni": [
+        "0",
+        "ir"
+    ],
+    "dedr": [
+        "0",
+        "ir"
+    ],
+    "pmat": [
+        "0",
+        "ir"
+    ],
+    "pmat_e": [
+        "0",
+        "ir"
+    ],
+    "pmat_i": [
+        "0",
+        "ir"
+    ],
+    "ptot": [
+        "0",
+        "ir"
+    ],
+    "dpdte": [
+        "0",
+        "ir"
+    ],
+    "dpdti": [
+        "0",
+        "ir"
+    ],
+    "dpdne": [
+        "0",
+        "ir"
+    ],
+    "dpdni": [
+        "0",
+        "ir"
+    ],
+    "dpdr": [
+        "0",
+        "ir"
+    ],
+    "abar": [
+        "0",
+        "ir"
+    ],
+    "zbar": [
+        "iz",
+        "ir"
+    ],
+    "zbar_lte": [
+        "iz",
+        "ir"
+    ],
+    "z2abar": [
+        "0",
+        "ir"
+    ],
+    "z2bar": [
+        "0",
+        "ir"
+    ],
+    "qmoment_n": [
+        "iz",
+        "ir"
+    ],
+    "wplasma": [
+        "0",
+        "ir"
+    ],
+    "tauee": [
+        "0",
+        "ir"
+    ],
+    "tauei": [
+        "0",
+        "ir"
+    ],
+    "tauii": [
+        "0",
+        "ir"
+    ],
+    "cee": [
+        "0",
+        "ir"
+    ],
+    "cei": [
+        "0",
+        "ir"
+    ],
+    "cii": [
+        "0",
+        "ir"
+    ],
+    "coulog": [
+        "0",
+        "ir"
+    ],
+    "couloge": [
+        "0",
+        "ir"
+    ],
+    "coulogi": [
+        "0",
+        "ir"
+    ],
+    "gplasma": [
+        "0",
+        "ir"
+    ],
+    "bcond": [
+        "0",
+        "ir"
+    ],
+    "eresist": [
+        "0",
+        "ir"
+    ],
+    "bx": [
+        "0",
+        "ir"
+    ],
+    "by": [
+        "0",
+        "ir"
+    ],
+    "bz": [
+        "0",
+        "ir"
+    ],
+    "bfield": [
+        "0",
+        "ir"
+    ],
+    "wtaue": [
+        "0",
+        "ir"
+    ],
+    "nee": [],
+    "eenergy": [
+        "0",
+        "0",
+        "ie"
+    ],
+    "eebins": [
+        "0",
+        "0",
+        "ie"
+    ],
+    "edist": [
+        "0",
+        "ir",
+        "ie"
+    ],
+    "nedist": [
+        "0",
+        "ir",
+        "ie"
+    ],
+    "anuc": [
+        "iz"
+    ],
+    "znuc": [
+        "iz"
+    ],
+    "niso": [
+        "iz"
+    ],
+    "nlev": [
+        "iz"
+    ],
+    "level": [
+        "iz",
+        "0",
+        "iso",
+        "i"
+    ],
+    "iso": [
+        "iz",
+        "0",
+        "iso",
+        "i"
+    ],
+    "ziso": [
+        "iz",
+        "0",
+        "iso"
+    ],
+    "npq": [
+        "iz",
+        "0",
+        "iso",
+        "i"
+    ],
+    "nlq": [
+        "iz",
+        "0",
+        "iso",
+        "i"
+    ],
+    "npqmax": [
+        "iz",
+        "0",
+        "iso",
+        "i"
+    ],
+    "shell_xx": [
+        "iz",
+        "0",
+        "iso",
+        "i"
+    ],
+    "y": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "y_lte": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "dydt": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "dydn": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "dydr": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "yfrac": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "yfrac_lte": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "yfrac1": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "yfraciso": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "yg": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "yg_lte": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "ygfrac": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "ygfrac_lte": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "yeff0": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "yeff1": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "y1": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "yiso": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "y1_lte": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "yiso_lte": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "y1frac": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "yisofrac": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "y1frac_lte": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "yisofrac_lte": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "y1x": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "yisox": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "dy1dt": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "dyisodt": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "dy1dn": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "dyisodn": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "dy1dr": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "dyisodr": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "ytot_lte": [
+        "iz",
+        "ir"
+    ],
+    "yshell_n": [
+        "iz",
+        "ir",
+        "[iso]"
+    ],
+    "yfshell_n": [
+        "iz",
+        "ir",
+        "[iso]"
+    ],
+    "yn_n1_n2_n3_n4": [
+        "iz",
+        "ir",
+        "[iso]"
+    ],
+    "ynf_n1_n2_n3_n4": [
+        "iz",
+        "ir",
+        "[iso]"
+    ],
+    "ym_n1_n2_n3_n4": [
+        "iz",
+        "ir",
+        "[iso]"
+    ],
+    "ymf_n1_n2_n3_n4": [
+        "iz",
+        "ir",
+        "[iso]"
+    ],
+    "yiso_v": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "yisofrac_v": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "ytot_v": [
+        "iz",
+        "ir"
+    ],
+    "ytfrac_v": [
+        "iz",
+        "ir"
+    ],
+    "yisoc": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "gammatot": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "gamma": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "nbound": [
+        "iz",
+        "ir"
+    ],
+    "nbound_lte": [
+        "iz",
+        "ir"
+    ],
+    "zbnd": [
+        "iz",
+        "ir"
+    ],
+    "zbnd_lte": [
+        "iz",
+        "ir"
+    ],
+    "ilevmin": [
+        "iz",
+        "ir"
+    ],
+    "ilevmax": [
+        "iz",
+        "ir"
+    ],
+    "isomin": [
+        "iz",
+        "ir"
+    ],
+    "isomax": [
+        "iz",
+        "ir"
+    ],
+    "eiso0": [
+        "iz",
+        "0",
+        "iso"
+    ],
+    "eiso": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "deiso0": [
+        "iz",
+        "0",
+        "iso"
+    ],
+    "deiso": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "elev0": [
+        "iz",
+        "0",
+        "iso",
+        "i"
+    ],
+    "elev": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "glev0": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "glev": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "gion0": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "gion": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "wlev": [
+        "iz",
+        "0",
+        "iso",
+        "i"
+    ],
+    "plev": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "delev": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "elower": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "elowerdt": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "elowerdn": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "eint0": [
+        "iz",
+        "ir"
+    ],
+    "deint0dt": [
+        "iz",
+        "ir"
+    ],
+    "eint": [
+        "iz",
+        "ir"
+    ],
+    "eintcl": [
+        "iz",
+        "ir"
+    ],
+    "deintdt": [
+        "iz",
+        "ir"
+    ],
+    "deintdn": [
+        "iz",
+        "ir"
+    ],
+    "einttot": [
+        "0",
+        "ir"
+    ],
+    "deinttdt": [
+        "0",
+        "ir"
+    ],
+    "deinttdn": [
+        "0",
+        "ir"
+    ],
+    "deinttdr": [
+        "0",
+        "ir"
+    ],
+    "pfnc0": [
+        "iz",
+        "ir"
+    ],
+    "pfnc": [
+        "iz",
+        "ir"
+    ],
+    "acoeff": [
+        "itr",
+        "ir"
+    ],
+    "avoigt0": [
+        "itr",
+        "ir"
+    ],
+    "uvoigt0": [
+        "itr",
+        "ir"
+    ],
+    "gain": [
+        "itr",
+        "ir"
+    ],
+    "aemis": [
+        "itr",
+        "ir"
+    ],
+    "widthn": [
+        "itr",
+        "ir"
+    ],
+    "widths": [
+        "itr",
+        "ir"
+    ],
+    "widthd": [
+        "itr",
+        "ir"
+    ],
+    "pump": [
+        "itr",
+        "ir"
+    ],
+    "escprob": [
+        "itr",
+        "ir"
+    ],
+    "bsplit": [
+        "itr",
+        "ir"
+    ],
+    "c_rate+": [
+        "itr",
+        "ir"
+    ],
+    "c_rate-": [
+        "itr",
+        "ir"
+    ],
+    "p_rate+": [
+        "itr",
+        "ir"
+    ],
+    "p_rate-": [
+        "itr",
+        "ir"
+    ],
+    "a_rate+": [
+        "itr",
+        "ir"
+    ],
+    "a_rate-": [
+        "itr",
+        "ir"
+    ],
+    "d_rate+": [
+        "itr",
+        "ir"
+    ],
+    "d_rate-": [
+        "itr",
+        "ir"
+    ],
+    "t_rate+": [
+        "itr",
+        "ir"
+    ],
+    "t_rate-": [
+        "itr",
+        "ir"
+    ],
+    "cn_rate+": [
+        "itr",
+        "ir"
+    ],
+    "cn_rate-": [
+        "itr",
+        "ir"
+    ],
+    "pn_rate+": [
+        "itr",
+        "ir"
+    ],
+    "pn_rate-": [
+        "itr",
+        "ir"
+    ],
+    "an_rate+": [
+        "itr",
+        "ir"
+    ],
+    "dn_rate+": [
+        "itr",
+        "ir"
+    ],
+    "dn_rate-": [
+        "itr",
+        "ir"
+    ],
+    "tn_rate+": [
+        "itr",
+        "ir"
+    ],
+    "tn_rate-": [
+        "itr",
+        "ir"
+    ],
+    "c_tot+": [
+        "itr",
+        "ir"
+    ],
+    "c_tot-": [
+        "itr",
+        "ir"
+    ],
+    "c_net": [
+        "itr",
+        "ir"
+    ],
+    "p_tot+": [
+        "itr",
+        "ir"
+    ],
+    "p_tot-": [
+        "itr",
+        "ir"
+    ],
+    "p_net": [
+        "itr",
+        "ir"
+    ],
+    "a_tot+": [
+        "itr",
+        "ir"
+    ],
+    "a_tot-": [
+        "itr",
+        "ir"
+    ],
+    "a_net": [
+        "itr",
+        "ir"
+    ],
+    "d_tot+": [
+        "itr",
+        "ir"
+    ],
+    "d_tot-": [
+        "itr",
+        "ir"
+    ],
+    "d_net": [
+        "itr",
+        "ir"
+    ],
+    "t_tot+": [
+        "itr",
+        "ir"
+    ],
+    "t_tot-": [
+        "itr",
+        "ir"
+    ],
+    "t_net": [
+        "itr",
+        "ir"
+    ],
+    "e_tot+": [
+        "itr",
+        "ir"
+    ],
+    "ec_rate+": [
+        "itr",
+        "ir"
+    ],
+    "ec_rate-": [
+        "itr",
+        "ir"
+    ],
+    "ep_rate+": [
+        "itr",
+        "ir"
+    ],
+    "ep_rate-": [
+        "itr",
+        "ir"
+    ],
+    "ea_rate+": [
+        "itr",
+        "ir"
+    ],
+    "ea_rate-": [
+        "itr",
+        "ir"
+    ],
+    "ed_rate+": [
+        "itr",
+        "ir"
+    ],
+    "ed_rate-": [
+        "itr",
+        "ir"
+    ],
+    "ce_rate+": [
+        "itr",
+        "ir"
+    ],
+    "ce_rate-": [
+        "itr",
+        "ir"
+    ],
+    "pe_rate+": [
+        "itr",
+        "ir"
+    ],
+    "pe_rate-": [
+        "itr",
+        "ir"
+    ],
+    "ae_rate+": [
+        "itr",
+        "ir"
+    ],
+    "ae_rate-": [
+        "itr",
+        "ir"
+    ],
+    "de_rate+": [
+        "itr",
+        "ir"
+    ],
+    "de_rate-": [
+        "itr",
+        "ir"
+    ],
+    "te_rate+": [
+        "itr",
+        "ir"
+    ],
+    "te_rate-": [
+        "itr",
+        "ir"
+    ],
+    "ee_rate+": [
+        "itr",
+        "ir"
+    ],
+    "ee_rate-": [
+        "itr",
+        "ir"
+    ],
+    "rp_rate+": [
+        "itr",
+        "ir"
+    ],
+    "rp_rate-": [
+        "itr",
+        "ir"
+    ],
+    "ra_rate+": [
+        "itr",
+        "ir"
+    ],
+    "ra_rate-": [
+        "itr",
+        "ir"
+    ],
+    "pr_rate+": [
+        "itr",
+        "ir"
+    ],
+    "pr_rate-": [
+        "itr",
+        "ir"
+    ],
+    "ar_rate+": [
+        "itr",
+        "ir"
+    ],
+    "ar_rate-": [
+        "itr",
+        "ir"
+    ],
+    "tr_rate+": [
+        "itr",
+        "ir"
+    ],
+    "tr_rate-": [
+        "itr",
+        "ir"
+    ],
+    "ce_tot+": [
+        "itr",
+        "ir"
+    ],
+    "ce_tot-": [
+        "itr",
+        "ir"
+    ],
+    "ce_net": [
+        "itr",
+        "ir"
+    ],
+    "pe_tot+": [
+        "itr",
+        "ir"
+    ],
+    "pe_tot-": [
+        "itr",
+        "ir"
+    ],
+    "pe_net": [
+        "itr",
+        "ir"
+    ],
+    "ae_tot+": [
+        "itr",
+        "ir"
+    ],
+    "ae_tot-": [
+        "itr",
+        "ir"
+    ],
+    "ae_net": [
+        "itr",
+        "ir"
+    ],
+    "de_tot+": [
+        "itr",
+        "ir"
+    ],
+    "de_tot-": [
+        "itr",
+        "ir"
+    ],
+    "de_net": [
+        "itr",
+        "ir"
+    ],
+    "te_tot+": [
+        "itr",
+        "ir"
+    ],
+    "te_tot-": [
+        "itr",
+        "ir"
+    ],
+    "te_net": [
+        "itr",
+        "ir"
+    ],
+    "pr_tot+": [
+        "itr",
+        "ir"
+    ],
+    "pr_tot-": [
+        "itr",
+        "ir"
+    ],
+    "pr_net": [
+        "itr",
+        "ir"
+    ],
+    "ar_tot+": [
+        "itr",
+        "ir"
+    ],
+    "ar_tot-": [
+        "itr",
+        "ir"
+    ],
+    "ar_net": [
+        "itr",
+        "ir"
+    ],
+    "tr_tot+": [
+        "itr",
+        "ir"
+    ],
+    "tr_tot-": [
+        "itr",
+        "ir"
+    ],
+    "tr_net": [
+        "itr",
+        "ir"
+    ],
+    "y_flux+": [
+        "itr",
+        "ir"
+    ],
+    "y_flux-": [
+        "itr",
+        "ir"
+    ],
+    "y_flux": [
+        "itr",
+        "ir"
+    ],
+    "ebbtot": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "ebbtot0": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "ebbtot1": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "isorate+": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "isorate-": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "isoraten": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "isorate+_c": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "isorate-_c": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "isoraten_c": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "isorate+_p": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "isorate-_p": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "isoraten_p": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "isorate+_a": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "isorate-_a": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "isoraten_a": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "isorate+_x": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "isorate-_x": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "isoraten_x": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "isoflux+": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "isoflux-": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "isofluxn": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "isoflux+_c": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "isoflux-_c": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "isofluxn_c": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "isoflux+_p": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "isoflux-_p": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "isofluxn_p": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "isoflux+_a": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "isoflux-_a": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "isofluxn_a": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "gamma_cx": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "gamma_ci": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "gamma_c": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "gamma_px": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "gamma_pi": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "gamma_p": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "gamma_a": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "gamma_dx": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "gamma_di": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "gamma_d": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "eigenval": [
+        "iz",
+        "ir",
+        "0",
+        "i"
+    ],
+    "eigenv_r": [
+        "iz",
+        "ir",
+        "0",
+        "i"
+    ],
+    "eigenv_i": [
+        "iz",
+        "ir",
+        "0",
+        "i"
+    ],
+    "eigenvec": [
+        "iz",
+        "ir",
+        "i",
+        "j"
+    ],
+    "eigenvec_r": [
+        "iz",
+        "ir",
+        "i",
+        "j"
+    ],
+    "eigenvec_i": [
+        "iz",
+        "ir",
+        "i",
+        "j"
+    ],
+    "fillpct": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "rates": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "heatb": [
+        "0",
+        "ir"
+    ],
+    "heate": [
+        "0",
+        "ir"
+    ],
+    "heatx": [
+        "iz",
+        "ir"
+    ],
+    "heati": [
+        "iz",
+        "ir"
+    ],
+    "heatj": [
+        "0",
+        "ir"
+    ],
+    "heatl": [
+        "0",
+        "ir"
+    ],
+    "coolb": [
+        "0",
+        "ir"
+    ],
+    "coole": [
+        "0",
+        "ir"
+    ],
+    "coolx": [
+        "iz",
+        "ir"
+    ],
+    "cooli": [
+        "iz",
+        "ir"
+    ],
+    "coolj": [
+        "0",
+        "ir"
+    ],
+    "pgain": [
+        "0",
+        "ir"
+    ],
+    "ploss": [
+        "0",
+        "ir"
+    ],
+    "pnet": [
+        "0",
+        "ir"
+    ],
+    "heatbt": [
+        "0",
+        "ir"
+    ],
+    "heatet": [
+        "0",
+        "ir"
+    ],
+    "heatxt": [
+        "iz",
+        "ir"
+    ],
+    "heatit": [
+        "iz",
+        "ir"
+    ],
+    "heatjt": [
+        "0",
+        "ir"
+    ],
+    "heatt": [
+        "0",
+        "ir"
+    ],
+    "heatti": [
+        "0",
+        "ir"
+    ],
+    "heatchk": [
+        "0",
+        "ir"
+    ],
+    "dhtbdt": [
+        "0",
+        "ir"
+    ],
+    "dhtbdn": [
+        "0",
+        "ir"
+    ],
+    "dhtedt": [
+        "0",
+        "ir"
+    ],
+    "dhtedn": [
+        "0",
+        "ir"
+    ],
+    "dhtxdt": [
+        "iz",
+        "ir"
+    ],
+    "dhtxdn": [
+        "iz",
+        "ir"
+    ],
+    "dhtidt": [
+        "iz",
+        "ir"
+    ],
+    "dhtjdt": [
+        "0",
+        "ir"
+    ],
+    "dhtjdn": [
+        "0",
+        "ir"
+    ],
+    "dhtldt": [
+        "0",
+        "ir"
+    ],
+    "dhtldn": [
+        "0",
+        "ir"
+    ],
+    "dclbdt": [
+        "0",
+        "ir"
+    ],
+    "dclbdn": [
+        "0",
+        "ir"
+    ],
+    "dcledt": [
+        "0",
+        "ir"
+    ],
+    "dcledn": [
+        "0",
+        "ir"
+    ],
+    "dclxdt": [
+        "iz",
+        "ir"
+    ],
+    "dclxdn": [
+        "iz",
+        "ir"
+    ],
+    "dclidt": [
+        "iz",
+        "ir"
+    ],
+    "dcljdt": [
+        "0",
+        "ir"
+    ],
+    "dcljdn": [
+        "0",
+        "ir"
+    ],
+    "dhtxtdt": [
+        "iz",
+        "ir"
+    ],
+    "dhtxtdn": [
+        "iz",
+        "ir"
+    ],
+    "dhtitdt": [
+        "iz",
+        "ir"
+    ],
+    "dhttdt": [
+        "0",
+        "ir"
+    ],
+    "dhttdn": [
+        "0",
+        "ir"
+    ],
+    "dhtetdt": [
+        "0",
+        "ir"
+    ],
+    "dhtetdn": [
+        "0",
+        "ir"
+    ],
+    "dhtjtdt": [
+        "0",
+        "ir"
+    ],
+    "dhtjtdn": [
+        "0",
+        "ir"
+    ],
+    "dhtchkdt": [
+        "0",
+        "ir"
+    ],
+    "dhtchkdn": [
+        "0",
+        "ir"
+    ],
+    "heff0": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "heff1": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "emistot": [
+        "0",
+        "ir"
+    ],
+    "emisnet": [
+        "0",
+        "ir"
+    ],
+    "econd": [
+        "0",
+        "ir"
+    ],
+    "icond": [
+        "0",
+        "ir"
+    ],
+    "esrce": [
+        "0",
+        "ir"
+    ],
+    "desrcedt": [
+        "0",
+        "ir"
+    ],
+    "esrcev": [
+        "0",
+        "ir"
+    ],
+    "esrci": [
+        "0",
+        "ir"
+    ],
+    "desrcidt": [
+        "0",
+        "ir"
+    ],
+    "esrciv": [
+        "0",
+        "ir"
+    ],
+    "desrce": [
+        "0",
+        "ir"
+    ],
+    "desrci": [
+        "0",
+        "ir"
+    ],
+    "ifr": [
+        "0",
+        "0",
+        "igp"
+    ],
+    "nf": [],
+    "energy": [
+        "0",
+        "0",
+        "igp"
+    ],
+    "ebins": [
+        "0",
+        "0",
+        "igp"
+    ],
+    "freq": [
+        "0",
+        "0",
+        "igp"
+    ],
+    "fbins": [
+        "0",
+        "0",
+        "igp"
+    ],
+    "nu": [
+        "0",
+        "0",
+        "igp"
+    ],
+    "wvl": [
+        "0",
+        "0",
+        "igp"
+    ],
+    "wbins": [
+        "0",
+        "0",
+        "igp"
+    ],
+    "nray": [],
+    "neray": [],
+    "ndtct": [],
+    "rabsn": [
+        "0",
+        "ir"
+    ],
+    "rkap": [
+        "0",
+        "ir"
+    ],
+    "rabsn0": [
+        "0",
+        "ir"
+    ],
+    "ropac": [
+        "0",
+        "ir"
+    ],
+    "ropac_nl": [
+        "0",
+        "ir"
+    ],
+    "pabsn": [
+        "0",
+        "ir"
+    ],
+    "pkap": [
+        "0",
+        "ir"
+    ],
+    "pabsn_nl": [
+        "0",
+        "ir"
+    ],
+    "pkap_nl": [
+        "0",
+        "ir"
+    ],
+    "popac": [
+        "0",
+        "ir"
+    ],
+    "popac_nl": [
+        "0",
+        "ir"
+    ],
+    "eabsn": [
+        "0",
+        "ir"
+    ],
+    "ekap": [
+        "0",
+        "ir"
+    ],
+    "eabsn_nl": [
+        "0",
+        "ir"
+    ],
+    "eopac": [
+        "0",
+        "ir"
+    ],
+    "eopac_nl": [
+        "0",
+        "ir"
+    ],
+    "absn": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "ckap": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "ckappa": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "absn_nl": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "ckap_nl": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "ckappa_nl": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "absn_hk": [
+        "iz",
+        "ir",
+        "igp"
+    ],
+    "dadt": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "dadn": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "opac": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "copac": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "opac_nl": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "copac_nl": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "opac_hk": [
+        "iz",
+        "ir",
+        "igp"
+    ],
+    "ckapb": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "ckappab": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "opacb": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "ckapbb": [
+        "iz",
+        "ir",
+        "igp",
+        "[iso]"
+    ],
+    "ckapbf": [
+        "iz",
+        "ir",
+        "igp",
+        "[iso]"
+    ],
+    "ckapbt": [
+        "iz",
+        "ir",
+        "igp",
+        "[iso]"
+    ],
+    "ckape": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "ckappae": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "copace": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "opace": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "ckapff": [
+        "iz",
+        "ir",
+        "igp",
+        "[iso]"
+    ],
+    "ckapj": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "ckappaj": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "ckapjtot": [
+        "0",
+        "i"
+    ],
+    "copacj": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "copacjtot": [
+        "0",
+        "i"
+    ],
+    "emis": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "cemis": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "emis_nl": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "cemis_nl": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "dedt": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "dedn": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "cemisb": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "cemisbb": [
+        "iz",
+        "ir",
+        "igp",
+        "iso"
+    ],
+    "cemisbf": [
+        "iz",
+        "ir",
+        "igp",
+        "iso"
+    ],
+    "cemisbt": [
+        "iz",
+        "ir",
+        "igp",
+        "iso"
+    ],
+    "cemisbbtot": [
+        "iz",
+        "ir",
+        "[iso]"
+    ],
+    "cemisbftot": [
+        "iz",
+        "ir",
+        "[iso]"
+    ],
+    "cemisbttot": [
+        "iz",
+        "ir",
+        "[iso]"
+    ],
+    "cemisff": [
+        "iz",
+        "ir",
+        "igp",
+        "[iso]"
+    ],
+    "cemisfftot": [
+        "iz",
+        "ir",
+        "igp",
+        "[iso]"
+    ],
+    "cemisj": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "cemisjnet": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "cemisk": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "cemisnet": [
+        "0",
+        "ir"
+    ],
+    "cemistot": [
+        "0",
+        "ir"
+    ],
+    "gff": [
+        "0",
+        "ir"
+    ],
+    "scat": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "nescat": [
+        "0",
+        "ir"
+    ],
+    "btot": [
+        "0"
+    ],
+    "bratetot": [
+        "0"
+    ],
+    "bnu": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "brate": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "bnur": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "bnurad": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "jbndry": [
+        "ix",
+        "0",
+        "igp"
+    ],
+    "jbnd2": [
+        "ix",
+        "0",
+        "igp"
+    ],
+    "jnu": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "jdnu": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "jnu2": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "jnul": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "jnutot": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "jrate": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "jratei": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "jratex": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "jemis": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "jspon": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "jratio": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "snu": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "eradc": [
+        "0",
+        "ir"
+    ],
+    "eradl": [
+        "0",
+        "ir"
+    ],
+    "erad": [
+        "0",
+        "ir"
+    ],
+    "erad2": [
+        "0",
+        "ir"
+    ],
+    "pradc": [
+        "0",
+        "ir"
+    ],
+    "pradl": [
+        "0",
+        "ir"
+    ],
+    "prad": [
+        "0",
+        "ir"
+    ],
+    "trad": [
+        "0",
+        "ir"
+    ],
+    "tradv": [
+        "0",
+        "ir"
+    ],
+    "taukap": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "taukapk": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "taukapl": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "taukapm": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "tauscat": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "tauscatk": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "tauscatl": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "tauscatm": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "tautot": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "tautotk": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "tautotl": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "tautotm": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "inu+": [
+        "0",
+        "ir",
+        "igp",
+        "idir"
+    ],
+    "inu-": [
+        "0",
+        "ir",
+        "igp",
+        "idir"
+    ],
+    "cflux+": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "cflux-": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "cfluxx+": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "cfluxx-": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "cfluxy+": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "cfluxy-": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "eflux+": [
+        "0",
+        "ir"
+    ],
+    "eflux-": [
+        "0",
+        "ir"
+    ],
+    "efluxx+": [
+        "0",
+        "ir"
+    ],
+    "efluxx-": [
+        "0",
+        "ir"
+    ],
+    "efluxy+": [
+        "0",
+        "ir"
+    ],
+    "efluxy-": [
+        "0",
+        "ir"
+    ],
+    "cdetect": [
+        "0",
+        "idtct",
+        "igp"
+    ],
+    "edetect": [
+        "0",
+        "idtct",
+        "igp"
+    ],
+    "tauray": [
+        "0",
+        "ir",
+        "igp",
+        "idir"
+    ],
+    "jnuarea": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "jnuline": [
+        "0",
+        "ir",
+        "igp"
+    ],
+    "isp": [
+        "is",
+        "0",
+        "isp"
+    ],
+    "nsp": [
+        "is"
+    ],
+    "sp_energy": [
+        "is",
+        "0",
+        "isp"
+    ],
+    "sp_freq": [
+        "is",
+        "0",
+        "isp"
+    ],
+    "sp_nu": [
+        "is",
+        "0",
+        "isp"
+    ],
+    "sp_wvl": [
+        "is",
+        "0",
+        "isp"
+    ],
+    "emis_sp": [
+        "is",
+        "ir",
+        "isp"
+    ],
+    "emis_sp+": [
+        "is",
+        "ir",
+        "isp",
+        "idir"
+    ],
+    "emis_sp-": [
+        "is",
+        "ir",
+        "isp",
+        "idir"
+    ],
+    "ebb_sp": [
+        "is",
+        "ir",
+        "isp"
+    ],
+    "ebf_sp": [
+        "is",
+        "ir",
+        "isp"
+    ],
+    "ebt_sp": [
+        "is",
+        "ir",
+        "isp"
+    ],
+    "eff_sp": [
+        "is",
+        "ir",
+        "isp"
+    ],
+    "ebbi_sp": [
+        "iz",
+        "ir",
+        "isp",
+        "iso"
+    ],
+    "effi_sp": [
+        "iz",
+        "ir",
+        "isp",
+        "iso"
+    ],
+    "kappa_sp": [
+        "is",
+        "ir",
+        "isp"
+    ],
+    "kappa_sp+": [
+        "is",
+        "ir",
+        "isp",
+        "idir"
+    ],
+    "kappa_sp-": [
+        "is",
+        "ir",
+        "isp",
+        "idir"
+    ],
+    "kappa_sp_hk": [
+        "iz",
+        "ir",
+        "igp"
+    ],
+    "opac_sp": [
+        "is",
+        "ir",
+        "isp"
+    ],
+    "opac_sp+": [
+        "is",
+        "ir",
+        "isp",
+        "idir"
+    ],
+    "opac_sp-": [
+        "is",
+        "ir",
+        "isp",
+        "idir"
+    ],
+    "opac_sp_hk": [
+        "iz",
+        "ir",
+        "igp"
+    ],
+    "kbb_sp": [
+        "is",
+        "ir",
+        "isp"
+    ],
+    "opbb_sp": [
+        "is",
+        "ir",
+        "isp"
+    ],
+    "kbf_sp": [
+        "is",
+        "ir",
+        "isp"
+    ],
+    "opbf_sp": [
+        "is",
+        "ir",
+        "isp"
+    ],
+    "kbt_sp": [
+        "is",
+        "ir",
+        "isp"
+    ],
+    "opbt_sp": [
+        "is",
+        "ir",
+        "isp"
+    ],
+    "kff_sp": [
+        "is",
+        "ir",
+        "isp"
+    ],
+    "opff_sp": [
+        "is",
+        "ir",
+        "isp"
+    ],
+    "kbbi_sp": [
+        "iz",
+        "ir",
+        "isp",
+        "iso"
+    ],
+    "kbfi_sp": [
+        "iz",
+        "ir",
+        "isp",
+        "iso"
+    ],
+    "kbti_sp": [
+        "iz",
+        "ir",
+        "isp",
+        "iso"
+    ],
+    "opbbi_sp": [
+        "iz",
+        "ir",
+        "isp",
+        "iso"
+    ],
+    "opbfi_sp": [
+        "iz",
+        "ir",
+        "isp",
+        "iso"
+    ],
+    "opbti_sp": [
+        "iz",
+        "ir",
+        "isp",
+        "iso"
+    ],
+    "kffi_sp": [
+        "iz",
+        "ir",
+        "isp",
+        "iso"
+    ],
+    "opffi_sp": [
+        "iz",
+        "ir",
+        "isp",
+        "iso"
+    ],
+    "src_sp": [
+        "is",
+        "ir",
+        "isp"
+    ],
+    "jsp": [
+        "is",
+        "ir",
+        "isp"
+    ],
+    "tr_sp": [
+        "0",
+        "ir",
+        "isp"
+    ],
+    "isp+": [
+        "is",
+        "ir",
+        "isp",
+        "idir"
+    ],
+    "isp-": [
+        "is",
+        "ir",
+        "isp",
+        "idir"
+    ],
+    "bnu_sp": [
+        "is",
+        "ir",
+        "isp"
+    ],
+    "spflux+": [
+        "is",
+        "ir",
+        "isp"
+    ],
+    "spflux-": [
+        "is",
+        "ir",
+        "isp"
+    ],
+    "spfluxx+": [
+        "is",
+        "ir",
+        "isp"
+    ],
+    "spfluxx-": [
+        "is",
+        "ir",
+        "isp"
+    ],
+    "spfluxy+": [
+        "is",
+        "ir",
+        "isp"
+    ],
+    "spfluxy-": [
+        "is",
+        "ir",
+        "isp"
+    ],
+    "speflux+": [
+        "is",
+        "ir"
+    ],
+    "speflux-": [
+        "is",
+        "ir"
+    ],
+    "spefluxx+": [
+        "is",
+        "ir"
+    ],
+    "spefluxx-": [
+        "is",
+        "ir"
+    ],
+    "spefluxy+": [
+        "is",
+        "ir"
+    ],
+    "spefluxy-": [
+        "is",
+        "ir"
+    ],
+    "spdetect": [
+        "is",
+        "idtct",
+        "isp"
+    ],
+    "tausp": [
+        "is",
+        "ir",
+        "isp"
+    ],
+    "tausp+": [
+        "is",
+        "ir",
+        "isp",
+        "idir"
+    ],
+    "jsparea": [
+        "is",
+        "ir",
+        "isp"
+    ],
+    "jspline": [
+        "is",
+        "ir",
+        "isp"
+    ],
+    "isp_0d": [
+        "is",
+        "ir",
+        "isp"
+    ],
+    "esp_0d": [
+        "is",
+        "ir",
+        "isp"
+    ],
+    "avoigt": [
+        "iline",
+        "ir"
+    ],
+    "uvoigt": [
+        "iline",
+        "ir"
+    ],
+    "dopwidth": [
+        "iline",
+        "ir"
+    ],
+    "deline": [
+        "iline",
+        "ir"
+    ],
+    "eline": [
+        "iline",
+        "ir"
+    ],
+    "jmode": [
+        "iline"
+    ],
+    "jbar": [
+        "iline",
+        "ir"
+    ],
+    "jbarcgs": [
+        "iline",
+        "ir"
+    ],
+    "jbarx": [
+        "iline",
+        "ir"
+    ],
+    "lineiter": [
+        "iline"
+    ],
+    "jsat": [
+        "iline",
+        "ir"
+    ],
+    "jsatcgs": [
+        "iline",
+        "ir"
+    ],
+    "nrb": [
+        "iline",
+        "ir"
+    ],
+    "sigma": [
+        "iline",
+        "ir"
+    ],
+    "ylinel": [
+        "iline",
+        "ir"
+    ],
+    "ylineu": [
+        "iline",
+        "ir"
+    ],
+    "dyldj": [
+        "iline",
+        "ir"
+    ],
+    "dyudj": [
+        "iline",
+        "ir"
+    ],
+    "ylinec": [
+        "iline",
+        "ir"
+    ],
+    "prdfrac": [
+        "iline",
+        "ir"
+    ],
+    "ifrline": [
+        "iline",
+        "0",
+        "ifr"
+    ],
+    "evline": [
+        "iline",
+        "0",
+        "ifr"
+    ],
+    "nuline": [
+        "iline",
+        "0",
+        "ifr"
+    ],
+    "jline": [
+        "iline",
+        "ir",
+        "ifr"
+    ],
+    "jline0": [
+        "iline",
+        "ir",
+        "ifr"
+    ],
+    "jlinecgs": [
+        "iline",
+        "ir",
+        "ifr"
+    ],
+    "jline0cgs": [
+        "iline",
+        "ir",
+        "ifr"
+    ],
+    "lemiscgs": [
+        "iline",
+        "ir",
+        "ifr"
+    ],
+    "lemis": [
+        "iline",
+        "ir",
+        "ifr"
+    ],
+    "lemistcgs": [
+        "iline",
+        "ir",
+        "ifr"
+    ],
+    "lkap": [
+        "iline",
+        "ir",
+        "ifr"
+    ],
+    "lkapt": [
+        "iline",
+        "ir",
+        "ifr"
+    ],
+    "srcline": [
+        "iline",
+        "ir",
+        "ifr"
+    ],
+    "srclinecgs": [
+        "iline",
+        "ir",
+        "ifr"
+    ],
+    "tauline": [
+        "iline",
+        "ir",
+        "ifr"
+    ],
+    "tauline+": [
+        "iline",
+        "ir",
+        "ifr",
+        "idir"
+    ],
+    "tauline-": [
+        "iline",
+        "ir",
+        "ifr",
+        "idir"
+    ],
+    "iline+": [
+        "iline",
+        "ir",
+        "ifr",
+        "idir"
+    ],
+    "iline-": [
+        "iline",
+        "ir",
+        "ifr",
+        "idir"
+    ],
+    "lline+": [
+        "iline",
+        "ir",
+        "0",
+        "idir"
+    ],
+    "lline-": [
+        "iline",
+        "ir",
+        "0",
+        "idir"
+    ],
+    "iflux+": [
+        "iline",
+        "ir",
+        "ifr"
+    ],
+    "iflux-": [
+        "iline",
+        "ir",
+        "ifr"
+    ],
+    "lflux+": [
+        "iline",
+        "ir"
+    ],
+    "lflux-": [
+        "iline",
+        "ir"
+    ],
+    "ifluxx+": [
+        "iline",
+        "ir",
+        "ifr"
+    ],
+    "ifluxx-": [
+        "iline",
+        "ir",
+        "ifr"
+    ],
+    "ifluxy+": [
+        "iline",
+        "ir",
+        "ifr"
+    ],
+    "ifluxy-": [
+        "iline",
+        "ir",
+        "ifr"
+    ],
+    "lfluxx+": [
+        "iline",
+        "ir"
+    ],
+    "lfluxx-": [
+        "iline",
+        "ir"
+    ],
+    "lfluxy+": [
+        "iline",
+        "ir"
+    ],
+    "lfluxy-": [
+        "iline",
+        "ir"
+    ],
+    "idetect": [
+        "iline",
+        "idtct",
+        "ifr"
+    ],
+    "ldetect": [
+        "iline",
+        "idtct"
+    ],
+    "lemis+": [
+        "iline",
+        "ir",
+        "ifr",
+        "idiry"
+    ],
+    "lemis-": [
+        "iline",
+        "ir",
+        "ifr",
+        "idir"
+    ],
+    "lemiscgs+": [
+        "iline",
+        "ir",
+        "ifr",
+        "idiry"
+    ],
+    "lemiscgs-": [
+        "iline",
+        "ir",
+        "ifr",
+        "idir"
+    ],
+    "lemist+": [
+        "iline",
+        "ir",
+        "ifr",
+        "idir"
+    ],
+    "lemist-": [
+        "iline",
+        "ir",
+        "ifr",
+        "idir"
+    ],
+    "lemistcgs+": [
+        "iline",
+        "ir",
+        "ifr",
+        "idir"
+    ],
+    "lemistcgs-": [
+        "iline",
+        "ir",
+        "ifr",
+        "idir"
+    ],
+    "lkap+": [
+        "iline",
+        "ir",
+        "ifr",
+        "idir"
+    ],
+    "lkap-": [
+        "iline",
+        "ir",
+        "ifr",
+        "idir"
+    ],
+    "lkapt+": [
+        "iline",
+        "ir",
+        "ifr",
+        "idir"
+    ],
+    "lkapt-": [
+        "iline",
+        "ir",
+        "ifr",
+        "idir"
+    ],
+    "srcline+": [
+        "iline",
+        "ir",
+        "ifr",
+        "idir"
+    ],
+    "srcline-": [
+        "iline",
+        "ir",
+        "ifr",
+        "idir"
+    ],
+    "srclinecgs+": [
+        "iline",
+        "ir",
+        "ifr",
+        "idir"
+    ],
+    "srclinecgs-": [
+        "iline",
+        "ir",
+        "ifr",
+        "idir"
+    ],
+    "lnuarea": [
+        "iline",
+        "ir",
+        "ifr"
+    ],
+    "lnuline": [
+        "iline",
+        "ir",
+        "ifr"
+    ],
+    "ltotarea": [
+        "iline",
+        "ir"
+    ],
+    "ltotline": [
+        "iline",
+        "ir"
+    ],
+    "cspd": [
+        "0",
+        "ir"
+    ],
+    "pmass": [
+        "0",
+        "ir"
+    ],
+    "qsflg": [
+        "0",
+        "ir"
+    ],
+    "qsd": [
+        "0",
+        "ir"
+    ],
+    "qst": [
+        "0",
+        "ir"
+    ],
+    "zmass": [
+        "0",
+        "ir"
+    ],
+    "zrho": [
+        "0",
+        "ir"
+    ],
+    "zp": [
+        "0",
+        "ir"
+    ],
+    "zpv": [
+        "0",
+        "ir"
+    ],
+    "zq": [
+        "0",
+        "ir"
+    ],
+    "zqv": [
+        "0",
+        "ir"
+    ],
+    "ze": [
+        "0",
+        "ir"
+    ],
+    "zekin": [
+        "0",
+        "ir"
+    ],
+    "zetot": [],
+    "zktot": [],
+    "zektot": [],
+    "zgam": [
+        "0",
+        "ir"
+    ],
+    "zv": [
+        "0",
+        "ir"
+    ],
+    "necrit": [
+        "ilas"
+    ],
+    "plaser+": [
+        "ilas",
+        "ir",
+        "0",
+        "ilray"
+    ],
+    "plaser-": [
+        "ilas",
+        "ir",
+        "0",
+        "ilray"
+    ],
+    "ntry": [],
+    "ntryz": [
+        "0",
+        "ir"
+    ],
+    "diffy": [
+        "iz",
+        "ir",
+        "iso",
+        "i"
+    ],
+    "diffy1": [
+        "iz",
+        "ir",
+        "iso"
+    ],
+    "diffte": [
+        "0",
+        "ir"
+    ],
+    "diffti": [
+        "0",
+        "ir"
+    ],
+    "diffj": [
+        "iline",
+        "ir"
+    ],
+    "diffymax": [],
+    "difftmax": [],
+    "diffjmax": [],
+    "ndifft": [],
+    "ndiffy": [],
+    "ndiff_iz": [],
+    "ndiff_iso": [],
+    "ndiffj": [],
+    "ndiff_line": [],
+    "iter_temp": [],
+    "err_temp": [],
+    "nr": [],
+    "nt": [],
+    "ng": [],
+    "nyz": [],
+    "nyvz": [],
+    "ny1z": [],
+    "myz": [],
+    "myvz": [],
+    "my1z": [],
+    "nxtndy": [],
+    "nxtndyv": [],
+    "nxtndy1": [],
+    "cputime": [],
+    "cputot": [],
+    "cpukin": [
+        "iline"
+    ],
+    "memory": [],
+    "memmax": []
+}

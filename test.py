@@ -54,19 +54,20 @@ def sim3(var2):
 
     gen.parameters(time_between_snapshots=1e-9, initial_timestep=1.e-14)
 
-    gen.add_plot(name='electron temperature', xvar='time', yvar='te')
-    gen.add_plot(name='Net ionization rate of isosequence',
-                 xvar='time', yvar='isoraten')
+    gen.add_plot(title='electron temperature', xvars={'time':[],'ir':[0,0]}, yvars={'gamma1_e':[0,1]})
+
     return gen
 
 
 name = 'johnrun3'
 gen = sim3(2)
+print(gen.plots)
 
 #write_run_plot.all(name=name, longprint = False, plot_duplicates=False, object=gen)
 #write_run_plot.write(name=name, longprint=False,plot_duplicates=False, object=gen)
 #write_run_plot.run(name=name, longprint = False, plot_duplicates=False, object=gen)
 #write_run_plot.plot(name=name, longprint = False, plot_duplicates=False, object=gen)
+"""
 data2 = write_run_plot.extra_plot(name=name, multiplot= True)
 title = 'electron temperature'
 df = data2[title]
@@ -89,3 +90,4 @@ log_heatmap_data = np.log(heatmap_data)
 sns.heatmap(log_heatmap_data)
 plt.gca().invert_yaxis()
 plt.show()
+"""

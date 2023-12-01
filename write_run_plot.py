@@ -11,7 +11,7 @@ for obj in [generator_object, to_generator_string, search, paths, plt_file]:
 # feel free not to overwrite it, and if the data is already where you want it to be feel free to only call plot. 
 
 # Open the file and parse the JSON content
-with open(f"{paths.to_folder_cretin()}/key_naming.txt", 'r') as file:
+with open(f"{paths.to_folder_cretin()}key_naming.json", 'r') as file:
     naming_dict = json.load(file)
 
 # takes the text string and writes it to the cretin generator file

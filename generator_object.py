@@ -397,28 +397,47 @@ class User_input():
            
 
 
-    def add_plot(self, name:str, xvar:str, yvar:str, element_or_transition:str = None, node: int = None,
-                  frequency_or_isosequence : str = None, direction_or_level: str = None, multiplier : float = None):
-        extra_indices = [element_or_transition, node, frequency_or_isosequence, direction_or_level, multiplier]
-        summ = sum(x is None for x in extra_indices)
+    def add_plot(self, title:str, xvars, yvars):
+        types = [type({}), type([])]
+        if not type(title)== type('') or not type(xvars) in types or not type(yvars) in types:
+            raise Exception('title is type string and vars are type list or type dict')
+        xvars, yvars = make_dict(xvars), make_dict(yvars)
 
-        xvars = 'cycle,iter,time,ir,r,cdens,x2d,y2d,z2d,x3d,y3d,z3d,xy,k,kx,ky,kz,kr,l,lx,ly,lz,lr,m,mx,my,mz,mr,ifr,energy,freq,wvl,ebins,fbins,wbins,ifrline,evline,isp,sp_energy,sp_freq,sp_nu,sp_wvl,ie,iso,level,elev'
-        with open(f"{paths.to_folder_cretin()}/edit_naming.txt", 'r') as file:
-            ydict = json.load(file)
+        all_xvars = 'cycle,iter,time,ir,r,cdens,x2d,y2d,z2d,x3d,y3d,z3d,xy,k,kx,ky,kz,kr,l,lx,ly,lz,lr,m,mx,my,mz,mr,ifr,energy,freq,wvl,ebins,fbins,wbins,ifrline,evline,isp,sp_energy,sp_freq,sp_nu,sp_wvl,ie,iso,level,elev'.split(',')
+        if len(xvars) not in [1,2]:
+            raise Exception('plot functionality only supported for 1 (regular plot) or 2 (heatplot) x variables')
+        
+        with open(f"{paths.to_folder_cretin()}/edit_naming2.json", 'r') as file:
+            all_commands= json.load(file)
+
+        for command, variables in xvars.items():
+            if command not in  all_xvars:
+                raise Exception(f'xvars must be in {all_xvars}')
+            if len(variables) != len(all_commands[command]):
+                raise Exception(f'{command} requires the {len(all_commands[command])} options: {all_commands[command]}')
             
-        if xvar not in xvars.split(','):
-            raise Exception('x var must be in {xvars}')
-        if yvar not in [yop.split(" ")[0] for yop in ydict.keys()]:
-            raise Exception('yvar invalid, options outlined in edit_naming.txt')
+        for command, variables in yvars.items():
+            if command not in all_commands.keys():
+                raise Exception(f'{command} is not a valid yvar see edit_naming.json for options')
+            if len(variables) != len(all_commands[command]):
+                raise Exception(f'{command} requires the {len(all_commands[command])} options: {all_commands[command]}')
+            
+        self.plots.append([title, xvars, yvars])
+            
 
-        if summ == 5:
-            self.plots.append([name, xvar, yvar, element_or_transition, node, frequency_or_isosequence, direction_or_level, multiplier])
-        elif summ == 0:
-            self.plots.append([name, xvar, yvar])
-        else:
-            raise Exception('Including some of "element_or_transition, node, frequency_or_isosequence, direction_or_level, multiplier" is ambiguous and may lead to incorrect behavior in "add_plots')
+        
+
 
 #################################################################################################################################################
+
+def make_dict(data):
+    if type(data)==type({}):
+        return data
+    dic = {}
+    for entry in data:
+        dic[entry] = []
+    return dic
+
 
 def switch_loop(switch_mappings, localz):
     switch_strings =[]

@@ -215,19 +215,17 @@ class Text_generator():
         return string
     
     def edits(self):
-        string = self.start_chapter('Edits')
         if 'plots' in self.dict:
             if len(self.user_input.plots) >0:
                 string = self.start_chapter('Edits')
-                plotted_names = []
                 for plot in self.user_input.plots:
-                    if plot[0] in plotted_names:
-                        string += f'\n\txvar {plot[1]}\n\tyvar {plot[2]}'
-                    else:
-                        string += f'\nplot "{plot[0]}"\n\txvar {plot[1]}\n\tyvar {plot[2]}'
-                        plotted_names.append(plot[0])
-                    if len(plot) == 8:
-                        string += f'{self.ilts(plot[3:])}'
+                    [title, xvars, yvars] = plot
+
+                    string += f'\n\nplot"{title}"'
+                    for command, variables in xvars.items():
+                        string +=f'\n\txvar {command} {self.ilts(variables)}'
+                    for command, variables in yvars.items():
+                        string +=f'\n\tyvar {command} {self.ilts(variables)}'
 
         return string
 
