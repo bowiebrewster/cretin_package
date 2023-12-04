@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import matplotlib
 import paths
 from matplotlib import animation
+from matplotlib.animation import FuncAnimation
 
 matplotlib.rcParams['animation.ffmpeg_path'] = paths.to_animation()
 def ex(image_dir : str, images_name:str):
@@ -37,3 +38,37 @@ def ex(image_dir : str, images_name:str):
     ani.save(f'{image_dir}/{images_name}.mp4', writer='ffmpeg')  # You need to have ffmpeg installed
 
     print(f'animation saved at {image_dir}')
+
+
+def ex_heatmap(df, path, xvar1, yvar, title) :
+
+    fig, ax = plt.subplots()
+    line, = ax.plot([], [], lw=2)
+
+    # Set the x-axis to match the column names (positions)
+    try:
+        positions = df.columns.astype(float)
+    except:
+        df.columns = df.columns.get_level_values(1)
+        positions = df.columns.astype(float)
+
+
+    # Initialize the plot
+    def init():
+        ax.set_xlim(positions.min(), positions.max())
+        ax.set_ylim(df.values.min(), df.values.max())
+        ax.set_xlabel(xvar1)
+        ax.set_ylabel(yvar)
+        ax.set_title(title)
+        return line,
+
+    # Update function for each frame
+    def update(frame):
+        line.set_data(positions, df.iloc[frame])
+        return line,
+
+    # Create animation
+    ani = FuncAnimation(fig, update, frames=len(df), init_func=init, blit=True)
+
+    # Save the animation
+    ani.save(path+'.gif', writer='imagemagick', fps=15)

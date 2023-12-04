@@ -64,7 +64,7 @@ def sim3(var2):
     return gen
 
 
-name = 'johnrun3'
+name = 'johnrun4'
 gen = sim3(2)
 
 #write_run_plot.all(name=name, longprint = False, plot_duplicates=False, object=gen)
@@ -73,14 +73,17 @@ gen = sim3(2)
 #write_run_plot.plot(name=name, longprint = False, plot_duplicates=False, object=gen)
 logplot = True
 data2 = write_run_plot.extra_plot(name=name, multiplot= True, logplot = logplot)
-def plot(title, values):
-    global df
+
+def plot(title, values, data=True):
+    global df, heatmap_data
     df = data2[title]
     df = df.sort_values(by=['time', 'ir'])
     
     # Your existing code
     plt.figure()
     heatmap_data = df.pivot_table(index='time', columns='ir', values=values)
+    if data:
+        return 0
     
     # Handling zeros or negative values in the data
     if logplot:
@@ -97,6 +100,39 @@ def plot(title, values):
     plt.title(title)
     plt.gca().invert_yaxis()
     plt.show()
-plot('electron temperature', 'tev')
-plot('mass density', 'zrho')
-plot('electron number density', 'ne')
+plot('electron temperature log', 'tev')
+#plot('mass density', 'zrho')
+#plot('electron number density', 'ne')
+
+from matplotlib.animation import FuncAnimation
+def create_animation(df, path):
+    """
+    Create an animation from a pandas DataFrame.
+    
+    :param df: DataFrame where the index is time and columns represent positions.
+    :param path: File path where the animation will be saved.
+    """
+    fig, ax = plt.subplots()
+    line, = ax.plot([], [], lw=2)
+
+    # Set the x-axis to match the column names (positions)
+    positions = df.columns.astype(float)
+
+    def init():
+        ax.set_xlim(positions.min(), positions.max())
+        ax.set_ylim(df.values.min(), df.values.max())
+        return line,
+
+    def update(frame):
+        line.set_data(positions, df.iloc[frame])
+        return line,
+
+    ani = FuncAnimation(fig, update, frames=len(df), init_func=init, blit=True)
+    ani.save(path, writer='imagemagick', fps=30)
+
+# Example usage
+# Assuming `data` is your DataFrame
+create_animation(heatmap_data, 'animation.gif')
+
+
+
