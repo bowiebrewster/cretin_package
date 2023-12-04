@@ -8,6 +8,9 @@ import pandas as pd
 import io
 import seaborn as sns
 
+xvars = 'cycle,iter,time,ir,r,cdens,x2d,y2d,z2d,x3d,y3d,z3d,xy,k,kx,ky,kz,kr,l,lx,ly,lz,lr,m,mx,my,mz,mr,ifr,energy,freq,wvl,ebins,fbins,wbins,ifrline,evline,isp,sp_energy,sp_freq,sp_nu,sp_wvl,ie,iso,level,elev'
+
+
 def parse_data(folder_path):
     file_path = plt_path(folder_path)
 
@@ -20,6 +23,7 @@ def parse_data(folder_path):
         lines = section.strip().split('\n')
         title = lines[0].strip()
         columns = lines[1].strip().split()[1:]  # Ignore the dollar sign
+        columns = make_unique(columns)
         data = '\n'.join(lines[3:])
         df = pd.read_csv(io.StringIO(data), delim_whitespace=True, names=columns)
         dataframes[title] = df
@@ -33,16 +37,15 @@ def create_plot(folder_name : str, path:str = paths.to_personal_data(), multiplo
     data, start_lines, plot_count = {},{},0
 
     data = parse_data(folder)
-    print(f'adding additional plot to {folder}/images')
+
     if multiplot:
         return data
-
+    print(f'adding additional plot to {folder}/images')
     if not os.path.exists(f'{folder}/images'):
         os.makedirs(f'{folder}/images')
         print(f'Created image folder at {folder}/images')
 
     # Define x variables
-    xvars = 'cycle,iter,time,ir,r,cdens,x2d,y2d,z2d,x3d,y3d,z3d,xy,k,kx,ky,kz,kr,l,lx,ly,lz,lr,m,mx,my,mz,mr,ifr,energy,freq,wvl,ebins,fbins,wbins,ifrline,evline,isp,sp_energy,sp_freq,sp_nu,sp_wvl,ie,iso,level,elev'
     xvars_set = set(xvars.split(","))
     for title, df in data.items():
 
@@ -109,7 +112,19 @@ def plot2d(folder, title, df, xvars_in_cols, logplot):
     plt.savefig(g)
     plt.close()
 
+def make_unique(columns:list):
+    if len(set(columns)) == len(columns):
+        return columns
+    else:
+        newcols = []
+        for index, col in enumerate(columns):
+            if col in xvars.split(","):
+                newcols.append(col)
+            else:
+                newcols.append(col + str(index))
 
+        return newcols 
+    
 def plt_path(folder : str):
     os.chdir(folder)
     file_list = glob.glob('*.plt*')

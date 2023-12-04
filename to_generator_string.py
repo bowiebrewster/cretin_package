@@ -215,17 +215,20 @@ class Text_generator():
         return string
     
     def edits(self):
-        if 'plots' in self.dict:
-            if len(self.user_input.plots) >0:
-                string = self.start_chapter('Edits')
-                for plot in self.user_input.plots:
-                    [title, xvars, yvars] = plot
+        if 'plots' not in self.dict:
+            return ''
+        if len(self.user_input.plots) ==0:
+            return ''
+        string = self.start_chapter('Edits')
+        for plot in self.user_input.plots:
+            [title, xvars, yvars] = plot
 
-                    string += f'\n\nplot "{title}"'
-                    for command, variables in xvars.items():
-                        string +=f'\n\txvar {command} {self.ilts(variables)}'
-                    for command, variables in yvars.items():
-                        string +=f'\n\tyvar {command} {self.ilts(variables)}'
+            string += f'\n\nplot "{title}"'
+            for command, variables in xvars.items():
+                string +=f'\n\txvar {command} {self.ilts(variables)}'
+            for command, variables in yvars.items():
+                string +=f'\n\tyvar {command} {self.ilts(variables)}'
+
 
         return string
 

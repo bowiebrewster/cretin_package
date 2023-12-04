@@ -16,7 +16,7 @@ def sim3(var2):
     n_atom = 50
     rho, T_ev = 15, var2
     z = 12
-    N0, N1 = 1, 501  # We are operating in 1d wih 40 nodes
+    N0, N1 = 1, 5001  # We are operating in 1d wih 40 nodes
     Rmin, Rmax = 0, 0.01
     p2 = 1.e-9
 
@@ -54,39 +54,49 @@ def sim3(var2):
 
     gen.parameters(time_between_snapshots=1e-9, initial_timestep=1.e-14)
 
-    gen.add_plot(title='electron temperature', xvars={'time':[],'ir':[0,0]}, yvars={'gamma1_e':[0,1]})
-
+    gen.add_plot(title='electron temperature', xvars={'time':[],'ir':[0,0]}, yvars={'tev':[0,0]})
+    gen.add_plot(title='mass density', xvars={'time':[],'ir':[0,0]}, yvars={'zrho':[0,0]})
+    gen.add_plot(title='electron number density', xvars={'time':[],'ir':[0,0]}, yvars={'ne':[0,0]})
+    #gen.add_plot(title='charge state', xvars={'time':[],'r':[0,0]}, yvars={'zbar':[0,0]})
+    #gen.add_plot(title='net energy gain due to radiation absorption', xvars={'time':[],'r':[0,0]}, yvars={'heatj':[0,0]})
+    #gen.add_plot(title='net energy gain due to laser absorption', xvars={'time':[],'r':[0,0]}, yvars={'heatl':[0,0]})
+    #gen.add_plot(title='radiation remperature', xvars={'time':[],'r':[0,0]}, yvars={'trv':[0,0]})
     return gen
 
 
 name = 'johnrun3'
 gen = sim3(2)
-print(gen.plots)
 
 #write_run_plot.all(name=name, longprint = False, plot_duplicates=False, object=gen)
-write_run_plot.write(name=name, longprint=False,plot_duplicates=False, object=gen)
+#write_run_plot.write(name=name, longprint=False,plot_duplicates=False, object=gen)
 #write_run_plot.run(name=name, longprint = False, plot_duplicates=False, object=gen)
 #write_run_plot.plot(name=name, longprint = False, plot_duplicates=False, object=gen)
-
-data2 = write_run_plot.extra_plot(name=name, multiplot= True)
-title = 'electron temperature'
-df = data2[title]
-df = df.sort_values(by=['time', 'ir'])
-
-# Your existing code
-plt.figure()
-heatmap_data = df.pivot_table(index='time', columns='ir', values='tev')
-
-# Handling zeros or negative values in the data
-heatmap_data = heatmap_data.replace(0, np.nan)
-min_positive = heatmap_data.min().min()
-heatmap_data = heatmap_data.fillna(min_positive)
-heatmap_data = heatmap_data.clip(lower=min_positive)
-
-# Applying a logarithmic transformation
-log_heatmap_data = np.log(heatmap_data)
-
-# Creating the heatmap with the logarithmic data
-sns.heatmap(log_heatmap_data)
-plt.gca().invert_yaxis()
-plt.show()
+logplot = True
+data2 = write_run_plot.extra_plot(name=name, multiplot= True, logplot = logplot)
+def plot(title, values):
+    global df
+    df = data2[title]
+    df = df.sort_values(by=['time', 'ir'])
+    
+    # Your existing code
+    plt.figure()
+    heatmap_data = df.pivot_table(index='time', columns='ir', values=values)
+    
+    # Handling zeros or negative values in the data
+    if logplot:
+        heatmap_data = heatmap_data.replace(0, np.nan)
+        min_positive = heatmap_data.min().min()
+        heatmap_data = heatmap_data.fillna(min_positive)
+        heatmap_data = heatmap_data.clip(lower=min_positive)
+    
+        # Applying a logarithmic transformation
+        heatmap_data = np.log(heatmap_data)
+    
+    # Creating the heatmap with the logarithmic data
+    sns.heatmap(heatmap_data)
+    plt.title(title)
+    plt.gca().invert_yaxis()
+    plt.show()
+plot('electron temperature', 'tev')
+plot('mass density', 'zrho')
+plot('electron number density', 'ne')
