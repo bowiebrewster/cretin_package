@@ -64,15 +64,16 @@ def sim3(var2):
     return gen
 
 
-name = 'johnrun4'
-gen = sim3(2)
+#name = 'johnrun4'
+#gen = sim3(2)
 
 #write_run_plot.all(name=name, longprint = False, plot_duplicates=False, object=gen)
 #write_run_plot.write(name=name, longprint=False,plot_duplicates=False, object=gen)
 #write_run_plot.run(name=name, longprint = False, plot_duplicates=False, object=gen)
 #write_run_plot.plot(name=name, longprint = False, plot_duplicates=False, object=gen)
-logplot = True
-data2 = write_run_plot.extra_plot(name=name, multiplot= True, logplot = logplot)
+
+#logplot = True
+#data2 = write_run_plot.extra_plot(name=name, multiplot= True, logplot = logplot)
 
 def plot(title, values, data=True):
     global df, heatmap_data
@@ -100,7 +101,7 @@ def plot(title, values, data=True):
     plt.title(title)
     plt.gca().invert_yaxis()
     plt.show()
-plot('electron temperature log', 'tev')
+#plot('electron temperature log', 'tev')
 #plot('mass density', 'zrho')
 #plot('electron number density', 'ne')
 
@@ -132,7 +133,8 @@ def create_animation(df, path):
 
 # Example usage
 # Assuming `data` is your DataFrame
-create_animation(heatmap_data, 'animation.gif')
+#create_animation(heatmap_data, 'animation.gif')
 
 
 
+print('log' in 'afoubaeifbaeibfalog'[-3:])

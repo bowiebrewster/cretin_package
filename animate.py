@@ -71,4 +71,4 @@ def ex_heatmap(df, path, xvar1, yvar, title) :
     ani = FuncAnimation(fig, update, frames=len(df), init_func=init, blit=True)
 
     # Save the animation
-    ani.save(path+'.gif', writer='imagemagick', fps=15)
+    ani.save(path+'.mp4', writer='ffmpeg', fps=15)
