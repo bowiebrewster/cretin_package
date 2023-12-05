@@ -59,7 +59,7 @@ def create_plot(folder_name : str, path:str = paths.to_personal_data(), multiplo
             plot1d(folder, title, df, xvars_set, xvars_in_cols)
 
         elif num_xvars == 2:
-            plot2d(folder, title, df, xvars_in_cols, make_animation)
+            plot2d(folder, title, df, xvars_set, xvars_in_cols, make_animation)
 
         else:
             raise Exception('must be 2 or less x variables')
@@ -87,7 +87,7 @@ def plot1d(folder:str, title:str, df, xvars_set:list, xvars_in_cols:list):
 
 
 
-def plot2d(folder:str, title:str, df, xvars_in_cols:list, make_animation:bool):
+def plot2d(folder:str, title:str, df, xvars_set: list, xvars_in_cols:list, make_animation:bool):
     if len(df.columns) != 3:
         raise Exception('When using 2 xvariables to create a heatplot, there can only be one yvar since plots can not be overlayd')
     # Plot heatmaps for each combination of x variables and y variables
@@ -97,28 +97,62 @@ def plot2d(folder:str, title:str, df, xvars_in_cols:list, make_animation:bool):
     g = g.replace(' ','_')
 
     heatmap_data = df.pivot_table(index=xvar1, columns=xvar2, values=yvar)
-    if 'log' in title[-3:]:
-        # Handling zeros or negative values in the data
-        heatmap_data = heatmap_data.replace(0, np.nan)
-        min_positive = heatmap_data.min().min()
-        heatmap_data = heatmap_data.fillna(min_positive)
-        heatmap_data = heatmap_data.clip(lower=min_positive)
+    if plott2d_check(folder, title, df, xvars_set, xvars_in_cols):
+        if 'log' in title[-3:]:
+            # Handling zeros or negative values in the data
+            heatmap_data = heatmap_data.replace(0, np.nan)
+            min_positive = heatmap_data.min().min()
+            heatmap_data = heatmap_data.fillna(min_positive)
+            heatmap_data = heatmap_data.clip(lower=min_positive)
 
-        # Applying a logarithmic transformation
-        heatmap_data = np.log(heatmap_data)
-    if make_animation:
-       g = f'{folder}/images/{title}_{list(yvar)[0]}_anim'
-       g = g.replace(' ','_')
-       animate.ex_heatmap(heatmap_data, g, xvar2, list(yvar)[0], title) 
+            # Applying a logarithmic transformation
+            heatmap_data = np.log(heatmap_data)
+        if make_animation:
+            g = f'{folder}/images/{title}_{list(yvar)[0]}_anim'
+            g = g.replace(' ','_')
+            animate.ex_heatmap(heatmap_data, g, xvar2, list(yvar)[0], title) 
 
-    plt.figure()
-    sns.heatmap(heatmap_data)
-    plt.xlabel(xvar2)
-    plt.ylabel(xvar1)
-    plt.title(title)
-    plt.gca().invert_yaxis()
-    plt.savefig(g)
-    plt.close()
+        plt.figure()
+        sns.heatmap(heatmap_data)
+        plt.xlabel(xvar2)
+        plt.ylabel(xvar1)
+        plt.title(title)
+        plt.gca().invert_yaxis()
+        plt.savefig(g)
+        plt.close()
+
+
+def plott2d_check(folder: str, title: str, df: pd.DataFrame, xvars_set: list, xvars_in_cols: list):
+    # Set a tolerance for comparing floating-point numbers
+    tolerance = 1e-5
+
+    # Check if entire DataFrame has approximately the same value
+    if np.allclose(df.to_numpy(), df.iloc[0, 0], atol=tolerance):
+        print(f'{title} is a constant matrix and has not been plotted.')
+        return False
+
+    # Check if all columns have approximately the same values
+    all_columns_same = all(np.allclose(df[col], df.iloc[:, 0], atol=tolerance) for col in df.columns)
+    if all_columns_same:
+        print(f'{title} has identical columns and has been projected down 1 dimension')
+        plot1d(folder, title, df.iloc[0, :], xvars_set, xvars_in_cols)
+        return False
+
+    # Check if all rows have approximately the same values
+    all_rows_same = all(np.allclose(df.loc[row], df.iloc[0, :], atol=tolerance) for row in df.index)
+    if all_rows_same:
+        print(f'{title} has identical rows and has been projected down 1 dimension')
+        plot1d(folder, title, df.iloc[:, 0], xvars_set, xvars_in_cols)
+        return False
+
+    return True
+
+# Example usage
+# df = pd.DataFrame(...)  # Your DataFrame here
+# result = check_dataframe(df)
+# print(result)
+
+
 
 def make_unique(columns:list):
     if len(set(columns)) == len(columns):
