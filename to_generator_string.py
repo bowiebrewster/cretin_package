@@ -189,30 +189,26 @@ class Text_generator():
         string += '\n\ndump all'
         return string
     
-    def pop_switches(self):
-        if 'pop_switches' not in self.dict:
-            return ''
-        pop = self.user_input.pop_switches
+    def switches(self):
 
         string = self.start_chapter('Switches and Parameters')
-        for string0 in pop:
-            if string0 != None:
-                string += f'\n{string0}'
+        string = self.switchloop(string, 'pop_switches')
+        string = self.switchloop(string, 'ot_switches')
+        string = self.switchloop(string, 'pop_parameters')
+        string = self.switchloop(string, 'radswitches')
 
-        if 'ot_switches' in self.dict:
-            for string1 in self.user_input.ot_switches:
-                if string1 != None:
-                    string += f'\n{string1}'
-                
-        if 'pop_parameters' not in self.dict:
-            return string
-        wob = self.user_input.pop_parameters
-
-        for string0 in wob:
-            if string0 != None:
-                string += f'\n{string0}'
+        if string == self.start_chapter('Switches and Parameters'):
+            return ''
 
         return string
+    
+    def switchloop(self, string:str, switch_type_name:str):
+        if switch_type_name in self.dict:
+            switches = getattr(self.user_input, switch_type_name)
+            for switch in switches:
+                if switch != None:
+                    string += f'\n{switch}'
+        return string 
     
     def edits(self):
         if 'plots' not in self.dict:
@@ -236,6 +232,6 @@ class Text_generator():
     
     def execute(self):
         output = ''
-        for func in [self.materials, self.geometry, self.radiation, self.sources, self.controls, self.pop_switches, self.edits]:
+        for func in [self.materials, self.geometry, self.radiation, self.sources, self.controls, self.switches, self.edits]:
             output += func()+'\n'
         return output

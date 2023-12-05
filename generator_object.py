@@ -394,7 +394,65 @@ class User_input():
                     param_strings.append(f"{param_name} {arg_value}")
 
             self.pop_parameters = param_strings
-           
+            
+    def rswitches(self, Controls_temperature_evolution:str = None, multigroup_accel:str = None, Rad_transfer_alg:str = None, 
+                zone_centered_opacities:str = None, print_linear_solver:str = None, LTE_assumption:str = None, 
+                Compton_scattering_method:str = None, Compton_scattering_options:str = None):
+        
+        switch_mappings = {
+    (2, "Controls_temperature_evolution"): {
+        "do not evolve temperatures": -1, 
+        "evolve temperatures": 0, 
+        "evolve T4 instead of T if doing diffusion": 1
+    },
+    (4, "multigroup_accel"): {
+        "no acceleration (or direct solution for 1 group)": 0,
+        "grey acceleration": 1,
+        "direct multigroup acceleration": 2,
+        "direct solution (1-d only)": 3,
+        "diagonal ALI multigroup acceleration (1-d only)": 4
+    },
+    (1, "Rad_transfer_alg"): {
+        '1-d and do flux-limited diffusion': 1,  
+        '1-d and do transport using Feautrier formalism': -1,
+        '1-d and do transport using integral formalism': -2,
+        '2d and use left preconditioning and use iccg': -1,
+        '2d and use right preconditioning and use iccg': 1,
+        '2d and use left preconditioning and use ilur': -2,
+        '2d and use right preconditioning and use ilur': 2,
+        '2d and use left preconditioning and use gmres with diagonal preconditioning': -3,
+        '2d and use right preconditioning and use gmres with diagonal preconditioning': 3,
+        '2d and use left preconditioning and use gmres with iccg preconditioning': -4,
+        '2d and use right preconditioning and use gmres with iccg preconditioning': 4,
+        '2d and use left preconditioning and use gmres with ilur preconditioning': -5,
+        '2d and use right preconditioning and use gmres with ilur preconditioning': 5,
+        '2d and use gmres with no preconditioning': 6
+    },
+    (8, "zone_centered_opacities"): {
+        "use furnished values": -1,
+        "harmonic average of nodal values": 0,
+        "straight average of nodal values": 1,
+        "minimum of nodal values": 2,
+        "default value": "other"
+    },
+    (13, "print_linear_solver"): {
+        "do not print diagnostics": 0,
+        "print diagnostics to screen": -1,
+        "print diagnostics to ascii file": 1
+    },
+    (20, "LTE_assumption"): {
+        "LTE": 0,
+        "non-LTE without derivatives w.r.t. Jn": 1,
+        "non-LTE with derivatives w.r.t. Jn": 2
+    },
+    (21, "Compton_scattering_method"): {
+        "solve Fokker-Planck equation for Compton scattering": 1,
+        "do not do Compton scattering": 0
+    }
+    }
+
+
+        self.radswitches = switch_loop_lambda(switch_mappings, locals())
 
 
     def add_plot(self, title:str, xvars, yvars):
@@ -448,6 +506,25 @@ def switch_loop(switch_mappings, localz):
                 switch_strings.append(f'switch {switch_number} {dict[user_input]}')
 
     return switch_strings
+
+
+def switch_loop_lambda(switch_mappings, localz):
+    switch_strings = []
+    for (switch_number, dict_name), switch_dict in switch_mappings.items():
+        if dict_name in localz:
+            user_input = localz.get(dict_name)
+            if user_input is not None:
+                switch_value = switch_dict.get(user_input)
+                # Check if the switch_value is a callable (e.g., lambda function)
+                if callable(switch_value):
+                    # Call the lambda function with user_input
+                    evaluated_value = switch_value(user_input)
+                    switch_strings.append(f'rswitch {switch_number} {evaluated_value}')
+                elif switch_value is not None:
+                    # Handle normal (non-callable) values
+                    switch_strings.append(f'rswitch {switch_number} {switch_value}')
+    return switch_strings
+
 
 
 

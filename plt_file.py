@@ -96,7 +96,6 @@ def plot2d(folder:str, title:str, df, xvars_in_cols:list, logplot:bool, make_ani
     g = g.replace(' ','_')
 
     heatmap_data = df.pivot_table(index=xvar1, columns=xvar2, values=yvar)
-    print(title)
     if 'log' in title[-3:]:
         # Handling zeros or negative values in the data
         heatmap_data = heatmap_data.replace(0, np.nan)
