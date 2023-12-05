@@ -31,7 +31,7 @@ def parse_data(folder_path):
     return(dataframes)
 
 
-def create_plot(folder_name : str, path:str = paths.to_personal_data(), multiplot : bool = False, logplot : bool = False, make_animation:bool = False):
+def create_plot(folder_name : str, path:str = paths.to_personal_data(), multiplot : bool = False, make_animation:bool = False):
     folder = f'{path}{folder_name}'
     global data, start_lines, plot_count
     data, start_lines, plot_count = {},{},0
@@ -49,23 +49,23 @@ def create_plot(folder_name : str, path:str = paths.to_personal_data(), multiplo
     # Define x variables
     xvars_set = set(xvars.split(","))
     for title, df in data.items():
-
+        print(title)
         # Check which columns in df are x variables
         xvars_in_cols = [col for col in df.columns if col in xvars_set]
 
         # Count the number of x variables in df
         num_xvars = len(xvars_in_cols)
         if num_xvars == 1:
-            plot1d(folder, title, df, xvars_set, xvars_in_cols, logplot)
+            plot1d(folder, title, df, xvars_set, xvars_in_cols)
 
         elif num_xvars == 2:
-            plot2d(folder, title, df, xvars_in_cols, logplot, make_animation)
+            plot2d(folder, title, df, xvars_in_cols, make_animation)
 
         else:
             raise Exception('must be 2 or less x variables')
 
 
-def plot1d(folder:str, title:str, df, xvars_set:list, xvars_in_cols:list, logplot:bool):
+def plot1d(folder:str, title:str, df, xvars_set:list, xvars_in_cols:list):
     xvar = xvars_in_cols[0]
     plt.figure()
     y_labels = []        
@@ -74,19 +74,20 @@ def plot1d(folder:str, title:str, df, xvars_set:list, xvars_in_cols:list, logplo
             plt.plot(df[xvar], df[yvar])
             y_labels.append(yvar)
 
-    if logplot:
+    if 'log' in title[-3:]:
         plt.yscale('log')
 
     plt.xlabel(xvar)
     plt.ylabel(y_labels)
+    plt.legend(y_labels)
     plt.title(title)
-    plt.gca().invert_yaxis()
+
     plt.savefig(f'{folder}/images/{title}.png')
     plt.close()
 
 
 
-def plot2d(folder:str, title:str, df, xvars_in_cols:list, logplot:bool, make_animation:bool):
+def plot2d(folder:str, title:str, df, xvars_in_cols:list, make_animation:bool):
     if len(df.columns) != 3:
         raise Exception('When using 2 xvariables to create a heatplot, there can only be one yvar since plots can not be overlayd')
     # Plot heatmaps for each combination of x variables and y variables
