@@ -49,7 +49,6 @@ def create_plot(folder_name : str, path:str = paths.to_personal_data(), multiplo
     # Define x variables
     xvars_set = set(xvars.split(","))
     for title, df in data.items():
-        print(title)
         # Check which columns in df are x variables
         xvars_in_cols = [col for col in df.columns if col in xvars_set]
 

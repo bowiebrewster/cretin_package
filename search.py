@@ -22,7 +22,8 @@ class Generators():
             for line in f.readlines():
                 lis = line.split()
                 if len(lis) > 0:
-                    if word in lis[0]:
+                    word_spaces = len(word.split(' '))
+                    if word in ' '.join(lis[:word_spaces]):
                         if print_path:print(complete_path)
                         try:            
                             sliced = ' '.join( lis[slice(*word_slicing)])
