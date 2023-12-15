@@ -51,17 +51,20 @@ def create_plot(folder_name : str, path:str = paths.to_personal_data(), multiplo
     for title, df in data.items():
         # Check which columns in df are x variables
         xvars_in_cols = [col for col in df.columns if col in xvars_set]
-
         # Count the number of x variables in df
         num_xvars = len(xvars_in_cols)
-        if num_xvars == 1:
+
+        if num_xvars == 0:
+            plot1d(folder, title, df, xvars_set, df.columns)
+   
+        elif num_xvars == 1:
             plot1d(folder, title, df, xvars_set, xvars_in_cols)
 
         elif num_xvars == 2:
             plot2d(folder, title, df, xvars_set, xvars_in_cols, make_animation)
 
         else:
-            raise Exception('must be 2 or less x variables')
+            raise Exception('too many xvariables')
 
 
 def plot1d(folder:str, title:str, df, xvars_set:list, xvars_in_cols:list):
@@ -87,7 +90,10 @@ def plot1d(folder:str, title:str, df, xvars_set:list, xvars_in_cols:list):
 
 
 def plot2d(folder:str, title:str, df, xvars_set: list, xvars_in_cols:list, make_animation:bool):
-    if len(df.columns) != 3:
+    if len(df.columns) < 3:
+        plot1d(folder, title, df, xvars_set, df.columns[0])
+        return
+    if len(df.columns) > 3:
         raise Exception('When using 2 xvariables to create a heatplot, there can only be one yvar since plots can not be overlayd')
     # Plot heatmaps for each combination of x variables and y variables
     xvar1, xvar2 = xvars_in_cols

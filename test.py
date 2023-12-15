@@ -137,4 +137,3 @@ def create_animation(df, path):
 
 
 
-print('log' in 'afoubaeifbaeibfalog'[-3:])
