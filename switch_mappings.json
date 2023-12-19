@@ -1,0 +1,133 @@
+{
+    "main":
+    {
+        "151_include_degeneracy": {
+            "no degeneracy": 0,
+            "include electron degeneracy": 0.5,
+            "ignore additional correction for ionizations": -0.5,
+            "integrate collisional ionizations numerically": 1.5,
+            "integrate collisional excitations numerically": 2.5
+        },
+        "29_timestep_type": {
+            "use constant timesteps": -1,
+            "use_dynamic_timesteps": 1
+        },
+        "36_continuum_transfer": {
+            "do steady-state continuum transfer": 0.5,
+            "do time-dependent continuum transfer": -0.5,
+            "do steady-state and use Feautrier formalism": 1,
+            "do steady-state and use integral formalism formalism": 2
+        },
+        "25_kinematics": {
+            "steady-state kinetics": 0,
+            "time-dependent kinetics": 0.5,
+            "use approx. LTE and QSS distributions to choose LTE or NLTE": 1.5,
+            "calculate approx. LTE and QSS distribution": -1,
+            "no kinetics": -1.5
+        },
+        "28_initialization_control": {
+            "LTE at fixed electron density": -1,
+            "LTE at fixed ion density": 0,
+            "steady-state w/ radiation transfer": 1,
+            "steady-state kinetics w/o radiation transfer": 2,
+            "no kinetics, broadcast boundary radiation": 3,
+            "none": 4
+        },
+        "55_continuum_lowering_control": {
+            "approximate accounting for missing Rydberg levels": -1,
+            "no continuum lowering": 0,
+            "Stewart-Pyatt with formula for degeneracy lowering": 1,
+            "Stewart-Pyatt with microfield degeneracy lowering": 2,
+            "microfield degeneracy lowering w/o continuum lowering": 3,
+            "SP/EK w/o degeneracy lowering": 5,
+            "use maximum of SP/EK and approximate accounting": 10
+        }
+    },
+
+    "other":
+    {
+        "2_population_calculation": {
+            "assuming steady state diffusion": 0,
+            "time dependent diffusion": 1
+        },
+        "47_resonant_absorption_fraction": {
+            "constant value for each ray from lasray": 0,
+            "Ginzburg formula": 1,
+            "Ginzburg formula + smooth resonant absorption over neighboring zones": -1,
+            "tabulated values": 0.5,
+            "tabulated values + smooth resonant absorption over neighboring zones": -0.5
+        },
+        "49_control_calc_thermal_conduct": {
+            "no thermal conduction": 0,
+            "include thermal conduction": 1,
+            "use iccg": 2,
+            "use ilur": 3,
+            "use gmres with diagonal preconditioning": 4,
+            "use gmres with iccg preconditioning": 5,
+            "use gmres with ilur preconditioning": 6,
+            "use gmres with no preconditioning": 7
+        },
+        "20_population_control": {
+            "Calculate LTE populations": 0,
+            "Calculate NLTE populations (fixed electron density)": -1,
+            "Calculate NLTE populations (fixed ion densities)": 1,
+            "Calculate NLTE populations using rate matrices (intensities from continuum transfer)": 1,
+            "Calculate NLTE populations using rate matrices (intensities from xfile)": 1,
+            "Calculate NLTE populations using rate matrices (zero intensities)": 1,
+            "Calculate NLTE populations using Planckian intensities (Te with multiplier)": 2,
+            "Calculate NLTE populations using Planckian intensities (Tr with multiplier)": 3
+        }
+    },
+    
+    "rswitch" : {
+        "2_Controls_temperature_evolution": {
+            "do not evolve temperatures": -1, 
+            "evolve temperatures": 0, 
+            "evolve T4 instead of T if doing diffusion": 1
+        },
+        "4_multigroup_accel": {
+            "no acceleration (or direct solution for 1 group)": 0,
+            "grey acceleration": 1,
+            "direct multigroup acceleration": 2,
+            "direct solution (1-d only)": 3,
+            "diagonal ALI multigroup acceleration (1-d only)": 4
+        },
+        "1_Rad_transfer_alg": {
+            "1-d and do flux-limited diffusion": 1,  
+            "1-d and do transport using Feautrier formalism": -1,
+            "1-d and do transport using integral formalism": -2,
+            "2d and use left preconditioning and use iccg": -1,
+            "2d and use right preconditioning and use iccg": 1,
+            "2d and use left preconditioning and use ilur": -2,
+            "2d and use right preconditioning and use ilur": 2,
+            "2d and use left preconditioning and use gmres with diagonal preconditioning": -3,
+            "2d and use right preconditioning and use gmres with diagonal preconditioning": 3,
+            "2d and use left preconditioning and use gmres with iccg preconditioning": -4,
+            "2d and use right preconditioning and use gmres with iccg preconditioning": 4,
+            "2d and use left preconditioning and use gmres with ilur preconditioning": -5,
+            "2d and use right preconditioning and use gmres with ilur preconditioning": 5,
+            "2d and use gmres with no preconditioning": 6
+        },
+        "8_zone_centered_opacities": {
+            "use furnished values": -1,
+            "harmonic average of nodal values": 0,
+            "straight average of nodal values": 1,
+            "minimum of nodal values": 2,
+            "default value": "other"
+        },
+        "13_print_linear_solver": {
+            "do not print diagnostics": 0,
+            "print diagnostics to screen": -1,
+            "print diagnostics to ascii file": 1
+        },
+        "20_LTE_assumption": {
+            "LTE": 0,
+            "non-LTE without derivatives w.r.t. Jn": 1,
+            "non-LTE with derivatives w.r.t. Jn": 2
+        },
+        "21_Compton_scattering_method": {
+            "solve Fokker-Planck equation for Compton scattering": 1,
+            "do not do Compton scattering": 0
+        }
+    }
+}

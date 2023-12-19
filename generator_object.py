@@ -245,50 +245,10 @@ class User_input():
     temparture_calc_heating_rates=None,
     max_iterations_per_timestep=None):
         
-        switch_mappings = {
-        (151, "include_degeneracy"): {
-            "no degeneracy": 0,
-            "include electron degeneracy": 0.5,
-            "ignore additional correction for ionizations": -0.5,
-            "integrate collisional ionizations numerically": 1.5,
-            "integrate collisional excitations numerically": 2.5,
-        },
-        (29, "timestep_type"): {
-            "use constant timesteps": -1,
-            "use_dynamic_timesteps": 1,
-        },
-        (36, "continuum_transfer"): {
-            "do steady-state continuum transfer": 0.5,
-            "do time-dependent continuum transfer": -0.5,
-            "do steady-state and use Feautrier formalism": 1,
-            "do steady-state and use integral formalism formalism": 2,
-        },
-        (25, "kinematics"): {
-            "steady-state kinetics": 0,
-            "time-dependent kinetics": 0.5,
-            "use approx. LTE and QSS distributions to choose LTE or NLTE": 1.5,
-            "calculate approx. LTE and QSS distribution": -1,
-            "no kinetics": -1.5,
-        },
-        (28, "initialization_control"): {
-            "LTE at fixed electron density": -1,
-            "LTE at fixed ion density": 0,
-            "steady-state w/ radiation transfer": 1,
-            "steady-state kinetics w/o radiation transfer": 2,
-            "no kinetics, broadcast boundary radiation": 3,
-            "none": 4,
-        },
-        (55, "continuum_lowering_control"): {
-            "approximate accounting for missing Rydberg levels": -1,
-            "no continuum lowering": 0,
-            "Stewart-Pyatt with formula for degeneracy lowering": 1,
-            "Stewart-Pyatt with microfield degeneracy lowering": 2,
-            "microfield degeneracy lowering w/o continuum lowering": 3,
-            "SP/EK w/o degeneracy lowering": 5,
-            "use maximum of SP/EK and approximate accounting": 10,}
-        }
+        with open(f"{paths.to_folder_cretin()}/switch_mappings.json", 'r') as file:
+            all_commands= json.load(file)
 
-        switch_strings = switch_loop(switch_mappings, locals())
+        switch_strings = switch_loop(all_commands['main'], locals())
         
         if continuum_transfer_evolves_temp:
             switch_strings.append("switch 100 1")
@@ -327,41 +287,10 @@ class User_input():
         control_calc_thermal_conduct=None,
         population_control=None):
         
-        switch_mappings = {
-            (2,"population_calculation"): {
-                "assuming steady state diffusion": 0,
-                "time dependent diffusion": 1,
-            },
-            (47,"resonant_absorption_fraction"): {
-                "constant value for each ray from lasray": 0,
-                "Ginzburg formula": 1,
-                "Ginzburg formula + smooth resonant absorption over neighboring zones": -1,
-                "tabulated values": 0.5,
-                "tabulated values + smooth resonant absorption over neighboring zones": -0.5,
-            },
-            (49,"control_calc_thermal_conduct"): {
-                "no thermal conduction": 0,
-                "include thermal conduction": 1,
-                "use iccg": 2,
-                "use ilur": 3,
-                "use gmres with diagonal preconditioning": 4,
-                "use gmres with iccg preconditioning": 5,
-                "use gmres with ilur preconditioning": 6,
-                "use gmres with no preconditioning": 7,
-            },
-            (20,"population_control"): {
-                "Calculate LTE populations": 0,
-                "Calculate NLTE populations (fixed electron density)": -1,
-                "Calculate NLTE populations (fixed ion densities)": 1,
-                "Calculate NLTE populations using rate matrices (intensities from continuum transfer)": 1,
-                "Calculate NLTE populations using rate matrices (intensities from xfile)": 1,
-                "Calculate NLTE populations using rate matrices (zero intensities)": 1,
-                "Calculate NLTE populations using Planckian intensities (Te with multiplier)": 2,
-                "Calculate NLTE populations using Planckian intensities (Tr with multiplier)": 3,
-            },
-        }
+        with open(f"{paths.to_folder_cretin()}/switch_mappings.json", 'r') as file:
+            all_commands= json.load(file)
 
-        switch_strings = switch_loop(switch_mappings, locals())
+        switch_strings = switch_loop(all_commands['other'], locals())
 
         if subcycle_maximum is not None:
             switch_strings.append(f"switch 3 {subcycle_maximum}")
@@ -399,60 +328,10 @@ class User_input():
                 zone_centered_opacities:str = None, print_linear_solver:str = None, LTE_assumption:str = None, 
                 Compton_scattering_method:str = None, Compton_scattering_options:str = None):
         
-        switch_mappings = {
-    (2, "Controls_temperature_evolution"): {
-        "do not evolve temperatures": -1, 
-        "evolve temperatures": 0, 
-        "evolve T4 instead of T if doing diffusion": 1
-    },
-    (4, "multigroup_accel"): {
-        "no acceleration (or direct solution for 1 group)": 0,
-        "grey acceleration": 1,
-        "direct multigroup acceleration": 2,
-        "direct solution (1-d only)": 3,
-        "diagonal ALI multigroup acceleration (1-d only)": 4
-    },
-    (1, "Rad_transfer_alg"): {
-        '1-d and do flux-limited diffusion': 1,  
-        '1-d and do transport using Feautrier formalism': -1,
-        '1-d and do transport using integral formalism': -2,
-        '2d and use left preconditioning and use iccg': -1,
-        '2d and use right preconditioning and use iccg': 1,
-        '2d and use left preconditioning and use ilur': -2,
-        '2d and use right preconditioning and use ilur': 2,
-        '2d and use left preconditioning and use gmres with diagonal preconditioning': -3,
-        '2d and use right preconditioning and use gmres with diagonal preconditioning': 3,
-        '2d and use left preconditioning and use gmres with iccg preconditioning': -4,
-        '2d and use right preconditioning and use gmres with iccg preconditioning': 4,
-        '2d and use left preconditioning and use gmres with ilur preconditioning': -5,
-        '2d and use right preconditioning and use gmres with ilur preconditioning': 5,
-        '2d and use gmres with no preconditioning': 6
-    },
-    (8, "zone_centered_opacities"): {
-        "use furnished values": -1,
-        "harmonic average of nodal values": 0,
-        "straight average of nodal values": 1,
-        "minimum of nodal values": 2,
-        "default value": "other"
-    },
-    (13, "print_linear_solver"): {
-        "do not print diagnostics": 0,
-        "print diagnostics to screen": -1,
-        "print diagnostics to ascii file": 1
-    },
-    (20, "LTE_assumption"): {
-        "LTE": 0,
-        "non-LTE without derivatives w.r.t. Jn": 1,
-        "non-LTE with derivatives w.r.t. Jn": 2
-    },
-    (21, "Compton_scattering_method"): {
-        "solve Fokker-Planck equation for Compton scattering": 1,
-        "do not do Compton scattering": 0
-    }
-    }
+        with open(f"{paths.to_folder_cretin()}/switch_mappings.json", 'r') as file:
+            all_commands= json.load(file)
 
-
-        self.radswitches = switch_loop_lambda(switch_mappings, locals())
+        self.radswitches = switch_loop(all_commands['rswitch'], locals())
 
 
     def add_plot(self, title:str, xvars, yvars):
@@ -499,32 +378,14 @@ def make_dict(data):
 
 def switch_loop(switch_mappings, localz):
     switch_strings =[]
-    for (switch_number, dict_name), dict in switch_mappings.items():
+    for switch_number_name, switch_dict in switch_mappings.items():
+        switch_number, dict_name = switch_number_name.split('_')[0], switch_number_name.split('_')[1:]
         if dict_name in localz and dict is not None and dict_name is not None:
             user_input = localz.get(dict_name)
             if user_input is not None:
                 switch_strings.append(f'switch {switch_number} {dict[user_input]}')
 
     return switch_strings
-
-
-def switch_loop_lambda(switch_mappings, localz):
-    switch_strings = []
-    for (switch_number, dict_name), switch_dict in switch_mappings.items():
-        if dict_name in localz:
-            user_input = localz.get(dict_name)
-            if user_input is not None:
-                switch_value = switch_dict.get(user_input)
-                # Check if the switch_value is a callable (e.g., lambda function)
-                if callable(switch_value):
-                    # Call the lambda function with user_input
-                    evaluated_value = switch_value(user_input)
-                    switch_strings.append(f'rswitch {switch_number} {evaluated_value}')
-                elif switch_value is not None:
-                    # Handle normal (non-callable) values
-                    switch_strings.append(f'rswitch {switch_number} {switch_value}')
-    return switch_strings
-
 
 
 
