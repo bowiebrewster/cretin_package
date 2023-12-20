@@ -1,13 +1,18 @@
 import ipywidgets as widgets
 from ipywidgets import HBox
+import paths
+import json
 from IPython.display import display
 
 # this class is for the drop down menu's, big thanks to chat gpt, could't have done it without you.s
 
 class DropMethods:
+    def __init__(self, user_input):
+        self.user_input = user_input  # Store the reference to User_input instance
 
     # Define your function
     def sources_source_jnu(self):
+
         # Create interactive widgets for all arguments
         self.E_range_input = widgets.Text(
             description="energy range (list):",
@@ -44,7 +49,7 @@ class DropMethods:
 
             
             data = ['jnu', E_range_value, option_1_value, option_2_value, values_value, nodes_value, self.lasray_lis]
-            self.sources.append(data)
+            self.user_input.sources.append(data)
 
         self.button.on_click(on_button_click)
 
@@ -99,7 +104,7 @@ class DropMethods:
 
             
             data = ['jbndry', index_value, E_range_value, option_1_value, option_2_value, values_value, nodes_value, self.lasray_lis]
-            self.sources.append(data)
+            self.user_input.sources.append(data)
 
         self.button.on_click(on_button_click)
 
@@ -147,7 +152,7 @@ class DropMethods:
 
             
             data = ['laser', laser_wavelength_value, option_1_value, option_2_value, values_value, nodes_value, self.lasray_lis]
-            self.sources.append(data)
+            self.user_input.sources.append(data)
 
         self.button.on_click(on_button_click)
 
@@ -202,7 +207,7 @@ class DropMethods:
             self.source_bound = [package_value, type_value, nodes_value, mult_value, value_value]
             
             data = ['boundary', self.source_bound, self.lasray_lis]
-            self.source_boundaries = data
+            self.user_input.source_boundaries = data
 
         self.button.on_click(on_button_click)
 
@@ -251,7 +256,7 @@ class DropMethods:
             else:
                 lasray_data = [entrance_position_value, entrance_direction_mu_value,
                             entrance_direction_phi_value, fractional_power_value, res_frac_value]
-                self.lasray_lis.append(lasray_data)
+                self.user_input.lasray_lis.append(lasray_data)
 
         self.button.on_click(on_button_click)
 
@@ -298,7 +303,7 @@ class DropMethods:
             y_cors_value = eval(self.y_cors_input.value)
             ratios_value = eval(self.ratios_input.value)
 
-            self.geom_quad = [node_1_value, node_2_value, x_cors_value, y_cors_value]
+            self.user_input.geom_quad = [node_1_value, node_2_value, x_cors_value, y_cors_value]
 
         self.button.on_click(on_button_click)
 
@@ -318,7 +323,7 @@ class DropMethods:
         # Define your function
         def on_button_click(b):
             product_mesh_value = self.product_mesh_checkbox.value
-            self.prod_mesh = product_mesh_value
+            self.user_input.prod_mesh = product_mesh_value
 
         self.button.on_click(on_button_click)
 
@@ -357,7 +362,7 @@ class DropMethods:
             end_value = self.end_input.value
             ratio_value = self.ratio_input.value if self.ratio_input.value is not None else None
 
-            self.rad_ebins = [n_boundaries_value, start_value, end_value, ratio_value]
+            self.user_input.rad_ebins = [n_boundaries_value, start_value, end_value, ratio_value]
 
         self.button.on_click(on_button_click)
 
@@ -384,7 +389,7 @@ class DropMethods:
             n_rays_value = self.n_rays_input.value
             n_angles_value = self.n_angles_input.value if self.n_angles_input.value is not None else None
 
-            self.rad_angles = [n_rays_value, n_angles_value]
+            self.user_input.rad_angles = [n_rays_value, n_angles_value]
 
         self.button.on_click(on_button_click)
 
@@ -423,8 +428,8 @@ class DropMethods:
             lower_state_value = eval(self.lower_state_input.value)
             higher_state_value = eval(self.higher_state_input.value)
 
-            self.rad_line = [index_value, model_value, lower_state_value, higher_state_value]
-            self.rad_lbins = []
+            self.user_input.rad_line = [index_value, model_value, lower_state_value, higher_state_value]
+            self.user_input.rad_lbins = []
 
         self.button.on_click(on_button_click)
 
@@ -464,7 +469,7 @@ class DropMethods:
             ratio_width2_value = self.ratio_width2_input.value
 
             lbins_data = [n_bins_value, energy_span1_value, ratio_width1_value, energy_span2_value, ratio_width2_value]
-            self.rad_lbins.append(lbins_data)
+            self.user_input.rad_lbins.append(lbins_data)
 
             # Clear input fields after adding the bins
             self.n_bins_input.value = None
@@ -511,7 +516,7 @@ class DropMethods:
             charge_avg_value = self.charge_avg_input.value
             charge_avg_squared_value = self.charge_avg_squared_input.value
 
-            self.material_of_region.append([rho_value, atom_n_value, charge_avg_value, charge_avg_squared_value])
+            self.user_input.material_of_region.append([rho_value, atom_n_value, charge_avg_value, charge_avg_squared_value])
 
         self.button.on_click(on_button_click)
 
@@ -556,7 +561,7 @@ class DropMethods:
             average_charge_value = self.average_charge_input.value
             average_charge_squared_value = self.average_charge_squared_input.value
 
-            self.background_of_region.append([ion_density_value, electron_density_value, avg_atomic_number_value, average_charge_value, average_charge_squared_value])
+            self.user_input.background_of_region.append([ion_density_value, electron_density_value, avg_atomic_number_value, average_charge_value, average_charge_squared_value])
 
         self.button.on_click(on_button_click)
 
@@ -589,9 +594,9 @@ class DropMethods:
             p_vals_value = eval(self.p_vals_input.value)
             e_vals_value = eval(self.e_vals_input.value)
 
-            string_input_requirement(form_value, ['constant', 'power-law', 'exponential', 'gaussian', 'cutoff'])
+            self.string_input_requirement(form_value, ['constant', 'power-law', 'exponential', 'gaussian', 'cutoff'])
 
-            self.opacity_of_region.append([form_value, p_vals_value, e_vals_value])
+            self.user_input.opacity_of_region.append([form_value, p_vals_value, e_vals_value])
 
         self.button.on_click(on_button_click)
 
@@ -637,9 +642,9 @@ class DropMethods:
             ion_density = self.ion_density.value
             iso_range_value = eval(self.iso_range_input.value) if self.iso_range_input.value else None
 
-            list_input_requirement([iso_range_value])
+            self.list_input_requirement([iso_range_value])
 
-            self.level_of_region.append([index_value, isoelectronic_sequence_value, level_value, ion_density, iso_range_value])
+            self.user_input.level_of_region.append([index_value, isoelectronic_sequence_value, level_value, ion_density, iso_range_value])
 
         self.button.on_click(on_button_click)
 
@@ -661,18 +666,19 @@ class DropMethods:
         def on_button_click(b):
             type_value = self.type_dropdown.value
 
-            string_input_requirement(type_value, ['none', 'plane', 'slab', 'cylinder', 'sphere', 'wedge', 'xy', 'rz', 'xyz'])
-
-            if type_value == 'none' and self.dimension != 0:
+            self.string_input_requirement(type_value, ['none', 'plane', 'slab', 'cylinder', 'sphere', 'wedge', 'xy', 'rz', 'xyz'])
+            if not hasattr(self, 'dimension'):
+                raise Exception('dimension must be defined in materials_region')
+            if type_value == 'none' and self.user_input.dimension != 0:
                 raise Exception("if type is none, dimension should equal zero")
-            elif type_value in ['plane','slab','cylinder','sphere','wedge'] and self.dimension != 1:
+            elif type_value in ['plane','slab','cylinder','sphere','wedge'] and self.user_input.dimension != 1:
                 raise Exception(f"if type is {type_value} dimension should equal 1")
-            elif type_value in ['xy','rz'] and self.dimension != 2:
+            elif type_value in ['xy','rz'] and self.user_input.dimension != 2:
                 raise Exception(f"if type is {type_value} dimension should equal 2")
-            elif type_value == 'xyz' and self.dimension != 3:
+            elif type_value == 'xyz' and self.user_input.dimension != 3:
                 raise Exception(f"if type is {type_value} dimension should equal 3")
 
-            self.geometry0 = type_value
+            self.user_input.geometry0 = type_value
 
         self.button.on_click(on_button_click)
 
@@ -732,14 +738,14 @@ class DropMethods:
             drmin_value = self.drmin_input.value if self.drmin_input.value is not None else None
             slope_value = self.slope_input.value if self.slope_input.value is not None else None
 
-            string_input_requirement(coordinate_value, ['r', 'x', 'y', 'x'])
+            self.string_input_requirement(coordinate_value, ['r', 'x', 'y', 'x'])
 
-            if coordinate_value == 'r' and self.dimension != 1:
+            if coordinate_value == 'r' and self.user_input.dimension != 1:
                 raise Exception("coordinate r is only compatible with 1d")
 
-            string_input_requirement(scaling_type_value, ['lin', 'log', 'geom', 'exp'])
+            self.string_input_requirement(scaling_type_value, ['lin', 'log', 'geom', 'exp'])
 
-            self.geom_nodes = [coordinate_value, scaling_type_value, nodes_value, nodes_range_value, ratio_value, drmin_value, slope_value]
+            self.user_input.geom_nodes = [coordinate_value, scaling_type_value, nodes_value, nodes_range_value, ratio_value, drmin_value, slope_value]
 
         self.button.on_click(on_button_click)
 
@@ -784,11 +790,11 @@ class DropMethods:
             iso_max_value = self.iso_max_input.value if self.iso_max_input.value is not None else None
             index_value = self.index_input.value if self.index_input.value is not None else None
 
-            element_input_requirement(element_value)
+            self.element_input_requirement(element_value)
 
             self.modeltype_of_atom = []
             self.atom0 = [element_value, quantum_n_max_value, iso_min_value, iso_max_value]
-            self.atoms.append((self.atom0, self.modeltype_of_atom))
+            self.user_input.atoms.append((self.atom0, self.modeltype_of_atom))
 
         self.button.on_click(on_button_click)
 
@@ -828,10 +834,10 @@ class DropMethods:
             type3_value = self.type3_dropdown.value
             type4_value = self.type4_dropdown.value
 
-            string_input_requirement(type1_value, ['fly', 'term', 'dca', 'radonly', 'sublevel', 'johnson'])
+            self.string_input_requirement(type1_value, ['fly', 'term', 'dca', 'radonly', 'sublevel', 'johnson'])
 
             try:
-                self.modeltype_of_atom.append([type1_value, type2_value, type3_value, type4_value])
+                self.user_input.modeltype_of_atom.append([type1_value, type2_value, type3_value, type4_value])
             except:
                 raise Exception('first define an atom using materials atom')
 
@@ -872,14 +878,14 @@ class DropMethods:
             ion_temp_value = self.ion_temp_input.value if self.ion_temp_input.value is not None else None
             rad_temp_value = self.rad_temp_input.value if self.rad_temp_input.value is not None else None
 
-            interger_input_requirement(len(nodes_value), [2, 4, 6])
-            self.dimension = int(len(nodes_value) / 2)
+            self.interger_input_requirement(len(nodes_value), [2, 4, 6])
+            self.user_input.dimension = int(len(nodes_value) / 2)
 
-            self.elements_of_region, self.material_of_region, self.rho_of_region = [], [], []
-            self.background_of_region, self.opacity_of_region, self.level_of_region = [], [], []
+            self.user_input.elements_of_region, self.user_input.material_of_region, self.user_input.rho_of_region = [], [], []
+            self.user_input.background_of_region, self.user_input.opacity_of_region, self.user_input.level_of_region = [], [], []
 
-            self.region0 = [self.dimension, nodes_value, elec_temp_value, ion_temp_value, rad_temp_value]
-            self.regions.append((self.region0, self.elements_of_region, self.material_of_region, self.rho_of_region, self.background_of_region))
+            self.user_input.region0 = [self.user_input.dimension, nodes_value, elec_temp_value, ion_temp_value, rad_temp_value]
+            self.user_input.regions.append((self.user_input.region0, self.user_input.elements_of_region, self.user_input.material_of_region, self.user_input.rho_of_region, self.user_input.background_of_region))
 
         self.button.on_click(on_button_click)
 
@@ -900,7 +906,7 @@ class DropMethods:
         def on_button_click(b):
             rho_value = self.rho_input.value
 
-            self.rho_of_region.append(rho_value)
+            self.user_input.rho_of_region.append(rho_value)
 
         self.button.on_click(on_button_click)
 
@@ -953,7 +959,7 @@ class DropMethods:
 
             element_data = [index_value, initial_ion_population_value, isoelectronic_sequence_value,
                             use_lte_value, electron_temp_value, ion_temp_value, ion_velocities_value]
-            self.elements_of_region.append(element_data)
+            self.user_input.elements_of_region.append(element_data)
 
             # Clear input fields after adding the element
             self.index_input.value = None
@@ -1011,10 +1017,10 @@ class DropMethods:
             p1_value = self.p1_input.value
             p2_value = self.p2_input.value
 
-            string_input_requirement(pulse_type_value, ['gaussian'])
+            self.string_input_requirement(pulse_type_value, ['gaussian'])
 
             data = [id_value, value_multiplier_value, time_multiplier_value, pulse_type_value, p1_value, p2_value]
-            self.source_histories.append(data)
+            self.user_input.source_histories.append(data)
 
             # Clear input fields after adding the history data
             self.id_input.value = None
@@ -1099,7 +1105,7 @@ class DropMethods:
 
                 string2 = 'rswitch 1 ' + str(rad_1d_dict[radiation_transfer_algorithm1d_value])
             elif radiation_transfer_algorithm1d_value is None and radiation_transfer_algorithm2d_value is not None:
-                string_input_requirement(radiation_transfer_algorithm2d_value, rad_2d_dict.keys())
+                self.string_input_requirement(radiation_transfer_algorithm2d_value, rad_2d_dict.keys())
                 string2 = 'rswitch 1 ' + str(rad_2d_dict[radiation_transfer_algorithm2d_value])
             else:
                 raise Exception('Error in source rswitch radiation_transfer_algorithm1')
@@ -1110,12 +1116,12 @@ class DropMethods:
             if multi_group_acceleration_value is None:
                 string4 = None
             else:
-                string_input_requirement(multi_group_acceleration_value, multi_group_acceleration_dict.keys())
+                self.string_input_requirement(multi_group_acceleration_value, multi_group_acceleration_dict.keys())
                 string4 = 'rswitch 4 ' + str(multi_group_acceleration_dict[multi_group_acceleration_value])
 
             string5 = 'rswitch 6 1' if use_flux_limiting_value else None
 
-            self.source_rswitch0 = [value for key, value in locals().items() if 'string' in key]
+            self.user_input.source_rswitch0 = [value for key, value in locals().items() if 'string' in key]
 
         self.button.on_click(on_button_click)
 
@@ -1125,108 +1131,23 @@ class DropMethods:
                             self.multi_group_acceleration_dropdown, self.use_flux_limiting_checkbox, self.button],layout = widgets.Layout(flex_flow='wrap')))
 
     def popular_switches(self):
+        with open(f"{paths.to_folder_cretin()}/switch_mappings.json", 'r') as file:
+            all_commands= json.load(file)
+        
 
-        # Create interactive widgets for all arguments
-        self.include_degeneracy_dropdown = widgets.Dropdown(
-            options=['include electron degeneracy', 'ignore additional correction for ionizations', 'integrate collisional ionizations numerically', 'integrate collisional excitations numerically'],
-            description="include degeneracy:",
-            layout=widgets.Layout(width="200px"))
+        #dropdowns = self.create_dropdowns_from_dict(switch_dict = all_commands['main'])
+        dropdowns = {}
 
-        self.timestep_type_dropdown = widgets.Dropdown(
-            options=['use constant timesteps', 'use_dynamic_timesteps'],
-            description="timestep type:",
-            layout=widgets.Layout(width="200px"))
-
-        self.continuum_transfer_dropdown = widgets.Dropdown(
-            options=['do steady-state continuum transfer', 'do time-dependent continuum transfer', 'do steady-state and use Feautrier formalism', 'do steady-state and use integral formalism formalism'],
-            description="continuum transfer:",
-            layout=widgets.Layout(width="200px"))
-
-        self.continuum_transfer_evolves_temp_checkbox = widgets.Checkbox(
-            value=False,
-            description="continuum transfer_evolves_temp",
-            layout=widgets.Layout(width="200px"))
-
-        self.timestep_between_snapshot_input = widgets.IntText(
-            description="timestep between_snapshot (optional):",
-            value=None,
-            layout=widgets.Layout(width="200px"))
-
-        self.kinematics_dropdown = widgets.Dropdown(
-            options=['steady-state kinetics', 'time-dependent kinetics', 'use approx. LTE and QSS distributions to choose LTE or NLTE', 'calculate approx. LTE and QSS distribution', 'no kinetics'],
-            description="kinematics:",
-            layout=widgets.Layout(width="200px"))
-
-        self.initialization_control_dropdown = widgets.Dropdown(
-            options=['LTE at fixed electron density', 'LTE at fixed ion density', 'steady-state w/ radiation transfer', 'steady-state kinetics w/o radiation transfer', 'no kinetics', 'broadcast boundary radiation', 'none'],
-            description="initialization control:",
-            layout=widgets.Layout(width="200px"))
-
-        self.continuum_lowering_control_dropdown = widgets.Dropdown(
-            options=['approximate accounting for missing Rydberg levels', 'no continuum lowering', 'Stewart-Pyatt with formula for degeneracy lowering', 'Stewart-Pyatt with microfield degeneracy lowering', 'microfield degeneracy lowering w/o continuum lowering', 'SP/EK w/o degeneracy lowering', 'use maximum of SP/EK and approximate accounting'],
-            description="continuum lowering control:",
-            layout=widgets.Layout(width="200px"))
-
-        self.raytrace_checkbox = widgets.Checkbox(
-            value=False,
-            description="raytrace",
-            layout=widgets.Layout(width="200px"))
-
-        self.temparture_calc_heating_rates_dropdown = widgets.Dropdown(
-            options=['temp calc = none', 'temp calc = time dependant', 'temp calc = steady state'],
-            description="temparture calc heating rates (list):",
-            layout=widgets.Layout(width="200px"))
-
-        self.max_iterations_per_timestep_input = widgets.IntText(
-            description="max iterations per timestep (optional):",
-            value=None,
-            layout=widgets.Layout(width="200px"))
-
-        self.button = widgets.Button(description="Add switches")
-
-        # Define your function
         def on_button_click(b):
-            include_degeneracy_value = self.include_degeneracy_dropdown.value
-            timestep_type_value = self.timestep_type_dropdown.value
-            continuum_transfer_value = self.continuum_transfer_dropdown.value
-            continuum_transfer_evolves_temp_value = self.continuum_transfer_evolves_temp_checkbox.value
-            timestep_between_snapshot_value = self.timestep_between_snapshot_input.value if self.timestep_between_snapshot_input.value is not None else None
-            kinematics_value = self.kinematics_dropdown.value
-            initialization_control_value = self.initialization_control_dropdown.value
-            continuum_lowering_control_value = self.continuum_lowering_control_dropdown.value
-            raytrace_value = self.raytrace_checkbox.value
-            temparture_calc_heating_rates_value = self.temparture_calc_heating_rates_dropdown.value
-            max_iterations_per_timestep_value = self.max_iterations_per_timestep_input.value if self.max_iterations_per_timestep_input.value is not None else None
+            selected_values = {key: dropdown.value for key, dropdown in dropdowns.items()}
+            # You can use the selected_values dictionary for further processing
 
-            include_degeneracy_dict = {'no degeneracy':0,'include electron degeneracy': 0.5, 'ignore additional correction for ionizations': -0.5, 'integrate collisional ionizations numerically': 1.5, 'integrate collisional excitations numerically': 2.5}
-            time_step_dict = {'use constant timesteps': -1, 'use_dynamic_timesteps': 1}
-            continuum_transfer_dict = {'do steady-state continuum transfer': 0.5, 'do time-dependent continuum transfer': -0.5, 'do steady-state and use Feautrier formalism': 1, 'do steady-state and use integral formalism formalism': 2}
-            kinematics_dict = {'steady-state kinetics': 0, 'time-dependent kinetics': 0.5, 'use approx. LTE and QSS distributions to choose LTE or NLTE': 1.5, 'calculate approx. LTE and QSS distribution': -1, 'no kinetics': -1.5}
-            initialization_control_dict = {'LTE at fixed electron density': -1, 'LTE at fixed ion density': 0, 'steady-state w/ radiation transfer': 1, 'steady-state kinetics w/o radiation transfer': 2, 'no kinetics, broadcast boundary radiation': 3, 'none': 4}
-            continuum_lowering_control_dict = {'approximate accounting for missing Rydberg levels': -1, 'no continuum lowering': 0, 'Stewart-Pyatt with formula for degeneracy lowering': 1, 'Stewart-Pyatt with microfield degeneracy lowering': 2, 'microfield degeneracy lowering w/o continuum lowering': 3, 'SP/EK w/o degeneracy lowering': 5, 'use maximum of SP/EK and approximate accounting': 10}
-            temp_calc_dict = {'temp calc = none': 0, 'temp calc = time dependant': 1, 'temp calc = steady state': -1}
+        # Create the button
+        button = widgets.Button(description="Add switches")
+        button.on_click(on_button_click)
 
-            string0 = f'switch 25 {str(kinematics_dict[kinematics_value])}' if kinematics_value else None
-            string1 = f'switch 28 {str(initialization_control_dict[initialization_control_value])}' if initialization_control_value else None
-            string2 = f'switch 29 {str(time_step_dict[timestep_type_value])}' if timestep_type_value else None
-            string3 = f'switch 30 {str(timestep_between_snapshot_value)}' if timestep_between_snapshot_value is not None else None
-            string4 = f'switch 31 {str(temp_calc_dict[temparture_calc_heating_rates_value])}' if temparture_calc_heating_rates_value else None
-            string5 = f'switch 36 {str(continuum_transfer_dict[continuum_transfer_value])}' if continuum_transfer_value else None
-            string6 = f'switch 44 {str(max_iterations_per_timestep_value)}' if max_iterations_per_timestep_value is not None else None
-            string7 = f'switch 45 1' if raytrace_value else None
-            string8 = f'switch 55 {str(continuum_lowering_control_dict[continuum_lowering_control_value])}' if continuum_lowering_control_value else None
-            string9 = f'switch 100 1' if continuum_transfer_evolves_temp_value else None
-            string10 = f'switch 151 {str(include_degeneracy_dict[include_degeneracy_value])}' if include_degeneracy_value else None
-
-            data = [value for key, value in locals().items() if 'string' in key]
-            self.pop_switches = data
-
-        self.button.on_click(on_button_click)
-
-        # Display the widgets
-        display(HBox([self.include_degeneracy_dropdown, self.timestep_type_dropdown, self.continuum_transfer_dropdown, self.continuum_transfer_evolves_temp_checkbox,
-                    self.timestep_between_snapshot_input, self.kinematics_dropdown, self.initialization_control_dropdown, self.continuum_lowering_control_dropdown,
-                    self.raytrace_checkbox, self.temparture_calc_heating_rates_dropdown, self.max_iterations_per_timestep_input, self.button],layout = widgets.Layout(flex_flow='wrap')))
+        # Display the dropdowns and button
+        display(HBox(list(dropdowns.values()) + [button]))
 
 
     def parameters(self):
@@ -1273,7 +1194,7 @@ class DropMethods:
             string4 = f'param 45 {maximum_timestep_value}' if maximum_timestep_value else None
             string5 = f'param 40 {time_between_snapshots_value}' if time_between_snapshots_value else None
 
-            self.pop_parameters = [value for key, value in locals().items() if 'string' in key]
+            self.user_input.pop_parameters = [value for key, value in locals().items() if 'string' in key]
 
         self.button.on_click(on_button_click)
 
@@ -1348,10 +1269,10 @@ class DropMethods:
             summ = sum(x is not None for x in extra_indices)
 
             if summ == 5:
-                self.plots.append([name_value, xvar_value, yvar_value, element_or_transition_value, node_value,
+                 self.user_input.plots.append([name_value, xvar_value, yvar_value, element_or_transition_value, node_value,
                                 frequency_or_isosequence_value, direction_or_level_value, multiplier_value])
             elif summ == 0:
-                self.plots.append([name_value, xvar_value, yvar_value])
+                self.user_input.plots.append([name_value, xvar_value, yvar_value])
             else:
                 raise Exception('Including some of "element_or_transition, node, frequency_or_isosequence, direction_or_level, multiplier" is ambiguous and may lead to incorrect behavior in "add_plots')
 
@@ -1359,7 +1280,7 @@ class DropMethods:
             lis = [name_value, xvar_value, yvar_value, element_or_transition_value, node_value,
                     frequency_or_isosequence_value, direction_or_level_value, multiplier_value]
             lis = [x for x in lis if x is not None]
-            self.plots.append(lis)
+            self.user_input.plots.append(lis)
 
         self.button.on_click(on_button_click)
 
@@ -1401,12 +1322,12 @@ class DropMethods:
             fractional_power_value = self.fractional_power_input.value
             res_frac_value = self.res_frac_input.value
 
-            if not hasattr(self, 'lasray_lis'):
+            if not hasattr(self.user_input, 'lasray_lis'):
                 raise Exception('lasray command must be added after laser command')
             else:
                 lasray_lis = []
                 data = [entrance_position_value, entrance_direction_mu_value, entrance_direction_phi_value, fractional_power_value, res_frac_value]
-                lasray_lis.append(data)
+                self.user_input.lasray_lis.append(data)
 
                 # Clear input fields after adding the lasray data
                 self.entrance_position_input.value = None
@@ -1420,3 +1341,53 @@ class DropMethods:
         # Display the widgets
         display(widgets.HBox([self.entrance_position_input, self.entrance_direction_mu_input, self.entrance_direction_phi_input,
                               self.fractional_power_input, self.res_frac_input, self.button]))
+ 
+
+    def create_dropdowns_from_dict(self, switch_dict):
+        dropdowns = {}
+
+        for key, values in switch_dict.items():
+            description = key.split("_")[-1].replace("_", " ").title()
+            options = list(values.keys())
+            default_value = list(values.keys())[0]
+
+            dropdown = widgets.Dropdown(
+                options=options,
+                description=description + ":",
+                layout=widgets.Layout(width="200px"),
+                value=default_value
+            )
+
+            dropdowns[key] = dropdown
+
+        return dropdowns
+
+    def string_input_requirement(self, string: str, options: list):
+        opt = ', '.join(options)
+        if string not in options: 
+            fstrin = f'{string} is not one of: {opt}'
+            raise Exception(fstrin)
+        
+
+    def interger_input_requirement(self, inter : int, options : list):
+        if inter not in options:
+            fstrin = f'{inter} is not one of: {options}'
+            raise Exception(fstrin)
+
+    def element_input_requirement(self, element: str):
+        if 'element_list' not in globals():
+            global element_list
+            df = pd.read_csv(f'{paths.to_folder_cretin()}/periodic_table.csv')
+            element_list = df['Symbol'].to_string(index = False)
+
+        new = []
+        for entry in element_list:
+            entry = ''.join(entry.split())
+            entry = entry.upper()
+            new.append(entry)
+
+        element_list = new
+        element = element.upper()
+        if element not in element_list: 
+            #raise Exception('must be one of H, HE, LI, BE ...')
+            pass

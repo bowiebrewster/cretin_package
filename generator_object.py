@@ -24,7 +24,7 @@ class User_input():
         # laser
         self.lasers = []
 
-        self.drop = DropMethods()
+        self.drop = DropMethods(self)
 
 #################################################################################################################################################
 
@@ -85,6 +85,8 @@ class User_input():
 
     def geometry(self, type : str = 'plane'):
         string_input_requirement(type, ['none', 'plane', 'slab', 'cylinder', 'sphere', 'wedge', 'xy', 'rz', 'xyz'])
+        if not hasattr(self, 'dimension'):
+            raise Exception('dimension must be defined in materials_region')
         if type == 'none' and self.dimension != 0:
             raise Exception("if type is none dimension should equal zero")
         elif type in ['plane','slab','cylinder','sphere','wedge'] and self.dimension != 1:
@@ -375,19 +377,16 @@ def make_dict(data):
         dic[entry] = []
     return dic
 
-
 def switch_loop(switch_mappings, localz):
     switch_strings =[]
     for switch_number_name, switch_dict in switch_mappings.items():
-        switch_number, dict_name = switch_number_name.split('_')[0], switch_number_name.split('_')[1:]
-        if dict_name in localz and dict is not None and dict_name is not None:
+        switch_number, dict_name = switch_number_name.split('_')[0], '_'.join(switch_number_name.split('_')[1:])
+        if dict_name in localz and switch_dict is not None and dict_name is not None:
             user_input = localz.get(dict_name)
             if user_input is not None:
-                switch_strings.append(f'switch {switch_number} {dict[user_input]}')
+                switch_strings.append(f'switch {switch_number} {switch_dict[user_input]}')
 
     return switch_strings
-
-
 
 def list_input_requirement(lis):
     for input in lis: 
