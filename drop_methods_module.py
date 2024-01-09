@@ -1,5 +1,6 @@
 import ipywidgets as widgets
 from ipywidgets import HBox
+import pandas as pd
 import paths
 import json
 from IPython.display import display
@@ -873,7 +874,7 @@ class DropMethods:
 
         # Define your function
         def on_button_click(b):
-            nodes_value = eval(self.nodes_input.value)
+            nodes_value = [1,2]#eval(self.nodes_input.value)
             elec_temp_value = self.elec_temp_input.value
             ion_temp_value = self.ion_temp_input.value if self.ion_temp_input.value is not None else None
             rad_temp_value = self.rad_temp_input.value if self.rad_temp_input.value is not None else None
