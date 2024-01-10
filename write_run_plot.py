@@ -141,15 +141,16 @@ def handle_plotting(arr, dim, key, path, longprint, plot_duplicates, arrays2d, a
 
 def plot1d(path, key, longprint, plot_duplicates, arr, arrays, spatial_x_axis, energy_x_axis):
     if should_plot(arr, arrays, plot_duplicates, longprint):
-        if len(arr) == len(spatial_x_axis):
-            plt.plot(range(len(spatial_x_axis)), arr)
-            plt.xlabel('spatial nodes')
-            plt.ylabel(key)
-        elif len(arr) == len(energy_x_axis):
-            plt.plot(range(len(energy_x_axis)), arr)
-            plt.xlabel('energy bins')
-            plt.ylabel(key)
-        else:
+        try:
+            if len(arr) == len(spatial_x_axis):
+                plt.plot(range(len(spatial_x_axis)), arr)
+                plt.xlabel('spatial nodes')
+                plt.ylabel(key)
+            elif len(arr) == len(energy_x_axis):
+                plt.plot(range(len(energy_x_axis)), arr)
+                plt.xlabel('energy bins')
+                plt.ylabel(key)
+        except:
             plt.plot(arr)
         
         plt.title(get_title(key))
@@ -207,30 +208,33 @@ def plot_and_save_2d(arr, path, masterkey, spatial_x_axis, energy_x_axis):
 
 
     # Handling spatial_x_axis
-    if len(spatial_x_axis) == arr.shape[0]:
-        selected_ticks = select_ticks(np.arange(len(spatial_x_axis)))
-        ax.set_yticks(selected_ticks)
-        ax.set_yticklabels(selected_ticks)
-        ax.set_ylabel('spatial nodes')
+    try:
+        if len(spatial_x_axis) == arr.shape[0]:
+            selected_ticks = select_ticks(np.arange(len(spatial_x_axis)))
+            ax.set_yticks(selected_ticks)
+            ax.set_yticklabels(selected_ticks)
+            ax.set_ylabel('spatial nodes')
 
-    if len(spatial_x_axis) == arr.shape[1]:
-        selected_ticks = select_ticks(np.arange(len(spatial_x_axis)))
-        ax.set_xticks(selected_ticks)
-        ax.set_xticklabels(selected_ticks)
-        ax.set_xlabel('spatial nodes')
+        if len(spatial_x_axis) == arr.shape[1]:
+            selected_ticks = select_ticks(np.arange(len(spatial_x_axis)))
+            ax.set_xticks(selected_ticks)
+            ax.set_xticklabels(selected_ticks)
+            ax.set_xlabel('spatial nodes')
 
-    # Apply tick selection for energy_x_axis
-    if len(energy_x_axis) == arr.shape[0]:
-        selected_ticks = select_ticks(np.arange(len(energy_x_axis)))
-        ax.set_yticks(selected_ticks)
-        ax.set_yticklabels(selected_ticks)
-        ax.set_ylabel('energy bins')
+        # Apply tick selection for energy_x_axis
+        if len(energy_x_axis) == arr.shape[0]:
+            selected_ticks = select_ticks(np.arange(len(energy_x_axis)))
+            ax.set_yticks(selected_ticks)
+            ax.set_yticklabels(selected_ticks)
+            ax.set_ylabel('energy bins')
 
-    if len(energy_x_axis) == arr.shape[1]:
-        selected_ticks = select_ticks(np.arange(len(energy_x_axis)))
-        ax.set_xticks(selected_ticks)
-        ax.set_xticklabels(selected_ticks)
-        ax.set_xlabel('energy bins')
+        if len(energy_x_axis) == arr.shape[1]:
+            selected_ticks = select_ticks(np.arange(len(energy_x_axis)))
+            ax.set_xticks(selected_ticks)
+            ax.set_xticklabels(selected_ticks)
+            ax.set_xlabel('energy bins')
+    except:
+        pass
 
     # Save the figure
     plt.savefig(os.path.join(path, f'{get_title(masterkey)}.png'))

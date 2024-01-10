@@ -152,13 +152,6 @@ def plott2d_check(folder: str, title: str, df: pd.DataFrame, xvars_set: list, xv
 
     return True
 
-# Example usage
-# df = pd.DataFrame(...)  # Your DataFrame here
-# result = check_dataframe(df)
-# print(result)
-
-
-
 def make_unique(columns:list):
     if len(set(columns)) == len(columns):
         return columns
