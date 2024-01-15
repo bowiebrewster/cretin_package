@@ -245,7 +245,8 @@ class User_input():
     continuum_lowering_control=None,
     raytrace=None,
     temparture_calc_heating_rates=None,
-    max_iterations_per_timestep=None):
+    max_iterations_per_timestep=None,
+    population_calculation = None):
         
         with open(f"{paths.to_folder_cretin()}/switch_mappings.json", 'r') as file:
             all_commands= json.load(file)
@@ -287,7 +288,8 @@ class User_input():
         do_kinetics_zone_centered=None,
         resonant_absorption_fraction=None,
         control_calc_thermal_conduct=None,
-        population_control=None):
+        population_control=None,
+        temperature_calculation = None):
         
         with open(f"{paths.to_folder_cretin()}/switch_mappings.json", 'r') as file:
             all_commands= json.load(file)

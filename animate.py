@@ -52,11 +52,14 @@ def ex_heatmap(df, path, xvar1, yvar, title) :
         df.columns = df.columns.get_level_values(1)
         positions = df.columns.astype(float)
 
-
-    # Initialize the plot
     def init():
+        y_min = df.values.min()
+        y_max = df.values.max()
+        if y_min == y_max:
+            y_min, y_max = y_min - 1, y_max + 1  # Adjust these values as appropriate for your data
+
         ax.set_xlim(positions.min(), positions.max())
-        ax.set_ylim(df.values.min(), df.values.max())
+        ax.set_ylim(y_min, y_max)
         ax.set_xlabel(xvar1)
         ax.set_ylabel(yvar)
         ax.set_title(title)
@@ -71,4 +74,5 @@ def ex_heatmap(df, path, xvar1, yvar, title) :
     ani = FuncAnimation(fig, update, frames=len(df), init_func=init, blit=True)
 
     # Save the animation
-    ani.save(path+'.mp4', writer='ffmpeg', fps=15)
+    ani.save(path+'.mp4', writer='ffmpeg', fps=8)
+    plt.close

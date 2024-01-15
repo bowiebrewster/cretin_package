@@ -76,6 +76,17 @@
             "Calculate NLTE populations using rate matrices (zero intensities)": 1,
             "Calculate NLTE populations using Planckian intensities (Te with multiplier)": 2,
             "Calculate NLTE populations using Planckian intensities (Tr with multiplier)": 3
+        },
+        "31_temperature_calculation":  {
+            "none": 0,
+            "use electronic heating rates for time-dependent": 1,
+            "use electronic heating rates for steady-state": -1,
+            "use energy balance (internal energy rates) for time-dependent": 2,
+            "use energy balance (internal energy rates) for steady-state": -2,
+            "use energy balance (internal energy deltas) for time-dependent": 3,
+            "use energy balance (internal energy deltas) for steady-state": -3,
+            "simple implicit temperature update ": 4,
+            "update radiation field for temperature update": -4
         }
     },
     
