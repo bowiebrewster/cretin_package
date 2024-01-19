@@ -55,8 +55,8 @@ def ex_heatmap(df, path, xvar1, yvar, title) :
     def init():
         y_min = df.values.min()
         y_max = df.values.max()
-        if y_min == y_max:
-            y_min, y_max = y_min - 1, y_max + 1  # Adjust these values as appropriate for your data
+        if abs(y_min - y_max) < 1.e-4:
+            y_min, y_max = (y_min - 1)*.99, (y_max + 1)*1.01  # Adjust these values as appropriate for your data
 
         ax.set_xlim(positions.min(), positions.max())
         ax.set_ylim(y_min, y_max)
@@ -75,4 +75,5 @@ def ex_heatmap(df, path, xvar1, yvar, title) :
 
     # Save the animation
     ani.save(path+'.mp4', writer='ffmpeg', fps=8)
-    plt.close
+    plt.close()
+    

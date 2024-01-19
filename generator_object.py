@@ -24,6 +24,15 @@ class User_input():
         # laser
         self.lasers = []
 
+
+        # materials region
+        self.elements_of_region = []
+        self.material_of_region= [] 
+        self.background_of_region = [] 
+        self.opacity_of_region = []
+        self.level_of_region  = []
+        self.rho_of_region=[]
+
         self.drop = DropMethods(self)
 
 #################################################################################################################################################
@@ -47,11 +56,10 @@ class User_input():
         if rad_temp == None:
             rad_temp = elec_temp
 
-        interger_input_requirement(len(nodes), [2,4,6])
+
         self.dimension = int(len(nodes)/2)
         
-        self.elements_of_region, self.material_of_region, self.rho_of_region= [], [], []
-        self.background_of_region, self.opacity_of_region, self.level_of_region  = [], [], []
+
         self.qstart = qstart
         
 
@@ -60,8 +68,11 @@ class User_input():
         self.region0 = [self.dimension, nodes, elec_temp, ion_temp, rad_temp]
         self.regions.append((self.region0, self.elements_of_region, self.material_of_region, self.rho_of_region, self.background_of_region, self.qstart))
 
-    def materials_region_rho(self, rho : float):
-        self.rho_of_region.append(rho)
+    def materials_region_rho(self, rho: float):
+        if hasattr(self, 'rho_of_region'):
+            self.rho_of_region.append(rho)
+        else:
+            self.rho_of_region = [rho]
 
     def materials_region_element(self,  initial_ion_population : float, index : int = None, isoelectric_sequence : list = None,
                                   use_lte:bool = False, electron_temp : float = None, ion_temp :float = None, ion_velocities :float = None):
@@ -85,20 +96,20 @@ class User_input():
 
     def geometry(self, type : str = 'plane'):
         string_input_requirement(type, ['none', 'plane', 'slab', 'cylinder', 'sphere', 'wedge', 'xy', 'rz', 'xyz'])
-        if not hasattr(self, 'dimension'):
-            raise Exception('dimension must be defined in materials_region')
-        if type == 'none' and self.dimension != 0:
-            raise Exception("if type is none dimension should equal zero")
-        elif type in ['plane','slab','cylinder','sphere','wedge'] and self.dimension != 1:
-            raise Exception(f"if type is {type} dimension should equal 1")
-        elif type in ['xy','rz'] and self.dimension != 2:
-            raise Exception(f"if type is {type} dimension should equal 2")
-        elif type == 'xyz' and self.dimension != 3:
-            raise Exception(f"if type is {type} dimension should equal 3")
+
+        if type == 'none':
+            self.dimension = 0
+        elif type in ['plane','slab','cylinder','sphere','wedge']:
+            self.dimension = 1
+        elif type in ['xy','rz']:
+            self.dimension = 2
+        elif type == 'xyz':
+            self.dimension = 3
+
         self.geometry0 = type
 
-
     def geometry_nodes(self, coordinate : str, scaling_type: str, nodes : list, nodes_range : list, ratio : float = None, drmin : float = None, slope : float = None):
+        self.dimension = int(len(nodes)/2)
         if type(self.geometry) == type(''):
             raise Exception(f'geometry setting {self.geometry} makes nodes call obsolete')
         
