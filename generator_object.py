@@ -56,13 +56,9 @@ class User_input():
         if rad_temp == None:
             rad_temp = elec_temp
 
-
         self.dimension = int(len(nodes)/2)
-        
-
         self.qstart = qstart
         
-
         # this works retroactively, I put the material_of_region list inside the self.region, if i later change 
         # the list it gets changed while its in the self.region
         self.region0 = [self.dimension, nodes, elec_temp, ion_temp, rad_temp]

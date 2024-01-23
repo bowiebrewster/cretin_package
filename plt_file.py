@@ -87,7 +87,8 @@ def plot1d(folder:str, title:str, df, xvars_set:list, xvars_in_cols:list):
     plt.savefig(f'{folder}/images/{title}.png')
     plt.close()
 
-
+def format_float(value):
+    return '{:.3g}'.format(value)
 
 def plot2d(folder:str, title:str, df, xvars_set: list, xvars_in_cols:list, make_animation:bool):
     if len(df.columns) < 3:
@@ -98,10 +99,15 @@ def plot2d(folder:str, title:str, df, xvars_set: list, xvars_in_cols:list, make_
     # Plot heatmaps for each combination of x variables and y variables
     xvar1, xvar2 = xvars_in_cols
     yvar = set(df.columns) - set(xvars_in_cols)
-    g = f'{folder}/images/{title}_{list(yvar)[0]}_Heatmap'
-    g = g.replace(' ','_')
+
 
     heatmap_data = df.pivot_table(index=xvar1, columns=xvar2, values=yvar)
+    formatted_index = heatmap_data.index.map(format_float)
+
+    # Set the new formatted index
+    heatmap_data.index = pd.Index(formatted_index)
+
+
     if plott2d_check(folder, title, df, xvars_set, xvars_in_cols):
         if 'log' in title[-3:]:
             # Handling zeros or negative values in the data
@@ -117,8 +123,12 @@ def plot2d(folder:str, title:str, df, xvars_set: list, xvars_in_cols:list, make_
             g = g.replace(' ','_')
             animate.ex_heatmap(heatmap_data, g, xvar2, list(yvar)[0], title) 
 
+        g = f'{folder}/images/{title}_{list(yvar)[0]}_Heatmap'
+        g = g.replace(' ','_')
+
         plt.figure()
         sns.heatmap(heatmap_data)
+
         plt.xlabel(xvar2)
         plt.ylabel(xvar1)
         plt.title(title)
