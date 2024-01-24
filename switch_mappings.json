@@ -41,7 +41,13 @@
             "microfield degeneracy lowering w/o continuum lowering": 3,
             "SP/EK w/o degeneracy lowering": 5,
             "use maximum of SP/EK and approximate accounting": 10
+        },
+        "42_mesh_treatment": {
+            "node-centering": 0,
+            "zone-centering": -1,
+            "staggered centering (node + zones)": 1
         }
+        
     },
 
     "other":

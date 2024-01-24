@@ -126,8 +126,13 @@ def plot2d(folder:str, title:str, df, xvars_set: list, xvars_in_cols:list, make_
         g = f'{folder}/images/{title}_{list(yvar)[0]}_Heatmap'
         g = g.replace(' ','_')
 
+        # Calculate percentiles for color scale clipping
+        lower_percentile = np.percentile(heatmap_data.to_numpy(), 5)  # 5th percentile
+        upper_percentile = np.percentile(heatmap_data.to_numpy(), 95) # 95th percentile
+
+        # Plotting
         plt.figure()
-        sns.heatmap(heatmap_data)
+        sns.heatmap(heatmap_data, vmin=lower_percentile, vmax=upper_percentile)  # Adjusted color scaling
 
         plt.xlabel(xvar2)
         plt.ylabel(xvar1)

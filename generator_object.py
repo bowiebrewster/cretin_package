@@ -334,7 +334,15 @@ class User_input():
                     param_strings.append(f"{param_name} {arg_value}")
 
             self.pop_parameters = param_strings
-            
+    def switches(self, **kwargs):
+        with open(f"{paths.to_folder_cretin()}/switch_mappings.json", 'r') as file:
+            options = json.load(file)
+
+        for key, value in kwargs.items():
+            for dict_key, dict_value in options.items():
+                if key in dict_key:
+                    print(key ,value, )
+
     def rswitches(self, Controls_temperature_evolution:str = None, multigroup_accel:str = None, Rad_transfer_alg:str = None, 
                 zone_centered_opacities:str = None, print_linear_solver:str = None, LTE_assumption:str = None, 
                 Compton_scattering_method:str = None, Compton_scattering_options:str = None):
