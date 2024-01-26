@@ -253,7 +253,8 @@ class User_input():
     raytrace=None,
     temparture_calc_heating_rates=None,
     max_iterations_per_timestep=None,
-    population_calculation = None):
+    population_calculation = None,
+    mesh_treatment = None):
         
         with open(f"{paths.to_folder_cretin()}/switch_mappings.json", 'r') as file:
             all_commands= json.load(file)
@@ -301,6 +302,7 @@ class User_input():
         with open(f"{paths.to_folder_cretin()}/switch_mappings.json", 'r') as file:
             all_commands= json.load(file)
 
+        
         switch_strings = switch_loop(all_commands['other'], locals())
 
         if subcycle_maximum is not None:
@@ -334,14 +336,6 @@ class User_input():
                     param_strings.append(f"{param_name} {arg_value}")
 
             self.pop_parameters = param_strings
-    def switches(self, **kwargs):
-        with open(f"{paths.to_folder_cretin()}/switch_mappings.json", 'r') as file:
-            options = json.load(file)
-
-        for key, value in kwargs.items():
-            for dict_key, dict_value in options.items():
-                if key in dict_key:
-                    print(key ,value, )
 
     def rswitches(self, Controls_temperature_evolution:str = None, multigroup_accel:str = None, Rad_transfer_alg:str = None, 
                 zone_centered_opacities:str = None, print_linear_solver:str = None, LTE_assumption:str = None, 

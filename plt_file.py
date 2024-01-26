@@ -90,6 +90,39 @@ def plot1d(folder:str, title:str, df, xvars_set:list, xvars_in_cols:list):
 def format_float(value):
     return '{:.3g}'.format(value)
 
+def select_time_intervals(df, num_intervals=600):
+    # Convert the index to a numpy array of floats, handling errors
+    try:
+        time_values = pd.to_numeric(df.index, errors='raise').to_numpy()
+    except ValueError:
+        raise ValueError("The index contains values that cannot be converted to numeric type.")
+
+    # Determine the start and end times from the index
+    t_0 = time_values[0]
+    t_end = time_values[-1]
+
+    # Calculate the interval
+    interval = (t_end - t_0) / num_intervals
+
+    # Find rows closest to each interval
+    selected_indices = []
+    for i in range(num_intervals):
+        target_time = t_0 + i * interval
+        # Find the index closest to the target_time
+        closest_index = np.abs(time_values - target_time).argmin()
+        selected_indices.append(df.index[closest_index])
+
+    
+    
+    # Remove duplicates and sort the indices
+    selected_indices = sorted(set(selected_indices))
+    
+    # Select rows from the original DataFrame using loc
+    selected_df = df.loc[selected_indices]
+
+    return selected_indices, selected_df
+
+
 def plot2d(folder:str, title:str, df, xvars_set: list, xvars_in_cols:list, make_animation:bool):
     if len(df.columns) < 3:
         plot1d(folder, title, df, xvars_set, df.columns[0])
@@ -102,6 +135,7 @@ def plot2d(folder:str, title:str, df, xvars_set: list, xvars_in_cols:list, make_
 
 
     heatmap_data = df.pivot_table(index=xvar1, columns=xvar2, values=yvar)
+    times, heatmap_data = select_time_intervals(heatmap_data)
     formatted_index = heatmap_data.index.map(format_float)
 
     # Set the new formatted index
