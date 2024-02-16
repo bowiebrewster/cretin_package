@@ -38,18 +38,32 @@ class User_input():
 #################################################################################################################################################
 
     # materials
-    def materials_atom(self, element : str, quantum_n_max : int = 10, iso_min : int = None, iso_max : int= None, index : int = None):
+    def materials_atom(self, element : str, quantum_n_max : int = None, iso_min : int = None, iso_max : int= None, index : int = None):
         element_input_requirement(element)
 
         self.modeltype_of_atom =[]
         self.atom0 = [element, quantum_n_max, iso_min, iso_max]
         self.atoms.append((self.atom0, self.modeltype_of_atom))
 
-    def materials_atom_modeltype(self, type1 : str, type2 : str):
-        string_input_requirement(type1, ['fly','term','dca','radonly','sublevel','johnson'])
-        string_input_requirement(type2, ['fly','term','dca','radonly','sublevel','johnson'])
-        self.modeltype_of_atom.append([type1, type2])
+    def materials_atom_modeltype(self, types:list):
+        for type in types:
+            string_input_requirement(type, ['fly','term','dca','radonly','sublevel','johnson'])
+        self.modeltype_of_atom.append(types)
 
+    def materials_atom_isorange(self, isosequence, n_max:int = 3, lmax:int = None, n_val:int=None, nhole:int=None,
+                                 n_hole_tot:int=None, nx_val:int=None, nx_valtot:int=None, n_n2n:int=None, n_term:int=None, 
+                                 nx:int=None, nx_k:int=None, nx_l:int=None):
+        if type(isosequence) == type([]):
+            if not len(isosequence)==2:
+                raise Exception("isoseqence lenth should be 2")
+        elif type(isosequence) == type(''):
+            if not isosequence == 'all':
+                raise Exception('isosequence should be all')
+        else:
+            raise Exception('isosequence should be list of length 2 or string "all"')
+        
+        self.isorange = [isosequence, n_max, lmax, n_val, nhole, n_hole_tot, nx_val, nx_valtot, n_n2n, n_term, nx, nx_k, nx_l]
+    
     def materials_region(self, nodes :list, elec_temp : float, ion_temp : float = None, rad_temp : float = None, qstart : bool = False):
         if ion_temp == None:
             ion_temp = elec_temp

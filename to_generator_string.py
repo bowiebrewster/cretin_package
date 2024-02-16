@@ -31,12 +31,23 @@ class Text_generator():
         if 'atoms' in self.dict:
             atoms = self.user_input.atoms
             # materials_atom
+
             for atom in atoms:
                 atom0, modeltype = atom
+
                 if atom0[2] == None:
-                    atom0[2] == ''
-                line = f'atoms hydrogenic_{atom0[1]} {atom0[0]} \n'
+                    atom0[2] = ''
+
+                if atom0[1] == None:
+                    line = f'atoms hydrogenic {atom0[0]} \n'
+                else:
+                    line = f'atoms hydrogenic_{atom0[1]} {atom0[0]} \n'
+                    
                 string += line
+
+                if 'isorange' in self.dict:
+                    isorange = self.user_input.isorange
+                    string += f'\tisorange {self.ilts(isorange)}\n'
 
                 if len(modeltype) > 0:
                     modeltype0 = modeltype[0]
