@@ -42,6 +42,8 @@ class Generators():
         # turn it into a frequncy table and print highest to lowest 
         letter_counts = Counter(lis_hist)
         df = pd.DataFrame.from_dict(letter_counts, orient='index')
+        if len(df)==0:
+            return pd.DataFrame({'No results': []})
         df = df.sort_values(by=[0], ascending = False)
         with pd.option_context('display.max_rows', None,
                             'display.max_columns', None,

@@ -378,18 +378,17 @@ class User_input():
             if command not in  all_xvars:
                 raise Exception(f'xvars must be in {all_xvars}')
             if len(variables) != len(all_commands[command]):
-                raise Exception(f'{command} requires the {len(all_commands[command])} options: {all_commands[command]}')
+                pass
+                #raise Exception(f'{command} requires the {len(all_commands[command])} options: {all_commands[command]}')
             
         for command, variables in yvars.items():
             if command not in all_commands.keys():
                 raise Exception(f'{command} is not a valid yvar see edit_naming.json for options')
             if len(variables) != len(all_commands[command]):
-                raise Exception(f'{command} requires the {len(all_commands[command])} options: {all_commands[command]}')
+                pass
+                #raise Exception(f'{command} requires the {len(all_commands[command])} options: {all_commands[command]}')
             
         self.plots.append([title, xvars, yvars])
-            
-
-        
 
 
 #################################################################################################################################################

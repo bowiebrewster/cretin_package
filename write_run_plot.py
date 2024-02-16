@@ -68,9 +68,7 @@ def split(name : str):
     return key, index
 
 def blacklist_key(key : str):
-    if key in ['previous','ai','zi','eav']:
-        return True
-    elif key.split('_')[0] in ['model', 'u', 'regmap', 'iso', 'r']:
+    if key.split('_')[0] in [ 'u', 'r']:
         return True
     else:
         return False
@@ -92,11 +90,6 @@ def plot(name, longprint=False, plot_duplicates=False, object = None, newpath:st
         plot_data(f, path, longprint, plot_duplicates)
 
 def plot_data(file, path, longprint, plot_duplicates):
-    spatial_x_axis, energy_x_axis = None, None
-    if 'r_0' in file.keys():
-        spatial_x_axis = np.array(file['r_0'])
-    if 'eav' in file.keys():
-        energy_x_axis = np.array(file['eav'])
 
 
     arrays2d, arrays3d = {}, {}
@@ -104,7 +97,7 @@ def plot_data(file, path, longprint, plot_duplicates):
         arr = np.array(file[key])
         dim = len(arr.shape)
         if is_valid_float_2d_array(arr) and not blacklist_key(key):
-            handle_plotting(arr, dim, key, path, longprint, plot_duplicates, arrays2d, arrays3d, i, spatial_x_axis, energy_x_axis)
+            handle_plotting(arr, dim, key, path, longprint, plot_duplicates, arrays2d, arrays3d, i)
         else:
             if longprint:
                 print(f'invalid array found with key {key}') 
@@ -131,42 +124,32 @@ def save_h5_to_txt(h5_path, txt_path):
         save_items(f)
 
 
-def handle_plotting(arr, dim, key, path, longprint, plot_duplicates, arrays2d, arrays3d, counter, spatial_x_axis, energy_x_axis):
+def handle_plotting(arr, dim, key, path, longprint, plot_duplicates, arrays2d, arrays3d, counter):
     if dim == 1 and len(arr) > 0:
-        plot1d(path, key, longprint, plot_duplicates, arr, arrays2d, spatial_x_axis, energy_x_axis)
+        plot1d(path, key, longprint, plot_duplicates, arr, arrays2d)
     elif dim == 2:
-        plot2d(path, key, longprint, plot_duplicates, arr, arrays3d, spatial_x_axis, energy_x_axis)
+        plot2d(path, key, longprint, plot_duplicates, arr, arrays3d)
     elif longprint:
         print(f'{key} has shape {arr.shape} and has not been plotted')
 
-def plot1d(path, key, longprint, plot_duplicates, arr, arrays, spatial_x_axis, energy_x_axis):
+def plot1d(path, key, longprint, plot_duplicates, arr, arrays):
     if should_plot(arr, arrays, plot_duplicates, longprint):
-        try:
-            if len(arr) == len(spatial_x_axis):
-                plt.plot(range(len(spatial_x_axis)), arr)
-                plt.xlabel('spatial nodes')
-                plt.ylabel(key)
-            elif len(arr) == len(energy_x_axis):
-                plt.plot(range(len(energy_x_axis)), arr)
-                plt.xlabel('energy bins')
-                plt.ylabel(key)
-        except:
-            plt.plot(arr)
-        
+
+        plt.plot(arr)
         plt.title(get_title(key))
         plt.savefig(os.path.join(path, f'{get_title(key)}.png'), dpi=800)
         plt.clf()
         plt.close()
         arrays[key] = arr
 
-def plot2d(path, key, longprint, plot_duplicates, arr, arrays, spatial_x_axis, energy_x_axis):
+def plot2d(path, key, longprint, plot_duplicates, arr, arrays):
     collapse = check_if_vectors_identical(arr)
     if collapse in ['rows', 'columns']:
         vector = arr[0] if collapse == 'rows' else arr[:, 0]
-        plot1d(path, key, longprint, plot_duplicates, vector, arrays, spatial_x_axis, energy_x_axis)
+        plot1d(path, key, longprint, plot_duplicates, vector, arrays)
     else:
         if should_plot_2d(arr, arrays, plot_duplicates, longprint, key):
-            plot_and_save_2d(arr, path, key, spatial_x_axis, energy_x_axis)
+            plot_and_save_2d(arr, path, key)
 
 def check_if_vectors_identical(arr):
     if arr.shape[0] < 1:
@@ -191,50 +174,21 @@ def should_plot_2d(arr, arrays, plot_duplicates, longprint, masterkey):
     #        return False
     #return plot_duplicates or not arrays
 
-def plot_and_save_2d(arr, path, masterkey, spatial_x_axis, energy_x_axis):
+def plot_and_save_2d(arr, path, masterkey):
 
     fig, ax = plt.subplots()
 
     # Plot the array
     im = ax.imshow(arr)
 
-    ax.set_aspect('equal')
+    aspect_ratio = arr.shape[1] / arr.shape[0]  # columns / rows
+    ax.set_aspect(aspect_ratio)
 
     # Add color bar
     plt.colorbar(im, ax=ax)
 
     # Set the title
     plt.title(get_title(masterkey))
-
-
-    # Handling spatial_x_axis
-    try:
-        if len(spatial_x_axis) == arr.shape[0]:
-            selected_ticks = select_ticks(np.arange(len(spatial_x_axis)))
-            ax.set_yticks(selected_ticks)
-            ax.set_yticklabels(selected_ticks)
-            ax.set_ylabel('spatial nodes')
-
-        if len(spatial_x_axis) == arr.shape[1]:
-            selected_ticks = select_ticks(np.arange(len(spatial_x_axis)))
-            ax.set_xticks(selected_ticks)
-            ax.set_xticklabels(selected_ticks)
-            ax.set_xlabel('spatial nodes')
-
-        # Apply tick selection for energy_x_axis
-        if len(energy_x_axis) == arr.shape[0]:
-            selected_ticks = select_ticks(np.arange(len(energy_x_axis)))
-            ax.set_yticks(selected_ticks)
-            ax.set_yticklabels(selected_ticks)
-            ax.set_ylabel('energy bins')
-
-        if len(energy_x_axis) == arr.shape[1]:
-            selected_ticks = select_ticks(np.arange(len(energy_x_axis)))
-            ax.set_xticks(selected_ticks)
-            ax.set_xticklabels(selected_ticks)
-            ax.set_xlabel('energy bins')
-    except:
-        pass
 
     # Save the figure
     plt.savefig(os.path.join(path, f'{get_title(masterkey)}.png'))
