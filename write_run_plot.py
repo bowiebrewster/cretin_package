@@ -22,7 +22,6 @@ def write(name : str, object, longprint = None, plot_duplicates = None):
     if not os.path.exists(directory):
         os.makedirs(directory)
 
-
     file_path = os.path.join(directory, f'{name}.gen')
     print(f'\nwriting to {file_path}')
     with open(file_path, 'w') as file:
@@ -85,12 +84,11 @@ def plot(name, longprint=False, plot_duplicates=False, object = None, newpath:st
         shutil.rmtree(path)
     os.makedirs(path)
 
-    #save_h5_to_txt(fullpath, 'output8')
+    save_h5_to_txt(fullpath, 'output8')
     with h5py.File(fullpath, 'r') as f:
         plot_data(f, path, longprint, plot_duplicates)
 
 def plot_data(file, path, longprint, plot_duplicates):
-
 
     arrays2d, arrays3d = {}, {}
     for i, key in enumerate(file.keys()):

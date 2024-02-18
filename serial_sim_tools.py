@@ -71,7 +71,7 @@ def plot(name : str, plot_duplicates : bool):
     # finding d file
     path_test = paths.to_personal_data()
     os.chdir(path_test + '/' + name)
-    file_list = glob.glob('*.d*')
+    file_list = glob.glob('*.d*')+glob.glob('*.s*') #data dump files and spectral dump files
 
     if len(file_list) == 0:
         raise Exception(f'{name} file list does not contain dump file but does contain {os.listdir()}')
@@ -102,7 +102,10 @@ def plot2d(masterkey:str,  plot_duplicates : bool, arr):
     save_bool = True 
     for array in arrays2d.values():
         if np.shape(array) == np.shape(arr):
-            if np.allclose(arr, array):
+            try:
+                if np.allclose(arr, array):
+                    save_bool = False
+            except:
                 save_bool = False
                
     if save_bool or plot_duplicates:
@@ -283,13 +286,17 @@ def plt_files(path: str, trials : list, dpi :int = 300):
                     legend.append(key[0])
                     [X,Y] = value
                     title = key[2:]
+                    if type(title) != type(''):
+                        if len(title) > 1:
+                            title = ''.join(title)
                     xlabel, ylable, goto = key[2], key[3], f'{path}/{title}.png' 
                     plt.plot(X,Y)
 
             plt.legend(legend)
-            plt.title(title)
+
             plt.xlabel(xlabel)  
-            plt.ylabel(ylable)  
+            plt.ylabel(ylable)
+            plt.title(title)
             plt.savefig(goto, dpi = dpi)
             plt.clf()
             plt.close()

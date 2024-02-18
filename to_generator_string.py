@@ -197,7 +197,12 @@ class Text_generator():
         else:
             string = self.start_chapter('Controls')
 
-        string += '\n\ndump all'
+        if 'data_dumps' in self.dict:
+            data_dumps = self.user_input.data_dumps
+            if 'all' in data_dumps:
+                string += '\n\ndump all'
+            if 'spectral' in data_dumps:
+                string += '\n\nsdump'
         return string
     
     def switches(self):

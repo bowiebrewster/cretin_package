@@ -390,6 +390,13 @@ class User_input():
             
         self.plots.append([title, xvars, yvars])
 
+    def datadump(self, dump_all:bool = False, dump_spectral:bool = False):
+        data_dumps = []
+        if dump_all:
+            data_dumps.append('all')
+        if dump_spectral:
+            data_dumps.append('spectral')
+        self.data_dumps = data_dumps
 
 #################################################################################################################################################
 
