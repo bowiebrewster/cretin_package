@@ -50,16 +50,6 @@ def run(name : str, longprint : bool, object = None, plot_duplicates = None, new
     if longprint: print(out.decode())
     if len(err.decode()) > 0: print("ERROR:",err.decode())
 
-def dump_path(name,  newpath:str= None):
-    if newpath == None:
-        path = os.path.join(paths.to_personal_data(), name)
-    else:
-        path = os.path.join(newpath, name)
-    os.chdir(path)
-    file_list = glob.glob('*.d*') + glob.glob('*.s*')
-    return os.path.join(path, file_list[0])
-
-
 def split(name : str):
     splitname = name.split('_')
     key = splitname[0]
@@ -71,28 +61,37 @@ def blacklist_key(key : str):
         return True
     else:
         return False
-
-def plot(name, longprint=False, plot_duplicates=False, object = None, newpath:str= None):
-    if newpath == None:
-        fullpath = dump_path(name)
+def plot_dump(name, longprint=False, plot_duplicates=False, object=None, newpath: str = None):
+    if newpath is None:
+        folder_path = os.path.join(paths.to_personal_data(), name)
     else:
-        fullpath = dump_path(name, newpath)
+        folder_path = os.path.join(newpath, name)
     
-    path = os.path.join(paths.to_personal_data(), name, 'images')
-    print(f'plotting {name} to {path}')
-    if os.path.exists(path):
-        shutil.rmtree(path)
-    os.makedirs(path)
+    os.chdir(folder_path)
+    file_list = glob.glob('*.d*') + glob.glob('*.s*')
 
-    #save_h5_to_txt(fullpath, 'output8')
-    cons_dict = {}
-    with h5py.File(fullpath, 'r') as f:
-        plot_data(f, path, longprint, plot_duplicates, cons_dict)
+    if len(file_list) == 0:
+        raise Exception('No file deteced that fulfills dump file or spectral file')
 
-    # Open a file in write mode ('w') in the current directory
-    with open('constant_values.txt', 'w') as text_file:
-        for key, value in cons_dict.items():
-            text_file.write(f'{key}: {value}\n')
+    for file in file_list:
+        fullpath = os.path.join(folder_path, file)
+        
+        # Assuming the rest of your plotting logic goes here
+        path = os.path.join(paths.to_personal_data(), name, 'images')
+        print(f'Plotting {name} to {path}')
+        if os.path.exists(path):
+            shutil.rmtree(path)
+        os.makedirs(path)
+
+        #save_h5_to_txt(fullpath, 'dump_to_txt')
+        cons_dict = {}
+        with h5py.File(fullpath, 'r') as f:
+            plot_data(f, path, longprint, plot_duplicates, cons_dict)
+
+        # Open a file in write mode ('w') in the current directory
+        with open('constant_values.txt', 'w') as text_file:
+            for key, value in cons_dict.items():
+                text_file.write(f'{key}: {value}\n')
 
 def plot_data(h5obj, path, longprint, plot_duplicates, cons_dict, indent=0):
     arrays0d, arrays1d, arrays2d = {}, {}, {}
@@ -121,8 +120,6 @@ def plot_data(h5obj, path, longprint, plot_duplicates, cons_dict, indent=0):
             cons_dict.update(arrays0d) 
         except:
             print(f'tried to be added but was not a valid dict {arrays0d}')
-
-
 
 
 def save_h5_to_txt(h5_path, txt_path):
@@ -276,5 +273,5 @@ def extra_plot(name : str, multiplot : bool = False, make_animation:bool = False
 def all(name, object, longprint=False, plot_duplicates=False):
     write(name, object)
     run(name, longprint)
-    plot(name, longprint, plot_duplicates)
+    plot_dump(name, longprint, plot_duplicates)
     extra_plot(name)

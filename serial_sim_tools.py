@@ -67,14 +67,16 @@ def plot_all(foldername : str, trials : list, dpi:int = 300):
 
     plt_files(path, trials, dpi = dpi)
 
+
 def plot(name : str, plot_duplicates : bool):
     # finding d file
     path_test = paths.to_personal_data()
     os.chdir(path_test + '/' + name)
-    file_list = glob.glob('*.d*')+glob.glob('*.s*') #data dump files and spectral dump files
+    file_list = glob.glob('*.d*') + glob.glob('*.s*') #data dump files and spectral dump files
 
     if len(file_list) == 0:
-        raise Exception(f'{name} file list does not contain dump file but does contain {os.listdir()}')
+        return
+    
     fullpath = f'{path_test}/{name}/{file_list[0]}'
 
     with h5py.File(fullpath, 'r') as f:
@@ -172,10 +174,19 @@ def pad_single_digit_with_zero(input_string):
         return input_string
 
 
+def dump_path(name, newpath: str = None):
+    if newpath is None:
+        path = os.path.join(paths.to_personal_data(), name)
+    else:
+        path = os.path.join(newpath, name)
+    os.chdir(path)
+    file_list = glob.glob('*.d*') + glob.glob('*.s*')
+    return os.path.join(path, file_list[0])
+
 # checking diffrence between dicionaries
 def compare_run(name1 : str, name2 : str, longprint : bool = False):
     global primary_dic, secondary_dic
-    primary_dic, secondary_dic = savedict(write_run_plot.dump_path(name1)), savedict(write_run_plot.dump_path(name2))
+    primary_dic, secondary_dic = savedict(dump_path(name1)), savedict(dump_path(name2))
     
     compare_dic = {}
     for orignal_key, orignal_value in primary_dic.items():
@@ -260,6 +271,7 @@ def xaxis_delimitter(lst):
 # for plotting .plt files created by cretin
 def plt_files(path: str, trials : list, dpi :int = 300):
     all_extract_dict  = {}
+
     for trial in trials:
 
         p = f'{paths.to_personal_data()}{trial}/{trial}.plt'
@@ -269,13 +281,15 @@ def plt_files(path: str, trials : list, dpi :int = 300):
             for key, value in data.items():
                 value = np.array(value)
                 value = value.astype('float')
+
                 X = value.T[0]
                 Y = value.T[1]
                 newkey = (trial,*key)
+
                 all_extract_dict[newkey] = [X,Y]
 
-
     if len(all_extract_dict) > 0:
+
         unique_keys = set(key[1:] for key in all_extract_dict.keys())
 
         for unq_key in unique_keys:
@@ -284,11 +298,10 @@ def plt_files(path: str, trials : list, dpi :int = 300):
                 if key[1:] == unq_key:
                     legend.append(key[0])
                     [X,Y] = value
-                    title = key[2:]
-                    if type(title) != type(''):
-                        if len(title) > 1:
-                            title = ''.join(title)
+                    title = ''.join(key[1:])
+
                     xlabel, ylable, goto = key[2], key[3], f'{path}/{title}.png' 
+
                     plt.plot(X,Y)
 
             plt.legend(legend)
