@@ -56,7 +56,7 @@ def dump_path(name,  newpath:str= None):
     else:
         path = os.path.join(newpath, name)
     os.chdir(path)
-    file_list = glob.glob('*.d0*')
+    file_list = glob.glob('*.d*') + glob.glob('*.s*')
     return os.path.join(path, file_list[0])
 
 
@@ -84,26 +84,49 @@ def plot(name, longprint=False, plot_duplicates=False, object = None, newpath:st
         shutil.rmtree(path)
     os.makedirs(path)
 
-    save_h5_to_txt(fullpath, 'output8')
+    #save_h5_to_txt(fullpath, 'output8')
+    cons_dict = {}
     with h5py.File(fullpath, 'r') as f:
-        plot_data(f, path, longprint, plot_duplicates)
+        plot_data(f, path, longprint, plot_duplicates, cons_dict)
 
-def plot_data(file, path, longprint, plot_duplicates):
+    # Open a file in write mode ('w') in the current directory
+    with open('constant_values.txt', 'w') as text_file:
+        for key, value in cons_dict.items():
+            text_file.write(f'{key}: {value}\n')
 
-    arrays2d, arrays3d = {}, {}
-    for i, key in enumerate(file.keys()):
-        arr = np.array(file[key])
-        dim = len(arr.shape)
-        if is_valid_float_2d_array(arr) and not blacklist_key(key):
-            handle_plotting(arr, dim, key, path, longprint, plot_duplicates, arrays2d, arrays3d, i)
+def plot_data(h5obj, path, longprint, plot_duplicates, cons_dict, indent=0):
+    arrays0d, arrays1d, arrays2d = {}, {}, {}
+    for key in h5obj.keys():
+        if longprint:
+            print('  ' * indent + key)  # Print the current group/dataset name with indentation
+        if isinstance(h5obj[key], h5py.Group):
+            # Pass cons_dict to the recursive call to ensure updates are propagated
+            plot_data(h5obj[key], path, longprint, plot_duplicates, cons_dict, indent + 1)
+
         else:
-            if longprint:
-                print(f'invalid array found with key {key}') 
+            # If it's a dataset, process and plot its data
+            try:
+                arr = np.array(h5obj[key])
+                arr = np.squeeze(arr)
+                dim = len(arr.shape)
+                if is_real_array(arr) and not blacklist_key(key):
+                    handle_plotting(arr, dim, key, path, longprint, plot_duplicates, arrays0d, arrays1d, arrays2d, indent)
+                else:
+                    if longprint:
+                        print('  ' * (indent + 1) + f'Invalid array found with key {key}')
+            except Exception as e:
+                print(f'Error processing dataset {key}: {e}')
+    if arrays0d:
+        try:
+            cons_dict.update(arrays0d) 
+        except:
+            print(f'tried to be added but was not a valid dict {arrays0d}')
+
+
 
 
 def save_h5_to_txt(h5_path, txt_path):
     with h5py.File(h5_path, 'r') as f, open(txt_path, 'w') as txt_file:
-
         def save_items(h5obj, indent=0):
             for key in h5obj.keys():
                 # Print the key, which could be a group or a dataset name
@@ -122,11 +145,18 @@ def save_h5_to_txt(h5_path, txt_path):
         save_items(f)
 
 
-def handle_plotting(arr, dim, key, path, longprint, plot_duplicates, arrays2d, arrays3d, counter):
-    if dim == 1 and len(arr) > 0:
-        plot1d(path, key, longprint, plot_duplicates, arr, arrays2d)
+def handle_plotting(arr, dim, key, path, longprint, plot_duplicates, arrays0d, arrays1d, arrays2d, counter):
+    if dim == 0:
+        arrays0d[key] = arr.item()
+    elif dim == 1 and len(arr) > 0:
+        if np.all(arr == arr[0]):  # Check if all values in the array are the same
+            # If it's a constant array, add to the dictionary
+            arrays0d[key] = arr[0]
+        else:
+            # Proceed with plotting for non-constant 1D arrays
+            plot1d(path, key, longprint, plot_duplicates, arr, arrays2d)
     elif dim == 2:
-        plot2d(path, key, longprint, plot_duplicates, arr, arrays3d)
+        plot2d(path, key, longprint, plot_duplicates, arr, arrays2d)
     elif longprint:
         print(f'{key} has shape {arr.shape} and has not been plotted')
 
@@ -211,13 +241,21 @@ def should_plot(arr, arrays, plot_duplicates, longprint):
             return False
     return True
 
-def is_valid_float_2d_array(arr):
+def is_real_array(arr):
+    # Check if it's a list and try to convert it to a NumPy array
+    if isinstance(arr, list):
+        try:
+            arr = np.array(arr)
+        except ValueError:
+            # If conversion fails, return False
+            return False
+    
     # Check if it's a NumPy array
     if not isinstance(arr, np.ndarray):
         return False
 
-    # Check if the array's data type is floating-point
-    if not np.issubdtype(arr.dtype, np.floating):
+    # Check if the array's data type is floating-point or integer
+    if not (np.issubdtype(arr.dtype, np.floating) or np.issubdtype(arr.dtype, np.integer)):
         return False
     
     return True
@@ -233,6 +271,7 @@ def extra_plot(name : str, multiplot : bool = False, make_animation:bool = False
     p = f'{paths.to_personal_data()}{name}/{name}.plt'
     if os.path.exists(p):
         return plt_file.create_plot(folder_name = name, multiplot = multiplot, make_animation = make_animation)
+        
 
 def all(name, object, longprint=False, plot_duplicates=False):
     write(name, object)

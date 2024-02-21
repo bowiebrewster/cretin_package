@@ -102,11 +102,10 @@ def plot2d(masterkey:str,  plot_duplicates : bool, arr):
     save_bool = True 
     for array in arrays2d.values():
         if np.shape(array) == np.shape(arr):
-            try:
-                if np.allclose(arr, array):
+            if np.allclose(arr, array):
                     save_bool = False
-            except:
-                save_bool = False
+
+            save_bool = False
                
     if save_bool or plot_duplicates:
         arrays2d[masterkey] = arr
