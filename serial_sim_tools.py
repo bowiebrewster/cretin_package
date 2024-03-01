@@ -163,6 +163,7 @@ def all(path: str, key: str, trials:list, dpi :int = 300):
     if has_plot:
         plt.title(key)
         plt.savefig(f'{path}/{key}.png', dpi = dpi)
+        print('huh1')
     plt.clf()
     plt.close()
 
@@ -294,21 +295,33 @@ def plt_files(path: str, trials : list, dpi :int = 300):
 
         for unq_key in unique_keys:
             legend = []
+            maxyval = 0
             for key, value in all_extract_dict.items():
                 if key[1:] == unq_key:
                     legend.append(key[0])
                     [X,Y] = value
                     title = ''.join(key[1:])
-
-                    xlabel, ylable, goto = key[2], key[3], f'{path}/{title}.png' 
-
+                    maxyval = max([maxyval, max(Y)])
+                    goto = f'{path}/{title}.png'
+                    if False: #going from ev to nm
+                        X = np.where(X == 0, 1.e-3, X)
+                        X = 1240./X
                     plt.plot(X,Y)
 
-            plt.legend(legend)
-
-            plt.xlabel(xlabel)  
-            plt.ylabel(ylable)
+            plt.legend(legend, fontsize='small', bbox_to_anchor = (1,1))
+            #plt.gcf().set_size_inches(13, 4.8)
+            plt.rcParams['figure.constrained_layout.use'] = True
+            
+            
             plt.title(title)
+            if not 'ocupation density for specified element' in title:
+                plt.xscale('log')
+                plt.yscale('log')
+
+            
+            plt.ylim(top=10**8, bottom=10**1)
+            
+
             plt.savefig(goto, dpi = dpi)
             plt.clf()
             plt.close()
