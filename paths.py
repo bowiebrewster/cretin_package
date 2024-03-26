@@ -1,4 +1,4 @@
-# this cute little tool for manaing all the paths
+# this is a tool for manaing all the paths
 import os 
 
 

@@ -1,3 +1,4 @@
+# in this file we have all the functions for serial simulations using varying paramters or just outputting all plots created by a 'dump' command in cretin. 
 
 import os, h5py, glob, shutil
 from importlib import reload
@@ -8,9 +9,6 @@ import matplotlib.pyplot as plt
 for obj in [generator_object, to_generator_string, search, paths, write_run_plot, plt_file]:
     reload(obj)
 naming_dict = write_run_plot.naming_dict
-
-# in this file we have all the functions for serial simulations. 
-
 
 # takes as an arugment a (jagged) array consisting of k vectors of size k_i
 # returns all possible combinations of the entries in those vectors. 

@@ -1,14 +1,14 @@
+# this file takes the string created by to_generator_string.py and writes it to a file, runs cretin with that file, and parses and plots the data created by cretin. 
+# note not every of the above mentioned functions has to be run in series (although that is what write_run_plot.all()) does.
+
 from importlib import reload
 import numpy as np
 import matplotlib.pyplot as plt
-import h5py, os, glob, shutil, subprocess, json
+import h5py, os, glob, shutil, json
 import generator_object, to_generator_string, search, paths,plt_file #these python classes should be in the same folder as cretin_main
 for obj in [generator_object, to_generator_string, search, paths, plt_file]:
     reload(obj)
 
-# this file takes the string created by to_generator_string.py and writes it to a file, runs creting with that file, and parses and plots the data created by cretin. 
-# note not every of the above mentioned functions has to be run in series (although that is what write_run_plot.all()) does. If you want to make changes to the .gen file for example
-# feel free not to overwrite it, and if the data is already where you want it to be feel free to only call plot. 
 
 # Open the file and parse the JSON content
 with open(f"{paths.to_folder_cretin()}key_naming.json", 'r') as file:

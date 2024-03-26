@@ -1,11 +1,10 @@
-from importlib import reload
-import paths, animate
-reload(paths)
+# for plotting .plt files created by cretin as output
+
+
+import paths, animate, os, glob, io
 import numpy as np
-import h5py, os, glob, shutil
 import matplotlib.pyplot as plt
 import pandas as pd
-import io
 import seaborn as sns
 
 xvars = 'cycle,iter,time,ir,r,cdens,x2d,y2d,z2d,x3d,y3d,z3d,xy,k,kx,ky,kz,kr,l,lx,ly,lz,lr,m,mx,my,mz,mr,ifr,energy,freq,wvl,ebins,fbins,wbins,ifrline,evline,isp,sp_energy,sp_freq,sp_nu,sp_wvl,ie,iso,level,elev'
@@ -112,8 +111,6 @@ def select_time_intervals(df, num_intervals=600):
         closest_index = np.abs(time_values - target_time).argmin()
         selected_indices.append(df.index[closest_index])
 
-    
-    
     # Remove duplicates and sort the indices
     selected_indices = sorted(set(selected_indices))
     
@@ -121,7 +118,6 @@ def select_time_intervals(df, num_intervals=600):
     selected_df = df.loc[selected_indices]
 
     return selected_indices, selected_df
-
 
 def plot2d(folder:str, title:str, df, xvars_set: list, xvars_in_cols:list, make_animation:bool):
     if len(df.columns) < 3:
@@ -140,7 +136,6 @@ def plot2d(folder:str, title:str, df, xvars_set: list, xvars_in_cols:list, make_
 
     # Set the new formatted index
     heatmap_data.index = pd.Index(formatted_index)
-
 
     if plott2d_check(folder, title, df, xvars_set, xvars_in_cols):
         if 'log' in title[-3:]:

@@ -2,7 +2,7 @@
 import pandas as pd
 import paths, json
 from drop_methods_module import DropMethods
-#this is a casual 1600 line python file what about it
+#this is the object in which we store the data to in the end write the .gen files
 
 
 class User_input():
@@ -23,7 +23,6 @@ class User_input():
 
         # laser
         self.lasers = []
-
 
         # materials region
         self.elements_of_region = []

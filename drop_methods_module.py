@@ -5,7 +5,7 @@ import paths
 import json
 from IPython.display import display
 
-# this class is for the drop down menu's, big thanks to chat gpt, could't have done it without you.s
+# this class is for the drop down menu's, big thanks to chat gpt, could't have done it without you.
 
 class DropMethods:
     def __init__(self, user_input):

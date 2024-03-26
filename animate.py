@@ -6,6 +6,8 @@ import paths
 from matplotlib import animation
 from matplotlib.animation import FuncAnimation
 
+# this file is for animating the space time plots to turn them into videos of regular plots instead of heatmaps
+
 matplotlib.rcParams['animation.ffmpeg_path'] = paths.to_animation()
 def ex(image_dir : str, images_name:str):
 
@@ -13,7 +15,6 @@ def ex(image_dir : str, images_name:str):
 
     # Get a list of image file paths in the directory
     image_files = sorted(glob.glob(os.path.join(image_dir, f'{images_name}*.png')))
-
 
     # Create a function to update the frames
     def update_frame(i):

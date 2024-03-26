@@ -1,4 +1,4 @@
-# this file turns the creting generator object into a .gen file(string)
+# this file turns the cretin generator object into a .gen file(string)
 
 class Text_generator():
     def __init__(self, user_input):

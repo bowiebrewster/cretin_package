@@ -1,10 +1,12 @@
+# We use this class to search through the test folder's .gen files. to find previously used keywords and their use
+
 import os, glob 
 from collections import Counter
 import pandas as pd
 import paths
 
 
-# We use this class to search through the test folder's .gen files. 
+
 # Finding the most used keywords helps in prioritizing what functionality should be written first.
 class Generators():
     def __init__(self):

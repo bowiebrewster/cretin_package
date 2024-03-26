@@ -1,4 +1,4 @@
-# here we are running all the premades .gen files in the test foldernewpathnewpath = path
+# for running the premades .gen files in the test folder paths.to_previous_experiments()
 import os
 import paths
 import write_run_plot
