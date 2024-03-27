@@ -2,7 +2,6 @@ import paths
 import re
 # this file is for reordering formulas in latex so that the formula number that latex displays is the same as the order in which the formulas are numbered in the latex file
 
-
 def reoder_formulas(input:str, output:str):
     
     path = f'{paths.to_folder_cretin()}/{input}.txt'
