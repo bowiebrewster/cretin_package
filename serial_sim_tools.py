@@ -161,7 +161,6 @@ def all(path: str, key: str, trials:list, dpi :int = 300):
     if has_plot:
         plt.title(key)
         plt.savefig(f'{path}/{key}.png', dpi = dpi)
-        print('huh1')
     plt.clf()
     plt.close()
 

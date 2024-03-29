@@ -5,7 +5,7 @@ CRETIN : ablate.gen
           by hascott                                     
 
 
-  ****   Starting execution -- Mon Dec  4 11:58:37 2023   ****
+  ****   Starting execution -- Fri Mar 29 11:35:26 2024   ****
 
 
 
@@ -218,14 +218,14 @@ Memory allocated =     3.4  Mbytes
 
  Timing statistics                  cpu         %
  -----------------                  ---        ---
-     Generation               :   7.48E-03     2.0
-     Initialization           :   3.57E-04     0.1
-     Kinetics                 :   1.44E-01    38.2
-     Hydrodynamics            :   6.74E-02    17.9
-     Laser deposition         :   1.62E-02     4.3
-     Temperature              :   2.39E-02     6.4
-     Edits                    :   1.34E-01    35.7
+     Generation               :   7.54E-03     1.8
+     Initialization           :   3.42E-04     0.1
+     Kinetics                 :   1.58E-01    36.7
+     Hydrodynamics            :   7.41E-02    17.2
+     Laser deposition         :   1.78E-02     4.1
+     Temperature              :   2.65E-02     6.2
+     Edits                    :   1.61E-01    37.4
 
 
- ****   Finishing execution -- Mon Dec  4 11:58:38 2023   ****
+ ****   Finishing execution -- Fri Mar 29 11:35:26 2024   ****
 

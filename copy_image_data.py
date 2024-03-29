@@ -16,12 +16,12 @@ def copy_and_rename_folders(copy_type, runtype, dest_dir):
         # Check if the item is a directory
         if os.path.isdir(source_item_path) and runtype in source_item_path:
             print(source_item_path)
-            Intensity_value = "_".join(source_item_path.split('_')[-2:])
+            Intensity_value = "_".join(source_item_path.split('_')[-1:])
             images_folder = source_item_path+'/images/electron_temperature_tev_Heatmap.png'
 
 
             # Generate a new name for the directory
-            new_folder_name = f"(n,l)={Intensity_value}"
+            new_folder_name = f"B(n,l)={Intensity_value}.png"
 
             # Create the path for the new directory in the destination directory
             dest_item_path = os.path.join(dest_dir, new_folder_name)
@@ -39,4 +39,4 @@ def copy_and_rename_folders(copy_type, runtype, dest_dir):
 
 destination_directory = "/home/brewster/Desktop/temp_images"
 
-copy_and_rename_folders('img','Howard_scott36', destination_directory)
+copy_and_rename_folders('img','Howard_scott39', destination_directory)
