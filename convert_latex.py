@@ -11,12 +11,15 @@ def reoder_formulas(input:str, output:str):
     with open(path) as f:
         for line in f:
             if "\\begin{equation}\\label{eq" in line:
-                val = line[26:28].strip('}')
+                print(line)
+                val = line[26:28].strip('}').strip(':')
+                print(val)
                 lis.append(int(val))
 
     your_pairs_list = []
     for index, entry in enumerate(lis):
         your_pairs_list.append([entry,index+1])
+    print(your_pairs_list)
 
     with open(path, 'r') as file:
         file_contents = file.read()
@@ -40,4 +43,4 @@ def reoder_formulas(input:str, output:str):
     with open(pathout, 'w') as file:
         file.write(file_contents)
 
-#reoder_formulas('stuff', 'updatedstuff')
+reoder_formulas('latex', 'updated_latex')

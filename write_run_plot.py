@@ -23,13 +23,13 @@ def write(name : str, object, longprint = None, plot_duplicates = None):
         os.makedirs(directory)
 
     file_path = os.path.join(directory, f'{name}.gen')
-    print(f'\nwriting to {file_path}')
+    print(f'\nWriting to {file_path}')
     with open(file_path, 'w') as file:
         file.writelines(map(str, string))
 
 #  running cretin using the written generator file
 def run(name : str, longprint : bool, object = None, plot_duplicates = None, newpath:str = None):
-    print(f'running cretin with {name}')
+    print(f'Running cretin with {name}')
     import subprocess
 
     env = os.environ.copy()
