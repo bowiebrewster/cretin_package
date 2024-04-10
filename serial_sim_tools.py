@@ -300,7 +300,7 @@ def plt_files(path: str, trials : list, dpi :int = 300):
                     title = ''.join(key[1:])
                     maxyval = max([maxyval, max(Y)])
                     goto = f'{path}/{title}.png'
-                    if False: #going from ev to nm
+                    if True: #going from ev to nm
                         X = np.where(X == 0, 1.e-3, X)
                         X = 1240./X
                     plt.plot(X,Y)
@@ -316,7 +316,7 @@ def plt_files(path: str, trials : list, dpi :int = 300):
                 plt.yscale('log')
 
             
-            plt.ylim(top=10**8, bottom=10**1)
+            plt.ylim(top=5*10**6, bottom=5000)
             
 
             plt.savefig(goto, dpi = dpi)

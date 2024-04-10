@@ -89,6 +89,9 @@ def plot1d(folder:str, title:str, df, xvars_set:list, xvars_in_cols:list):
 def format_float(value):
     return '{:.3g}'.format(value)
 
+def format_half_integers(value):
+    return f'{int(value):.0f}.{int((value % 1) * 10):0f}'
+
 def select_time_intervals(df, num_intervals=600):
     # Convert the index to a numpy array of floats, handling errors
     try:
@@ -132,13 +135,15 @@ def plot2d(folder:str, title:str, df, xvars_set: list, xvars_in_cols:list, make_
 
     heatmap_data = df.pivot_table(index=xvar1, columns=xvar2, values=yvar)
     times, heatmap_data = select_time_intervals(heatmap_data)
-    formatted_index = heatmap_data.index.map(format_float)
+
+    #formatted_index = heatmap_data.index.map(format_float)
+    formatted_index = heatmap_data.index.map(format_half_integers)
 
     # Set the new formatted index
     heatmap_data.index = pd.Index(formatted_index)
 
     if plott2d_check(folder, title, df, xvars_set, xvars_in_cols):
-        if 'log' in title[-3:]:
+        if 'log' in title[-3:]: # this is really bad my apologies
             # Handling zeros or negative values in the data
             heatmap_data = heatmap_data.replace(0, np.nan)
             min_positive = heatmap_data.min().min()
