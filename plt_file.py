@@ -37,8 +37,7 @@ def create_plot(folder_name : str, path:str = paths.to_personal_data(), multiplo
 
     data = parse_data(folder)
 
-    if multiplot:
-        return data
+    returnpackage = {}
     
     print(f'adding additional plot to {folder}/images')
     if not os.path.exists(f'{folder}/images'):
@@ -60,10 +59,16 @@ def create_plot(folder_name : str, path:str = paths.to_personal_data(), multiplo
             plot1d(folder, title, df, xvars_set, xvars_in_cols)
 
         elif num_xvars == 2:
-            plot2d(folder, title, df, xvars_set, xvars_in_cols, make_animation)
+            if multiplot:
+                returnpackage[title] = plot2d(folder, title, df, xvars_set, xvars_in_cols, make_animation, True)
+            else:
+                plot2d(folder, title, df, xvars_set, xvars_in_cols, make_animation, False)
 
         else:
             raise Exception('too many xvariables')
+    
+    if multiplot:
+        return returnpackage
 
 
 def plot1d(folder:str, title:str, df, xvars_set:list, xvars_in_cols:list):
@@ -89,8 +94,6 @@ def plot1d(folder:str, title:str, df, xvars_set:list, xvars_in_cols:list):
 def format_float(value):
     return '{:.3g}'.format(value)
 
-def format_half_integers(value):
-    return f'{int(value):.0f}.{int((value % 1) * 10):0f}'
 
 def select_time_intervals(df, num_intervals=600):
     # Convert the index to a numpy array of floats, handling errors
@@ -122,7 +125,7 @@ def select_time_intervals(df, num_intervals=600):
 
     return selected_indices, selected_df
 
-def plot2d(folder:str, title:str, df, xvars_set: list, xvars_in_cols:list, make_animation:bool):
+def plot2d(folder:str, title:str, df, xvars_set: list, xvars_in_cols:list, make_animation:bool, multiplot):
     if len(df.columns) < 3:
         plot1d(folder, title, df, xvars_set, df.columns[0])
         return
@@ -134,10 +137,14 @@ def plot2d(folder:str, title:str, df, xvars_set: list, xvars_in_cols:list, make_
 
 
     heatmap_data = df.pivot_table(index=xvar1, columns=xvar2, values=yvar)
-    times, heatmap_data = select_time_intervals(heatmap_data)
+    if True:
+        return heatmap_data
+
+
+    times, heatmap_data = format_float(heatmap_data)
 
     #formatted_index = heatmap_data.index.map(format_float)
-    formatted_index = heatmap_data.index.map(format_half_integers)
+    formatted_index = heatmap_data.index.map(format_float)
 
     # Set the new formatted index
     heatmap_data.index = pd.Index(formatted_index)
